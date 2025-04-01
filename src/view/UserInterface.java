@@ -16,7 +16,7 @@ public class UserInterface {
     public static void main(String[] args) {
     	// initialize Restaurant
     	// run start()
-    }
+    	}
     
     public void start() {
     	
