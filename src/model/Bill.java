@@ -10,4 +10,12 @@ public class Bill {
         this.priceBeforeTip = 0;
         this.priceAfterTip = 0;
     }
+    
+    public void updateBeforeTipPrice(double price) {
+    	priceBeforeTip += price;
+    }
+    
+    public void updateTipPrice(double price) {
+    	priceAfterTip += price;
+    }
 }

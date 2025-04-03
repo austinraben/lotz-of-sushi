@@ -37,5 +37,8 @@ public  class Menu {
 
     public FoodCourse getCourse() {
         return course;
+   
+    public boolean containsMenuItem(String itemName) {
+    	return items.containsKey(itemName);
     }
 }

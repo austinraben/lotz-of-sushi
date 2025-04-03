@@ -18,6 +18,29 @@ public class MenuItem {
         this.isModifiable = modifiable;
         this.description = description;
     }
+    
+    // copy constructor
+    public MenuItem(MenuItem menuItem) {
+    	this.foodCourse = menuItem.foodCourse;
+    	this.specificCategory = menuItem.specificCategory;
+    	this.itemName = menuItem.itemName;
+    	this.price = menuItem.price;
+    	this.isModifiable = menuItem.isModifiable;
+    	this.description = menuItem.description;
+    }
+    
+    public String getName() {
+    	return itemName;
+    }
+    
+    public boolean isModifiable() {
+    	return isModifiable;
+    }
+    
+    public double getPrice() {
+    	return price;
+    }
+    
 	
 	// getters
     
