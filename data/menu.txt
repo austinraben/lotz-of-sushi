@@ -40,9 +40,9 @@ DRINKS,Water,Sparkling Water,2.99,false,
 DRINKS,Tea,Green Tea,3.99,false,
 DRINKS,Tea,Jasmine Tea,3.99,false,
 DRINKS,Tea,Peppermint Tea,3.99,false,
-DESSERTS,Mochi,Red Bean,4.99,false,sweet mochi dough filled with red bean paste ice cream
-DESSERTS,Mochi,Green Tea,4.99,false,sweet mochi dough filled with green tea ice cream
-DESSERTS,Mochi,Vanilla,4.99,false,sweet mochi dough filled with vanilla ice cream
+DESSERTS,Mochi,Red Bean Mochi,4.99,false,sweet mochi dough filled with red bean paste ice cream
+DESSERTS,Mochi,Green Tea Mochi,4.99,false,sweet mochi dough filled with green tea ice cream
+DESSERTS,Mochi,Vanilla Mochi,4.99,false,sweet mochi dough filled with vanilla ice cream
 DESSERTS,Cheesecake,Ube Cheesecake Slice,5.99,false,light and fluffy cheesecake with ube (purple yam) flavor
 DESSERTS,Cheesecake,Matcha Cheesecake Slice,5.99,false,light and fluffy cheesecake with earthy matcha flavor
 DESSERTS,Cheesecake,Strawnberry Cheesecake Slice,5.99,false,light and fluffy cheesecake with sweet strawberry flavor
