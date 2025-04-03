@@ -1,14 +1,51 @@
 // FoodCourse, Category, itemName, price, modifiable, description
 // please add to this
 
-ENTREES,Regular Roll,California Roll,8.99,true,Placeholder Description
-ENTREES,Speciality Roll,Melanie Roll,$6.99,true, Melanie's Favorite Roll!
-ENTREES,Speciality Roll,Michelle Roll,$6.99,true, this is the TA's roll
-ENTREES,Speciality Roll,Austin's Roll,$6.99,true, this will have eel sauce and spicy mayo
-ENTREES,Speciality Roll,Colin's Roll,$6.99,true, this roll is probably fire
-ENTREES,Speciality Roll,Lisette's Roll,$6.99,true, yummy roll
-ENTREES,Speciality Roll,Ruby's Roll,$6.99,true, fun roll
-APPS,,Edamame,$4.99,false,salty edamame with soy sauce
-DRINKS,Soda,Dr. Pepper,$2.99,false,
-DRINKS,Soda,Pepsi,$2.99,false,
-DESSERTS,Soda,Pepsi,$2.99,false,
+ENTREES,Regular Roll,California Roll,6.99,true,cucumber avocado and imitation crab
+ENTREES,Regular Roll,Spicy Tuna Roll,6.99,true,tuna cucumber and spicy mayo
+ENTREES,Regular Roll,Philadelphia Roll,6.99,true,salmon cream cheese and avocado
+ENTREES,Regular Roll,Spider Roll,7.99,true,softshell crab avocado cucumber spicy mayo
+ENTREES,Regular Roll,Tuna Roll,6.99,true,tuna and avocado
+ENTREES,Regular Roll,Rainbow Roll,7.99,inside out roll with yellowtail tuna and salmon with cucumber and avocado
+ENTREES,Speciality Roll,Melanie Roll,8.99,true,yellowtail stuffed with wasabi and wasabi on top
+ENTREES,Speciality Roll,Michelle Roll,8.99,true, this is the TA's roll
+ENTREES,Speciality Roll,Austin's Roll,8.99,true,this will have eel sauce and spicy mayo
+ENTREES,Speciality Roll,Colin's Roll,8.99,true, this roll is probably fire
+ENTREES,Speciality Roll,Lisette's Roll,8.99,true, yummy roll
+ENTREES,Speciality Roll,Ruby's Roll,8.99,true,tempura shrimp with cream cheese cucumber and teriyaki
+ENTREES,Sashimi,Unagi,6.99,grilled freshwater eel with soy glaze over rice (2)
+ENTREES,Sashimi,Inari,5.99,false,sweet tofu packet stuffed with rice (2)
+ENTREES,Sashimi,Ahi,5.99,false,ahi tuna on rice (2)
+ENTREES,Sashimi,Sake,5.99,false,raw salmon over rice (2)
+ENTREES,Sashimi,Ika,5.99,false,raw squid over rice (2)
+ENTREES,Sashimi,Ebi,5.99,false,cooked shrimp over rice (2)
+ENTREES,Soup,Miso Soup,6.99,false,tofu seaweed and green onions in a miso broth
+ENTREES,Soup,Spicy Chicken Ramen,8.99,true,pork broth with ramen noodles and chicken topped with a boiled egg green onion and chili garlic sauce
+ENTREES,Soup,Spicy Shrimp Soup,8.99,true,shrimp simmered in a spicy miso broth with tofu green onions mushrooms and spinach
+APPS,,Edamame,4.99,false,salty edamame with soy sauce
+APPS,,Seaweed Salad,5.99,false,seaweed dressed with a mixture of vinegar oil salt and sugar
+APPS,,Crab Puffs,6.99,false,crispy wonton wrappers filled with a blend of cream cheese and imitation crab
+APPS,,Chicken Gyoza,6.99,false,seared dumpling with chicken filling
+APPS,,Pork Gyoza,6.99,false,seared dumpling with pork filling
+APPS,,Tempura Fried Vegetables,5.99,false,vegetable blend fried in a tempura batter
+APPS,,Tempura Fried Shrimp,5.99,false,shrimp fried in a tempura batter
+APPS,,Tempura Fried Octopus,5.99,false,octopus fried in a tempura batter
+DRINKS,Soda,Dr. Pepper,2.99,false,
+DRINKS,Soda,Pepsi,2.99,false,
+DRINKS,Soda,Lemonade,2.99,false,
+DRINKS,Alcohol,Sake,7.99,false,
+DRINKS,Alcohol,Sake Bomb,8.99,false,
+DRINKS,Water,Bottled Water,1.99,false,
+DRINKS,Water,Sparkling Water,2.99,false,
+DRINKS,Tea,Green Tea,3.99,false,
+DRINKS,Tea,Jasmine Tea,3.99,false,
+DRINKS,Tea,Peppermint Tea,3.99,false,
+DESSERTS,Mochi,Red Bean,4.99,false,sweet mochi dough filled with red bean paste ice cream
+DESSERTS,Mochi,Green Tea,4.99,false,sweet mochi dough filled with green tea ice cream
+DESSERTS,Mochi,Vanilla,4.99,false,sweet mochi dough filled with vanilla ice cream
+DESSERTS,Cheesecake,Ube Cheesecake Slice,5.99,false,light and fluffy cheesecake with ube (purple yam) flavor
+DESSERTS,Cheesecake,Matcha Cheesecake Slice,5.99,false,light and fluffy cheesecake with earthy matcha flavor
+DESSERTS,Cheesecake,Strawnberry Cheesecake Slice,5.99,false,light and fluffy cheesecake with sweet strawberry flavor
+DESSERTS,Ice Cream,Vanilla,3.99,false,vanilla ice cream scoop
+DESSERTS,Ice Cream,Chocolate,3.99,false,chococalte ice cream scoop
+DESSERTS,Ice Cream,Green Tea,3.99,false,matcha ice cream scoop
