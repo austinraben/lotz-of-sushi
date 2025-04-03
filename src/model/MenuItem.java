@@ -32,15 +32,6 @@ public class MenuItem {
     public String getName() {
     	return itemName;
     }
-    
-    public boolean isModifiable() {
-    	return isModifiable;
-    }
-    
-    public double getPrice() {
-    	return price;
-    }
-    
 	
 	// getters
     

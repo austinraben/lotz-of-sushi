@@ -31,12 +31,13 @@ public  class Menu {
         return new ArrayList<>(items.values()); 
     }
 
-    public MenuItem getItem(String itemName) {
+    public MenuItem getMenuItem(String itemName) {
         return items.get(itemName); 
     }
 
     public FoodCourse getCourse() {
         return course;
+    }
    
     public boolean containsMenuItem(String itemName) {
     	return items.containsKey(itemName);
