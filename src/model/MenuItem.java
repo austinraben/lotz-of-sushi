@@ -1,7 +1,8 @@
 package model;
 
 public class MenuItem {
-    private FoodCourse foodCourse; 
+
+	private FoodCourse foodCourse; 
     private String specificCategory; 
     private String itemName;
     private double price;
@@ -19,7 +20,31 @@ public class MenuItem {
     }
 	
 	// getters
+    
+    public FoodCourse getFoodCourse() {
+		return foodCourse;
+	}
+
+	public String getSpecificCategory() {
+		return specificCategory;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public boolean isModifiable() {
+		return isModifiable;
+	}
+
+	public String getDescription() {
+		return description;
+	}
 	
-	// incremementSales()
+	// incremementSales() for SalesTracker
 
 }
