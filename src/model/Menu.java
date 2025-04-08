@@ -26,7 +26,7 @@ public  class Menu {
     }
 
     // getters
-    
+  
     public List<MenuItem> getItems() {
         return new ArrayList<>(items.values()); 
     }

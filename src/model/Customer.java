@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
-	private int customerNum;  // our customers don't get names lol
     private List<Order> orders;
     
-    public Customer(String Number) {
-    	this.customerNum = customerNum;
+    public Customer() {
         this.orders = new ArrayList<>();
     }
+    
+    // create copy constructor
 }
