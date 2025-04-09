@@ -11,7 +11,7 @@ import java.util.Map;
 public class Restaurant {
     private String name;
     private HashMap<String, Server> servers;
-    private HashMap<Server, ArrayList<Table>> assignedTables;
+    private HashMap<Server, ArrayList<Table>> serverTables;
     private HashMap<Table, ArrayList<Customer>> tableMap;
     private List<Table> tables;
     private Menu drinkMenu;
@@ -22,7 +22,7 @@ public class Restaurant {
     public Restaurant(String name) {
         this.name = name;
         this.servers = new HashMap<>();
-        this.assignedTables = new HashMap<>();
+        this.serverTables = new HashMap<>();
         this.tables = createTables();
         this.tableMap = createTableMap();
         this.drinkMenu = new DrinkMenu();
@@ -104,7 +104,7 @@ public class Restaurant {
     	servers.put(serverName, newServer);
     	
     	// add Server to server/tables map
-    	assignedTables.put(newServer, new ArrayList<Table>());
+    	serverTables.put(newServer, new ArrayList<Table>());
     }
     
     // map servers to tables
@@ -117,7 +117,7 @@ public class Restaurant {
     	found.addTable(table);
     	
     	// add table to server/tables map
-    	assignedTables.get(found).add(table);
+    	serverTables.get(found).add(table);
     }
     
     
@@ -143,7 +143,7 @@ public class Restaurant {
     // helper method
     private String getServerByTable(Table table) {
     	String serverName = "";
-    	for (Map.Entry<Server, ArrayList<Table>> entry : assignedTables.entrySet()) {
+    	for (Map.Entry<Server, ArrayList<Table>> entry : serverTables.entrySet()) {
     		if (entry.getValue().contains(table)) {
     			Server found = entry.getKey();
     			serverName = found.getServerName();
@@ -176,7 +176,8 @@ public class Restaurant {
     	customer.orderItem(item, modification, appMenu);
     }
     
-    public void closeOrder(Table table, int orderNum, int tipAmt) {
+    // helper method
+    private void closeOrder(Table table, int orderNum, int tipAmt) {
     	
     	// add tip to customers bill
     	Customer customer = tableMap.get(table).get(orderNum - 1);
@@ -191,6 +192,44 @@ public class Restaurant {
     	// remove customer from table
     	tableMap.get(table).remove(customer);    	
     }
+    
+    // server functionality
+    
+    // fix escaping reference of Bill object -- also maybe this should be a private method?
+    public Bill getBillByTable(Table table) {
+    	
+    	// create new table bill
+    	Bill tableBill = new Bill();
+    	
+    	// iterate through customers at given table
+    	ArrayList<Customer> customers = tableMap.get(table);
+    	for (Customer c : customers) {
+    		
+    		// sum the bill of all customers at table
+    		tableBill.updateBeforeTipPrice(c.getBill().getPriceBeforeTip());
+    	}
+    	return tableBill;
+    }
+    
+    // changes the bill amount before tip for all customers
+    public void splitBillEvenly(Table table){
+    	
+    	// creates a tableBill that is the sum of all current bills at the table
+    	Bill tableBill = getBillByTable(table);
+    	
+    	// get customers at table
+    	ArrayList<Customer> customers = tableMap.get(table);
+    	
+    	// calculate amount per customer for evenly split bill
+    	double amtPerCustomer = tableBill.getPriceBeforeTip()/customers.size();
+    	
+    	// change bill amount before tip for all customers
+    	for (Customer c : customers) {
+    		c.changeBillTotal(amtPerCustomer);
+    		} 
+    }
+      
+     
     
     // getters
     

@@ -37,6 +37,10 @@ public class Customer {
     	return order.getOrderNum();
     }
     
+    public void changeBillTotal(double price) {
+    	order.changeBillTotal(price);
+    }
+    
     // TODO fix escaping reference
     public Bill getBill() {
     	return order.getBill();

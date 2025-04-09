@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Order {
@@ -36,6 +35,10 @@ public class Order {
 	   bill.updateTipPrice(tip);
    }
    
+   public void changeBillTotal(double price) {
+	   bill.changeBeforeTipPrice(price);
+   }
+   
    public List<OrderedItem> getItems() {
 	return items;
    }
@@ -44,6 +47,7 @@ public class Order {
 	   this.items = items;
    }
 
+   // TODO fix escaping reference
    public Bill getBill() {
 	   return bill;
    }
@@ -64,7 +68,9 @@ public class Order {
    public int getOrderNum() {
 	   return orderNum;
    }
-    
+   
+   // TODO create toString method that prints out order like a receipt
+  
     
     
 }
