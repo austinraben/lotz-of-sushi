@@ -8,9 +8,11 @@ public class Order {
 	private List<OrderedItem> items;
 	private Bill bill;
     private boolean isClosed;
+    private Table table;
 
-    public Order(Bill bill) {
-    	this.bill = bill;
+    public Order(Table table) {
+    	this.table = table;
+    	this.bill = new Bill(table);
         this.items = new ArrayList<>();
         this.isClosed = false;
     }

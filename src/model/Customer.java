@@ -4,11 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
-    private List<Order> orders;
+    private Order order;
+    private Table assignedTable;
     
-    public Customer() {
-        this.orders = new ArrayList<>();
+    public Customer(Table table) {
+    	assignedTable = table;
+        this.order = new Order(assignedTable);
     }
     
-    // create copy constructor
+    // getters and setters
+        
+    public Table getAssignedTable() {
+    	return assignedTable;
+    }
+    
+    public Server getAssignedServer() {
+    	return assignedTable.getServer();
+    }
+    
 }

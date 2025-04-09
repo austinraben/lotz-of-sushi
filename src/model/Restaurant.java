@@ -79,6 +79,23 @@ public class Restaurant {
                 return null;
         }
     }
+    
+    // make a set amount of servers
+    /*
+    private void hireServers() {
+    	
+    }
+    */
+    
+    // make a set amount of tables
+    /*
+    private void createTables() {
+    	ArrayList<Table> tables = new ArrayList<Table>();
+    	for (int i = 0; i < 25; i++) {
+    		tables.add(new Table(i, ))
+    	}
+    }
+    */
 
     // getters
     
