@@ -1,14 +1,15 @@
 package model;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class SalesTracker {
 	
 	private HashMap<MenuItem, Integer> quantitySold;
 	private HashMap<MenuItem, Double> totalSales;
-	private double totalTips;
+	private HashMap<Server, Double> tipsByServer;
 	
-	public SalesTracker(ArrayList<Menu> menuList, ArrayList<String> menuItems) {
+	public SalesTracker(ArrayList<Menu> menuList, ArrayList<String> menuItems, List<Server> servers) {
 		for (Menu m : menuList) {
 			for (String s : menuItems) {
 				if (m.containsMenuItem(s)) {
@@ -17,7 +18,14 @@ public class SalesTracker {
 				}
 			}
 		}
-		totalTips = 0.0;
+		for (Server s : servers) {
+			tipsByServer.put(s, 0.0);
+		}
+	}
+
+	
+	public void updateOrder(Order order) {
+		for ()
 	}
 	
 	public double getSaleForItem(MenuItem menuItem) {

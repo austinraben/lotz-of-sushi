@@ -14,6 +14,7 @@ public class Restaurant {
     private Menu appMenu;
     private Menu entreeMenu;
     private Menu dessertMenu;
+    private SalesTracker sales;
 
     public Restaurant(String name) {
         this.name = name;
@@ -23,9 +24,37 @@ public class Restaurant {
         this.appMenu = new AppMenu();
         this.entreeMenu = new EntreeMenu();
         this.dessertMenu = new DessertMenu();
-
+        
+        initializeSalesTracker();
     }
- 
+    
+    private void initializeSalesTracker() {
+    	ArrayList<Menu> allMenus = new ArrayList<>();
+    	allMenus.add(drinkMenu);
+        allMenus.add(appMenu);
+        allMenus.add(entreeMenu);
+        allMenus.add(dessertMenu);
+        
+        ArrayList<String> allMenuItems = new ArrayList<>();
+        for (Menu menu : allMenus) {
+        	for (String s : menu) {
+        		allMenuItems.add(s.toLowerCase().strip());
+        	}
+        }
+        this.sales = new SalesTracker(allMenus, allMenuItems, servers);
+    }
+    
+    public void updateSalesTracker() {
+    	for (Server s : servers) {
+    		List<Order> serverOrders = s.getOrders();
+    		for (Order o : serverOrders) {
+    			if (o.isClosed()) {
+    				sales.updateOrder(o);
+    			}
+    		}
+    	}
+    }
+    
     // read menu.txt, create MenuItems and add them to Menu and its respective child class
     public void loadMenuItems(String filename) {
         

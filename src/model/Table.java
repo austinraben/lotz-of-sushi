@@ -8,6 +8,7 @@ public class Table {
     private boolean isOccupied;
     private Server server;
     private List<Customer> customers;
+    
 
     public Table(int tableNumber) {
         this.tableNumber = tableNumber;
