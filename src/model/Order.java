@@ -12,7 +12,7 @@ public class Order {
 
     public Order(Table table) {
     	this.table = table;
-    	this.bill = new Bill(table);
+    	this.bill = new Bill();
         this.items = new ArrayList<>();
         this.isClosed = false;
     }

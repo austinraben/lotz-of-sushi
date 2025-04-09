@@ -2,31 +2,37 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Table {
 	private int tableNumber;
-    private Server server;
 
-    public Table(int tableNumber, String serverName) {
+    public Table(int tableNumber) {
         this.tableNumber = tableNumber;
-        assignServer(serverName); 
-    }
-    
-    // assign a sever 
-    public void assignServer(String serverName) {
-    	//Server server = Restaurant.getServerByName(serverName);
-    	this.server = server;
     }
     
     // getters & setters
     public int getTableNumber() {
     	return tableNumber;
     }
-    
-    // returns a copy of the server variable
-    public Server getServer() {
-    	return new Server(server);
-    }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(tableNumber);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Table other = (Table) obj;
+		return tableNumber == other.tableNumber;
+	}
+
     
     
     

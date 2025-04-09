@@ -4,11 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Restaurant {
     private String name;
-    private List<Server> servers;
+    private HashMap<String, Server> servers;
+    private HashMap<Server, ArrayList<Table>> assignedTables;
+    private HashMap<Table, ArrayList<Customer>> tableMap;
     private List<Table> tables;
     private Menu drinkMenu;
     private Menu appMenu;
@@ -17,8 +20,10 @@ public class Restaurant {
 
     public Restaurant(String name) {
         this.name = name;
-        this.servers = new ArrayList<>();
-        this.tables = new ArrayList<>();
+        this.servers = new HashMap<>();
+        this.assignedTables = new HashMap<>();
+        this.tables = createTables();
+        this.tableMap = createTableMap();
         this.drinkMenu = new DrinkMenu();
         this.appMenu = new AppMenu();
         this.entreeMenu = new EntreeMenu();
@@ -80,23 +85,75 @@ public class Restaurant {
         }
     }
     
-    // make a set amount of servers
-    /*
-    private void hireServers() {
-    	
-    }
-    */
+    // server and table
     
-    // make a set amount of tables
     /*
-    private void createTables() {
+     * My idea with the mapping functionality is to reduce the possibility of escaping references
+     * and having too many object assignments. This way, servers and Customers (and subsequently orders and 
+     * Bills) are kept separate, only connected by their shared table, which can easily be found. Then when 
+     * server and customer interaction is required, just look up their shared table and connect them that way.
+     */
+    
+    public void hireServers(String serverName) {
+    	
+    	// create new Server object
+    	Server newServer = new Server(serverName);
+    	
+    	// add Server to servers map
+    	servers.put(serverName, newServer);
+    	
+    	// add Server to server/tables map
+    	assignedTables.put(newServer, new ArrayList<Table>());
+    }
+    
+    // map servers to tables
+    public void assignServerToTable(String serverName, Table table) {
+    	
+    	// find Server object with given name
+    	Server found = servers.get(serverName);
+    	
+    	// add table to Servers internal list
+    	found.addTable(table);
+    	
+    	// add table to server/tables map
+    	assignedTables.get(found).add(table);
+    }
+    
+    
+    // make a set amount of tables -- helper method (stay private)
+    private ArrayList<Table> createTables() {
     	ArrayList<Table> tables = new ArrayList<Table>();
     	for (int i = 0; i < 25; i++) {
-    		tables.add(new Table(i, ))
+    		tables.add(new Table(i + 1));
+    	}
+    	return tables;
+    }
+    
+    // map tables to customers -- helper method (stay private)
+    private HashMap<Table, ArrayList<Customer>> createTableMap(){
+    	HashMap<Table, ArrayList<Customer>> tableMap = new HashMap<Table, ArrayList<Customer>>();
+    	for (Table t : tables) {
+    		tableMap.put(t, new ArrayList<Customer>());
+    	}
+    	
+    	return tableMap;
+    }
+    
+    // customer interaction
+    public void seatCustomers(int customerAmt, int tableNum) {
+    	
+    	// gets assigned table by number
+    	Table table = tables.get(tableNum - 1);
+    	
+    	// creates a new customer object for amount of customers given
+    	for (int i = 0; i < customerAmt; i++) {
+    		Customer newCustomer = new Customer(table);
+    		
+    		// adds customer list for its table in tableMap
+    		tableMap.get(table).add(newCustomer);
     	}
     }
-    */
-
+    
     // getters
     
     public Menu getDrinkMenu() {
