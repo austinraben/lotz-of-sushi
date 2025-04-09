@@ -9,12 +9,14 @@ public class Order {
 	private Bill bill;
     private boolean isClosed;
     private Table table;
+    private int orderNum;
 
-    public Order(Table table) {
+    public Order(Table table, int orderNum) {
     	this.table = table;
+    	this.orderNum = orderNum;
     	this.bill = new Bill();
         this.items = new ArrayList<>();
-        this.isClosed = false;
+        this.isClosed = false;  
     }
     
    public void orderItem(String itemName, String modification, Menu menu) {
@@ -58,6 +60,10 @@ public class Order {
    public void closeOrder() {
 	   isClosed = true;
    	}
+   
+   public int getOrderNum() {
+	   return orderNum;
+   }
     
     
     

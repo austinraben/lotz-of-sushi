@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Restaurant {
     private String name;
@@ -139,6 +140,18 @@ public class Restaurant {
     	return tableMap;
     }
     
+    // helper method
+    private String getServerByTable(Table table) {
+    	String serverName = "";
+    	for (Map.Entry<Server, ArrayList<Table>> entry : assignedTables.entrySet()) {
+    		if (entry.getValue().contains(table)) {
+    			Server found = entry.getKey();
+    			serverName = found.getServerName();
+    		}
+    	}
+    	return serverName;
+    }
+    
     // customer interaction
     public void seatCustomers(int customerAmt, int tableNum) {
     	
@@ -147,11 +160,36 @@ public class Restaurant {
     	
     	// creates a new customer object for amount of customers given
     	for (int i = 0; i < customerAmt; i++) {
-    		Customer newCustomer = new Customer(table);
+    		Customer newCustomer = new Customer(table, i + 1);
     		
     		// adds customer list for its table in tableMap
     		tableMap.get(table).add(newCustomer);
     	}
+    }
+    
+    public void orderItem(Table table, int orderNum, String item, String modification) {
+    	
+    	// get customer associated with given orderNum
+    	Customer customer = tableMap.get(table).get(orderNum - 1);
+    	
+    	// order item 
+    	customer.orderItem(item, modification, appMenu);
+    }
+    
+    public void closeOrder(Table table, int orderNum, int tipAmt) {
+    	
+    	// add tip to customers bill
+    	Customer customer = tableMap.get(table).get(orderNum - 1);
+    	customer.tip(tipAmt);
+    	
+    	// TODO call payBill function
+    	
+    	// add tip to servers tip
+    	Server server = servers.get(getServerByTable(table));
+    	server.addTip(tipAmt);
+    	
+    	// remove customer from table
+    	tableMap.get(table).remove(customer);    	
     }
     
     // getters

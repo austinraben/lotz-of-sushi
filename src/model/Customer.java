@@ -6,19 +6,16 @@ import java.util.List;
 public class Customer {
     private Order order;
     private Table assignedTable;
+    //private String serverName; -- maybe include
     
-    public Customer(Table table) {
+    public Customer(Table table, int orderNum) {
     	assignedTable = table;
-        this.order = new Order(assignedTable);
+        this.order = new Order(assignedTable, orderNum);
     }
     
     // functionality
     public void orderItem(String itemName, String modification, Menu menu) {
     	order.orderItem(itemName, modification, menu);
-    }
-    
-    public Bill getBill() {
-    	return order.getBill();
     }
     
     public void tip(double tipAmt) {
@@ -34,6 +31,15 @@ public class Customer {
         
     public Table getAssignedTable() {
     	return assignedTable;
+    }
+    
+    public int getOrderNum() {
+    	return order.getOrderNum();
+    }
+    
+    // TODO fix escaping reference
+    public Bill getBill() {
+    	return order.getBill();
     }
     
 }
