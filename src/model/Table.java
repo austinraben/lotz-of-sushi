@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Table {
-	private int tableNumber;
 
     public Table(int tableNumber) {
         this.tableNumber = tableNumber;

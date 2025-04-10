@@ -2,9 +2,10 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
-public  class Menu {
+public class Menu implements Iterable<String>{
 	
     protected FoodCourse course;
     protected HashMap<String, MenuItem> items; 
@@ -42,4 +43,9 @@ public  class Menu {
     public boolean containsMenuItem(String itemName) {
     	return items.containsKey(itemName);
     }
+
+	@Override
+	public Iterator<String> iterator() {
+		return items.keySet().iterator();
+	}
 }
