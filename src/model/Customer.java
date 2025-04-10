@@ -46,4 +46,8 @@ public class Customer {
     	return order.getBill();
     }
     
+    public Order getOrder() {
+    	return new Order(order);
+    }
+    
 }

@@ -2,6 +2,7 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SalesTracker {
 	
@@ -9,7 +10,7 @@ public class SalesTracker {
 	private HashMap<MenuItem, Double> totalSales;
 	private HashMap<Server, Double> tipsByServer;
 	
-	public SalesTracker(ArrayList<Menu> menuList, ArrayList<String> menuItems, List<Server> servers) {
+	public SalesTracker(ArrayList<Menu> menuList, ArrayList<String> menuItems) {
 		for (Menu m : menuList) {
 			for (String s : menuItems) {
 				if (m.containsMenuItem(s)) {
@@ -18,14 +19,19 @@ public class SalesTracker {
 				}
 			}
 		}
-		for (Server s : servers) {
-			tipsByServer.put(s, 0.0);
-		}
+		
 	}
 
-	
+	// TODO
 	public void updateOrder(Order order) {
 		for ()
+	}
+	
+	
+	public void getServerTips(HashMap<String, Server> servers) {
+		for (Map.Entry<String, Server> entry : servers.entrySet()) {
+			tipsByServer.put(entry.getValue(), entry.getValue().getTipsEarned());
+		}
 	}
 	
 	public double getSaleForItem(MenuItem menuItem) {

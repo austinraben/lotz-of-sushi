@@ -13,7 +13,7 @@ public class Restaurant {
     private HashMap<String, Server> servers;
     private HashMap<Server, ArrayList<Table>> serverTables;
     private HashMap<Table, ArrayList<Customer>> tableMap;
-    private List<Table> tables;
+    private List<Table> tables; // kind of unnecessary
     private Menu drinkMenu;
     private Menu appMenu;
     private Menu entreeMenu;
@@ -31,34 +31,7 @@ public class Restaurant {
         this.entreeMenu = new EntreeMenu();
         this.dessertMenu = new DessertMenu();
         
-        initializeSalesTracker();
-    }
-    
-    private void initializeSalesTracker() {
-    	ArrayList<Menu> allMenus = new ArrayList<>();
-    	allMenus.add(drinkMenu);
-        allMenus.add(appMenu);
-        allMenus.add(entreeMenu);
-        allMenus.add(dessertMenu);
-        
-        ArrayList<String> allMenuItems = new ArrayList<>();
-        for (Menu menu : allMenus) {
-        	for (String s : menu) {
-        		allMenuItems.add(s.toLowerCase().strip());
-        	}
-        }
-        this.sales = new SalesTracker(allMenus, allMenuItems, servers);
-    }
-    
-    public void updateSalesTracker() {
-    	for (Server s : servers) {
-    		List<Order> serverOrders = s.getOrders();
-    		for (Order o : serverOrders) {
-    			if (o.isClosed()) {
-    				sales.updateOrder(o);
-    			}
-    		}
-    	}
+        //initializeSalesTracker();
     }
     
     // read menu.txt, create MenuItems and add them to Menu and its respective child class
@@ -113,6 +86,23 @@ public class Restaurant {
             default:
                 return null;
         }
+    }
+    
+    // sales tracker
+    private void initializeSalesTracker() {
+    	ArrayList<Menu> allMenus = new ArrayList<>();
+    	allMenus.add(drinkMenu);
+        allMenus.add(appMenu);
+        allMenus.add(entreeMenu);
+        allMenus.add(dessertMenu);
+        
+        ArrayList<String> allMenuItems = new ArrayList<>();
+        for (Menu menu : allMenus) {
+        	for (String s : menu) {
+        		allMenuItems.add(s.toLowerCase().strip());
+        	}
+        }
+        this.sales = new SalesTracker(allMenus, allMenuItems);
     }
     
     // server and table
@@ -172,8 +162,12 @@ public class Restaurant {
     // helper method
     private String getServerByTable(Table table) {
     	String serverName = "";
+    	
+    	// searches for a given table
     	for (Map.Entry<Server, ArrayList<Table>> entry : serverTables.entrySet()) {
     		if (entry.getValue().contains(table)) {
+    			
+    			// finds server for that table -- returns the name
     			Server found = entry.getKey();
     			serverName = found.getServerName();
     		}
@@ -205,14 +199,17 @@ public class Restaurant {
     	customer.orderItem(item, modification, appMenu);
     }
     
-    // helper method
+    // helper method -- closes an individual order 
     private void closeOrder(Table table, int orderNum, int tipAmt) {
     	
     	// add tip to customers bill
     	Customer customer = tableMap.get(table).get(orderNum - 1);
     	customer.tip(tipAmt);
     	
-    	// TODO call payBill function
+        // update the sales tracker with the customers order
+    	sales.updateOrder(customer.getOrder());
+    	
+    	// TODO call payBill function?
     	
     	// add tip to servers tip
     	Server server = servers.get(getServerByTable(table));
