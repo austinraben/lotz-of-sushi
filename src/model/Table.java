@@ -2,22 +2,38 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Table {
-	private int tableNumber;
-    private boolean isOccupied;
-    private Server server;
-    private List<Customer> customers;
-    
 
     public Table(int tableNumber) {
         this.tableNumber = tableNumber;
-        this.isOccupied = false;
-        this.server = null; 
-        this.customers = new ArrayList<>();
     }
     
     // getters & setters
+    public int getTableNumber() {
+    	return tableNumber;
+    }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(tableNumber);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Table other = (Table) obj;
+		return tableNumber == other.tableNumber;
+	}
+
+    
+    
     
     
 }

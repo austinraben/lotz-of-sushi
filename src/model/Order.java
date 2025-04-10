@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Order {
@@ -9,12 +8,16 @@ public class Order {
 	private List<OrderedItem> items;
 	private Bill bill;
     private boolean isClosed;
+    private Table table;
+    private int orderNum;
 
-    public Order(Bill bill, int orderNumber) {
-    	this.orderNumber = orderNumber;
-    	this.bill = bill;
+
+    public Order(Table table, int orderNum) {
+    	this.table = table;
+    	this.orderNum = orderNum;
+    	this.bill = new Bill();
         this.items = new ArrayList<>();
-        this.isClosed = false;
+        this.isClosed = false;  
     }
     
     // copy constructor
@@ -42,6 +45,10 @@ public class Order {
 	   bill.updateTipPrice(tip);
    }
    
+   public void changeBillTotal(double price) {
+	   bill.changeBeforeTipPrice(price);
+   }
+   
    public List<OrderedItem> getItems() {
 	return items;
    }
@@ -50,6 +57,7 @@ public class Order {
 	   this.items = items;
    }
 
+   // TODO fix escaping reference
    public Bill getBill() {
 	   return bill;
    }
@@ -66,7 +74,13 @@ public class Order {
    public void closeOrder() {
 	   isClosed = true;
    	}
-    
+   
+   public int getOrderNum() {
+	   return orderNum;
+   }
+   
+   // TODO create toString method that prints out order like a receipt
+  
     
     
 }
