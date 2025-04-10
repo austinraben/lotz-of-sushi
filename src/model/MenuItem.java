@@ -1,7 +1,8 @@
 package model;
 
 public class MenuItem {
-    private FoodCourse foodCourse; 
+
+	private FoodCourse foodCourse; 
     private String specificCategory; 
     private String itemName;
     private double price;
@@ -17,9 +18,47 @@ public class MenuItem {
         this.isModifiable = modifiable;
         this.description = description;
     }
+    
+    // copy constructor
+    public MenuItem(MenuItem menuItem) {
+    	this.foodCourse = menuItem.foodCourse;
+    	this.specificCategory = menuItem.specificCategory;
+    	this.itemName = menuItem.itemName;
+    	this.price = menuItem.price;
+    	this.isModifiable = menuItem.isModifiable;
+    	this.description = menuItem.description;
+    }
+    
+    public String getName() {
+    	return itemName;
+    }
 	
 	// getters
+    
+    public FoodCourse getFoodCourse() {
+		return foodCourse;
+	}
+
+	public String getSpecificCategory() {
+		return specificCategory;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public boolean isModifiable() {
+		return isModifiable;
+	}
+
+	public String getDescription() {
+		return description;
+	}
 	
-	// incremementSales()
+	// incremementSales() for SalesTracker
 
 }
