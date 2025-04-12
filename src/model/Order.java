@@ -9,12 +9,14 @@ public class Order {
 	private List<OrderedItem> items;
 	private Bill bill;
     private boolean isClosed;
+    private double tip;
 
     public Order(Bill bill, int orderNumber) {
     	this.orderNumber = orderNumber;
     	this.bill = bill;
         this.items = new ArrayList<>();
         this.isClosed = false;
+        this.tip = 0.0;
     }
     
     // copy constructor
@@ -23,6 +25,7 @@ public class Order {
     	this.bill = other.bill;;
         this.items = other.items;
         this.isClosed = other.isClosed;
+        this.tip = other.tip;
     }
     
    public void orderItem(String itemName, String modification, Menu menu) {
@@ -39,7 +42,12 @@ public class Order {
    }
    
    public void makeTip(double tip) {
+	   this.tip = tip;
 	   bill.updateTipPrice(tip);
+   }
+   
+   public double getTip() {
+	   return tip;
    }
    
    public List<OrderedItem> getItems() {
@@ -54,7 +62,7 @@ public class Order {
 	   return bill;
    }
 
-
+   
    public boolean isClosed() {
 	   return isClosed;
    }

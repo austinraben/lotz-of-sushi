@@ -25,6 +25,7 @@ public class OrderedItem extends MenuItem{
         }
     }
     
+    
     // getters
 
 }

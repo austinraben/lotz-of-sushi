@@ -49,7 +49,7 @@ public class Restaurant {
     		List<Order> serverOrders = s.getOrders();
     		for (Order o : serverOrders) {
     			if (o.isClosed()) {
-    				sales.updateOrder(o);
+    				sales.updateOrder(o, s);
     			}
     		}
     	}

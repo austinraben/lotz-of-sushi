@@ -24,8 +24,20 @@ public class SalesTracker {
 	}
 
 	
-	public void updateOrder(Order order) {
-		for ()
+	public void updateOrder(Order order, Server server) {
+		List<OrderedItem> orderedItems = order.getItems();
+		for (OrderedItem orderItem : orderedItems) {
+			int count = quantitySold.get(orderItem);
+			double price = totalSales.get(orderItem);
+			count++;
+			price += orderItem.getPrice();
+			quantitySold.put(orderItem, count);
+			totalSales.put(orderItem, price);
+		}
+		
+		double tip = tipsByServer.get(server);
+		tip += order.getTip();
+		tipsByServer.put(server, tip);
 	}
 	
 	public double getSaleForItem(MenuItem menuItem) {
