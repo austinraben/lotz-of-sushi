@@ -15,41 +15,13 @@ public class Server {
         this.tipsEarned = 0;
         this.assignedTables = new ArrayList<>();
     }
-<<<<<<< HEAD
 
-	public List<Order> getOrders() {
-		List<Order> copyOrders = new ArrayList<>();
-		for (Order o : orders) {
-			copyOrders.add(new Order(o));
-		}
-		return copyOrders;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(serverName);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Server other = (Server) obj;
-		return Objects.equals(serverName, other.serverName);
-	}
-=======
-    
     // copy constructor
     public Server(Server s) {
     	this.serverName = s.serverName;
     	this.tipsEarned = s.tipsEarned;
     	this.assignedTables = s.getTables();
     }
->>>>>>> 7c55964323d51bbf7e04c7cd6ade71ea582d304c
     
     // getters & setters
     
@@ -81,7 +53,7 @@ public class Server {
     
     @Override
 	public int hashCode() {
-		return Objects.hash(assignedTables, serverName, tipsEarned);
+		return Objects.hash(serverName);
 	}
 
 	@Override
@@ -93,8 +65,7 @@ public class Server {
 		if (getClass() != obj.getClass())
 			return false;
 		Server other = (Server) obj;
-		return Objects.equals(assignedTables, other.assignedTables) && Objects.equals(serverName, other.serverName)
-				&& Double.doubleToLongBits(tipsEarned) == Double.doubleToLongBits(other.tipsEarned);
+		return this.serverName.equals(other.serverName);
 	}
     
 }

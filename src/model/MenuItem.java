@@ -62,6 +62,11 @@ public class MenuItem {
 		return description;
 	}
 	
+	@Override
+	public String toString() {
+		return itemName;
+	}
+	
 	// incremementSales() for SalesTracker
 	@Override
 	public int hashCode() {
@@ -74,7 +79,7 @@ public class MenuItem {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof MenuItem))
 			return false;
 		MenuItem other = (MenuItem) obj;
 		return Objects.equals(itemName, other.itemName);

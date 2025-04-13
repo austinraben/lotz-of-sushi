@@ -10,7 +10,7 @@ public class Customer {
     
     public Customer(Table table, int orderNum) {
     	assignedTable = table;
-        this.order = new Order(assignedTable, orderNum);
+        this.order = new Order(orderNum);
     }
     
     // functionality

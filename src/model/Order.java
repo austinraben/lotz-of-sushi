@@ -7,25 +7,17 @@ public class Order {
 	private int orderNumber;
 	private List<OrderedItem> items;
 	private Bill bill;
-<<<<<<< HEAD
     private boolean isClosed;
     private double tip;
-=======
-    private Table table;
     private int orderNum;
->>>>>>> 7c55964323d51bbf7e04c7cd6ade71ea582d304c
 
 
-    public Order(Table table, int orderNum) {
-    	this.table = table;
+    public Order(int orderNum) {
     	this.orderNum = orderNum;
     	this.bill = new Bill();
         this.items = new ArrayList<>();
-<<<<<<< HEAD
         this.isClosed = false;
         this.tip = 0.0;
-=======
->>>>>>> 7c55964323d51bbf7e04c7cd6ade71ea582d304c
     }
     
     // copy constructor
@@ -33,16 +25,13 @@ public class Order {
     	this.orderNumber = other.orderNumber;
     	this.bill = other.bill;
         this.items = other.items;
-<<<<<<< HEAD
         this.isClosed = other.isClosed;
         this.tip = other.tip;
-=======
->>>>>>> 7c55964323d51bbf7e04c7cd6ade71ea582d304c
     }
     
    public void orderItem(String itemName, String modification, Menu menu) {
-	   if (menu.containsMenuItem(itemName.strip().toLowerCase())) {
-		   MenuItem menuItem = menu.getMenuItem(itemName.strip().toLowerCase());
+	   if (menu.containsMenuItem(itemName)) {
+		   MenuItem menuItem = menu.getMenuItem(itemName);
 		   OrderedItem orderedItem = new OrderedItem(menuItem, modification);
 		   items.add(orderedItem);
 		   bill.updateBeforeTipPrice(orderedItem.getPrice());
@@ -58,13 +47,12 @@ public class Order {
 	   bill.updateTipPrice(tip);
    }
    
-<<<<<<< HEAD
    public double getTip() {
 	   return tip;
-=======
+   }
+   
    public void changeBillTotal(double price) {
 	   bill.changeBeforeTipPrice(price);
->>>>>>> 7c55964323d51bbf7e04c7cd6ade71ea582d304c
    }
    
    public List<OrderedItem> getItems() {
@@ -75,24 +63,47 @@ public class Order {
 	   this.items = items;
    }
 
-   // TODO fix escaping reference
    public Bill getBill() {
-	   return bill;
+	   return new Bill(bill);
    }
-<<<<<<< HEAD
 
+   public void closeOrder() {
+	   isClosed = true;
+   }
    
    public boolean isClosed() {
 	   return isClosed;
-=======
+   }
    
    public int getOrderNum() {
 	   return orderNum;
->>>>>>> 7c55964323d51bbf7e04c7cd6ade71ea582d304c
    }
    
-   // TODO create toString method that prints out order like a receipt
-  
+   @Override
+   public String toString() {
+	   String message = "---------------------\n" +
+			   			"Order Number: " + orderNum + "\n" +
+			   			"Server: NONE\n\n" +
+			   			"ITEMS:\n";
+	   for (OrderedItem oi : items) {
+		   message += "\t$" + oi.getPrice() + " - " + oi.getItemName() + "\n";
+		   if (oi.getModification() != null && !oi.getModification().equals("None")) {
+			   message += "\t\tModification: " + oi.getModification() + "\n";
+		   }
+	   }
+	   
+	   message += "AMOUNT: $" + bill.getPriceBeforeTip() + '\n';
+	   if (isClosed) {
+		   message += "TIP: $" + tip + '\n';
+	   }
+	   else {
+		   message += "TIP: NO TIP YET\n";
+	   }
+	   message += "\nTOTAL: $" + bill.getPriceAfterTip() + "\n---------------------\n";
+	   
+	   return message;
+			   			
+   }
     
     
 }

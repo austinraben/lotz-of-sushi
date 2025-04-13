@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class Menu implements Iterable<String>{
 	
@@ -47,5 +48,14 @@ public class Menu implements Iterable<String>{
 	@Override
 	public Iterator<String> iterator() {
 		return items.keySet().iterator();
+	}
+	
+	@Override
+	public String toString() {
+		String message = course.toString() + " Menu: \n";
+		for (Map.Entry<String, MenuItem> entry : items.entrySet()) {
+			message += entry.getKey() + " - $" + entry.getValue().getPrice() + "\n";
+		}
+		return message;
 	}
 }

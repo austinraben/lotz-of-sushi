@@ -13,7 +13,7 @@ public class Restaurant {
     private HashMap<String, Server> servers;
     private HashMap<Server, ArrayList<Table>> serverTables;
     private HashMap<Table, ArrayList<Customer>> tableMap;
-    private List<Table> tables; // kind of unnecessary
+    private List<Table> tables;
     private Menu drinkMenu;
     private Menu appMenu;
     private Menu entreeMenu;
@@ -24,6 +24,7 @@ public class Restaurant {
         this.name = name;
         this.servers = new HashMap<>();
         this.serverTables = new HashMap<>();
+        loadServers("\\data\\staff.txt");
         this.tables = createTables();
         this.tableMap = createTableMap();
         this.drinkMenu = new DrinkMenu();
@@ -31,7 +32,8 @@ public class Restaurant {
         this.entreeMenu = new EntreeMenu();
         this.dessertMenu = new DessertMenu();
         
-<<<<<<< HEAD
+        
+        loadMenuItems("\\data\\menu.txt");
         initializeSalesTracker();
     }
     
@@ -45,29 +47,40 @@ public class Restaurant {
         ArrayList<String> allMenuItems = new ArrayList<>();
         for (Menu menu : allMenus) {
         	for (String s : menu) {
-        		allMenuItems.add(s.toLowerCase().strip());
+        		allMenuItems.add(s.strip());
         	}
         }
         this.sales = new SalesTracker(allMenus, allMenuItems, servers);
     }
     
-    public void updateSalesTracker() {
-    	for (Server s : servers) {
-    		List<Order> serverOrders = s.getOrders();
-    		for (Order o : serverOrders) {
-    			if (o.isClosed()) {
-    				sales.updateOrder(o, s);
-    			}
-    		}
-    	}
-=======
-        //initializeSalesTracker();
->>>>>>> 7c55964323d51bbf7e04c7cd6ade71ea582d304c
+    private void loadServers(String filename) {
+    	filename = System.getProperty("user.dir") + filename;
+    	
+    	try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            
+    		String line;
+            
+            while ((line = reader.readLine()) != null) {
+            	// skip empty lines and comments
+                if (line.trim().isEmpty() || line.trim().startsWith("//")) {
+                    continue;
+                }
+                
+                String serverName = line.strip();
+                Server newServer = new Server(serverName);
+                servers.put(serverName, newServer);
+                serverTables.put(newServer, new ArrayList<Table>());
+            }
+          }catch (IOException e) {
+             e.printStackTrace();
+         }
+    	
     }
     
     // read menu.txt, create MenuItems and add them to Menu and its respective child class
-    public void loadMenuItems(String filename) {
-        
+    private void loadMenuItems(String filename) {
+    	filename = System.getProperty("user.dir") + filename;
+
     	try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             
     		String line;
@@ -96,6 +109,7 @@ public class Restaurant {
 
                 Menu subMenu = getMenuForCourse(course);
                 if (subMenu != null) {
+                	//System.out.println(item.getItemName() + " added to " + subMenu.getCourse());
                     subMenu.addItem(item);
                 }
             }
@@ -117,23 +131,6 @@ public class Restaurant {
             default:
                 return null;
         }
-    }
-    
-    // sales tracker
-    private void initializeSalesTracker() {
-    	ArrayList<Menu> allMenus = new ArrayList<>();
-    	allMenus.add(drinkMenu);
-        allMenus.add(appMenu);
-        allMenus.add(entreeMenu);
-        allMenus.add(dessertMenu);
-        
-        ArrayList<String> allMenuItems = new ArrayList<>();
-        for (Menu menu : allMenus) {
-        	for (String s : menu) {
-        		allMenuItems.add(s.toLowerCase().strip());
-        	}
-        }
-        this.sales = new SalesTracker(allMenus, allMenuItems);
     }
     
     // server and table
@@ -206,6 +203,13 @@ public class Restaurant {
     	return serverName;
     }
     
+    public Table getTableByNumber(int tableNumber) {
+    	if (tableNumber < tables.size())
+    		return tables.get(tableNumber - 1);
+    	else
+    		return null;
+    }
+    
     // customer interaction
     public void seatCustomers(int customerAmt, int tableNum) {
     	
@@ -226,12 +230,14 @@ public class Restaurant {
     	// get customer associated with given orderNum
     	Customer customer = tableMap.get(table).get(orderNum - 1);
     	
+    	Menu menu = getMenuForItem(item);
+    	
     	// order item 
-    	customer.orderItem(item, modification, appMenu);
+    	customer.orderItem(item, modification, menu);
     }
     
     // helper method -- closes an individual order 
-    private void closeOrder(Table table, int orderNum, int tipAmt) {
+    public void closeOrder(Table table, int orderNum, double tipAmt) {
     	
     	// add tip to customers bill
     	Customer customer = tableMap.get(table).get(orderNum - 1);
@@ -240,11 +246,13 @@ public class Restaurant {
         // update the sales tracker with the customers order
     	sales.updateOrder(customer.getOrder());
     	
-    	// TODO call payBill function?
-    	
     	// add tip to servers tip
     	Server server = servers.get(getServerByTable(table));
     	server.addTip(tipAmt);
+    	sales.updateServerTips(servers);
+    	
+    	// TODO call payBill function?
+    	
     	
     	// remove customer from table
     	tableMap.get(table).remove(customer);    	
@@ -286,7 +294,22 @@ public class Restaurant {
     		} 
     }
       
-     
+     private Menu getMenuForItem(String itemName) {
+    	ArrayList<Menu> allMenus = new ArrayList<>();
+     	allMenus.add(drinkMenu);
+        allMenus.add(appMenu);
+        allMenus.add(entreeMenu);
+        allMenus.add(dessertMenu);
+        
+        for (Menu m : allMenus) {
+        	if (m.containsMenuItem(itemName)) {
+        		return m;
+        	}
+        }
+        
+        System.out.println("Can't find menu for item.");
+        return null;
+     }
     
     // getters
     
@@ -310,5 +333,8 @@ public class Restaurant {
         return getMenuForCourse(course);
     }   
     
+    public SalesTracker getSalesTracker() {
+    	return new SalesTracker(sales);
+    }
     // sorters
 }
