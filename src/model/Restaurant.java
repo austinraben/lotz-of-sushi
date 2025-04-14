@@ -24,7 +24,15 @@ public class Restaurant {
         this.name = name;
         this.servers = new HashMap<>();
         this.serverTables = new HashMap<>();
-        loadServers("\\data\\staff.txt");
+        
+        try {
+        	loadServers("/data/staff.txt");
+        }
+        catch (Exception e){
+        	System.err.println("Error loading servers: " + e.getMessage());
+        	e.printStackTrace();
+        }
+        
         this.tables = createTables();
         this.tableMap = createTableMap();
         this.drinkMenu = new DrinkMenu();
@@ -32,8 +40,13 @@ public class Restaurant {
         this.entreeMenu = new EntreeMenu();
         this.dessertMenu = new DessertMenu();
         
+        try {
+            loadMenuItems("/data/menu.txt");
+        } catch (Exception e) {
+            System.err.println("Error loading menu: " + e.getMessage());
+            e.printStackTrace();
+        }
         
-        loadMenuItems("\\data\\menu.txt");
         initializeSalesTracker();
     }
     
@@ -294,7 +307,7 @@ public class Restaurant {
     		} 
     }
       
-     private Menu getMenuForItem(String itemName) {
+     public Menu getMenuForItem(String itemName) {
     	ArrayList<Menu> allMenus = new ArrayList<>();
      	allMenus.add(drinkMenu);
         allMenus.add(appMenu);
@@ -312,7 +325,7 @@ public class Restaurant {
      }
     
     // getters
-    
+     
     public Menu getDrinkMenu() {
         return drinkMenu;
     }
