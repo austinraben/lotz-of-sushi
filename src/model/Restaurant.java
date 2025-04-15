@@ -31,7 +31,7 @@ public class Restaurant {
         this.entreeMenu = new EntreeMenu();
         this.dessertMenu = new DessertMenu();
         
-        //initializeSalesTracker();
+       initializeSalesTracker();
     }
     
     // read menu.txt, create MenuItems and add them to Menu and its respective child class

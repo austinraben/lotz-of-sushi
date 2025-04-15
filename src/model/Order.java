@@ -7,12 +7,10 @@ public class Order {
 	private int orderNumber;
 	private List<OrderedItem> items;
 	private Bill bill;
-    private Table table;
     private int orderNum;
 
 
-    public Order(Table table, int orderNum) {
-    	this.table = table;
+    public Order( int orderNum) {
     	this.orderNum = orderNum;
     	this.bill = new Bill();
         this.items = new ArrayList<>();
