@@ -13,7 +13,8 @@ public class Restaurant {
     private HashMap<String, Server> servers;
     private HashMap<Server, ArrayList<Table>> serverTables;
     private HashMap<Table, ArrayList<Customer>> tableMap;
-    private List<Table> tables; // kind of unnecessary
+    private List<Table> tables;
+    private List<Order> closedOrders;
     private Menu drinkMenu;
     private Menu appMenu;
     private Menu entreeMenu;
@@ -24,19 +25,77 @@ public class Restaurant {
         this.name = name;
         this.servers = new HashMap<>();
         this.serverTables = new HashMap<>();
+        
+        try {
+        	loadServers("/data/staff.txt");
+        }
+        catch (Exception e){
+        	System.err.println("Error loading servers: " + e.getMessage());
+        	e.printStackTrace();
+        }
+        
         this.tables = createTables();
         this.tableMap = createTableMap();
+        this.closedOrders = new ArrayList<Order>();
         this.drinkMenu = new DrinkMenu();
         this.appMenu = new AppMenu();
         this.entreeMenu = new EntreeMenu();
         this.dessertMenu = new DessertMenu();
         
-       initializeSalesTracker();
+        try {
+            loadMenuItems("/data/menu.txt");
+        } catch (Exception e) {
+            System.err.println("Error loading menu: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        initializeSalesTracker();
+    }
+    
+    private void initializeSalesTracker() {
+    	ArrayList<Menu> allMenus = new ArrayList<>();
+    	allMenus.add(drinkMenu);
+        allMenus.add(appMenu);
+        allMenus.add(entreeMenu);
+        allMenus.add(dessertMenu);
+        
+        ArrayList<String> allMenuItems = new ArrayList<>();
+        for (Menu menu : allMenus) {
+        	for (String s : menu) {
+        		allMenuItems.add(s.strip());
+        	}
+        }
+        this.sales = new SalesTracker(allMenus, allMenuItems, servers);
+    }
+    
+    private void loadServers(String filename) {
+    	filename = System.getProperty("user.dir") + filename;
+    	
+    	try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            
+    		String line;
+            
+            while ((line = reader.readLine()) != null) {
+            	// skip empty lines and comments
+                if (line.trim().isEmpty() || line.trim().startsWith("//")) {
+                    continue;
+                }
+                
+                String serverName = line.strip();
+                Server newServer = new Server(serverName);
+                servers.put(serverName, newServer);
+                serverTables.put(newServer, new ArrayList<Table>());
+            }
+          }catch (IOException e) {
+             e.printStackTrace();
+         }
+    	
     }
     
     // read menu.txt, create MenuItems and add them to Menu and its respective child class
-    public void loadMenuItems(String filename) {
-        
+    private void loadMenuItems(String filename) {
+    	filename = System.getProperty("user.dir") + filename;
+
     	try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             
     		String line;
@@ -65,6 +124,7 @@ public class Restaurant {
 
                 Menu subMenu = getMenuForCourse(course);
                 if (subMenu != null) {
+                	//System.out.println(item.getItemName() + " added to " + subMenu.getCourse());
                     subMenu.addItem(item);
                 }
             }
@@ -88,31 +148,7 @@ public class Restaurant {
         }
     }
     
-    // sales tracker
-    private void initializeSalesTracker() {
-    	ArrayList<Menu> allMenus = new ArrayList<>();
-    	allMenus.add(drinkMenu);
-        allMenus.add(appMenu);
-        allMenus.add(entreeMenu);
-        allMenus.add(dessertMenu);
-        
-        ArrayList<String> allMenuItems = new ArrayList<>();
-        for (Menu menu : allMenus) {
-        	for (String s : menu) {
-        		allMenuItems.add(s.toLowerCase().strip());
-        	}
-        }
-        this.sales = new SalesTracker(allMenus, allMenuItems);
-    }
-    
     // server and table
-    
-    /*
-     * My idea with the mapping functionality is to reduce the possibility of escaping references
-     * and having too many object assignments. This way, servers and Customers (and subsequently orders and 
-     * Bills) are kept separate, only connected by their shared table, which can easily be found. Then when 
-     * server and customer interaction is required, just look up their shared table and connect them that way.
-     */
     
     public void hireServers(String serverName) {
     	
@@ -175,6 +211,18 @@ public class Restaurant {
     	return serverName;
     }
     
+    // helper method -- adds closed orders to a list
+    private void addToClosedOrders(Order closedOrder) {
+    	closedOrders.add(closedOrder);
+    }
+    
+    public Table getTableByNumber(int tableNumber) {
+    	if (tableNumber < tables.size())
+    		return tables.get(tableNumber - 1);
+    	else
+    		return null;
+    }
+    
     // customer interaction
     public void seatCustomers(int customerAmt, int tableNum) {
     	
@@ -195,12 +243,14 @@ public class Restaurant {
     	// get customer associated with given orderNum
     	Customer customer = tableMap.get(table).get(orderNum - 1);
     	
+    	Menu menu = getMenuForItem(item);
+    	
     	// order item 
-    	customer.orderItem(item, modification, appMenu);
+    	customer.orderItem(item, modification, menu);
     }
     
     // helper method -- closes an individual order 
-    private void closeOrder(Table table, int orderNum, int tipAmt) {
+    public void closeOrder(Table table, int orderNum, double tipAmt) {
     	
     	// add tip to customers bill
     	Customer customer = tableMap.get(table).get(orderNum - 1);
@@ -209,20 +259,23 @@ public class Restaurant {
         // update the sales tracker with the customers order
     	sales.updateOrder(customer.getOrder());
     	
-    	// TODO call payBill function?
+    	// add closed order to maintained list of closed orders -- uses a COPY of the Order
+    	addToClosedOrders(customer.getOrder());
     	
     	// add tip to servers tip
     	Server server = servers.get(getServerByTable(table));
     	server.addTip(tipAmt);
+    	sales.updateServerTips(servers);
+    	
+    	// TODO print order toString() ?
     	
     	// remove customer from table
     	tableMap.get(table).remove(customer);    	
     }
     
     // server functionality
-    
-    // fix escaping reference of Bill object -- also maybe this should be a private method?
-    public Bill getBillByTable(Table table) {
+   // helper function
+    private Bill getBillByTable(Table table) {
     	
     	// create new table bill
     	Bill tableBill = new Bill();
@@ -255,10 +308,25 @@ public class Restaurant {
     		} 
     }
       
-     
+     public Menu getMenuForItem(String itemName) {
+    	ArrayList<Menu> allMenus = new ArrayList<>();
+     	allMenus.add(drinkMenu);
+        allMenus.add(appMenu);
+        allMenus.add(entreeMenu);
+        allMenus.add(dessertMenu);
+        
+        for (Menu m : allMenus) {
+        	if (m.containsMenuItem(itemName)) {
+        		return m;
+        	}
+        }
+        
+        System.out.println("Can't find menu for item.");
+        return null;
+     }
     
     // getters
-    
+     
     public Menu getDrinkMenu() {
         return drinkMenu;
     }
@@ -279,5 +347,8 @@ public class Restaurant {
         return getMenuForCourse(course);
     }   
     
+    public SalesTracker getSalesTracker() {
+    	return new SalesTracker(sales);
+    }
     // sorters
 }

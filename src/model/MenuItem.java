@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class MenuItem {
 
 	private FoodCourse foodCourse; 
@@ -43,6 +45,7 @@ public class MenuItem {
 		return specificCategory;
 	}
 
+
 	public String getItemName() {
 		return itemName;
 	}
@@ -59,6 +62,27 @@ public class MenuItem {
 		return description;
 	}
 	
+	@Override
+	public String toString() {
+		return itemName;
+	}
+	
 	// incremementSales() for SalesTracker
+	@Override
+	public int hashCode() {
+		return Objects.hash(itemName);
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof MenuItem))
+			return false;
+		MenuItem other = (MenuItem) obj;
+		return Objects.equals(itemName, other.itemName);
+	}
+	
 }

@@ -15,7 +15,7 @@ public class Server {
         this.tipsEarned = 0;
         this.assignedTables = new ArrayList<>();
     }
-    
+
     // copy constructor
     public Server(Server s) {
     	this.serverName = s.serverName;
@@ -53,7 +53,7 @@ public class Server {
     
     @Override
 	public int hashCode() {
-		return Objects.hash(assignedTables, serverName, tipsEarned);
+		return Objects.hash(serverName);
 	}
 
 	@Override
@@ -65,8 +65,7 @@ public class Server {
 		if (getClass() != obj.getClass())
 			return false;
 		Server other = (Server) obj;
-		return Objects.equals(assignedTables, other.assignedTables) && Objects.equals(serverName, other.serverName)
-				&& Double.doubleToLongBits(tipsEarned) == Double.doubleToLongBits(other.tipsEarned);
+		return this.serverName.equals(other.serverName);
 	}
     
 }

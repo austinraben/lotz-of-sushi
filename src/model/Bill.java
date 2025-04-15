@@ -10,8 +10,15 @@ public class Bill {
         this.priceAfterTip = 0;
     }
     
+    // copy constructor
+    public Bill(Bill bill) {
+    	this.priceAfterTip = bill.priceAfterTip;
+    	this.priceBeforeTip = bill.priceBeforeTip;
+    }
+    
     public void updateBeforeTipPrice(double price) {
     	priceBeforeTip += price;
+    	priceAfterTip += price;
     }
     
     public void changeBeforeTipPrice(double newPrice) {
@@ -29,4 +36,5 @@ public class Bill {
     public double getPriceAfterTip() {
     	return priceAfterTip;
     }
+
 }

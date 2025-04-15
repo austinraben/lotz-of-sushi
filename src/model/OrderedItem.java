@@ -25,6 +25,10 @@ public class OrderedItem extends MenuItem{
         }
     }
     
+    
     // getters
+    public String getModification() {
+    	return modification;
+    }
 
 }
