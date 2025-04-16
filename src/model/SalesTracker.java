@@ -127,4 +127,11 @@ public class SalesTracker {
 		message += "\nTotal Tips Collected: $" + total + "\n";
 		return message;
 	}
+	
+	// method to keep track of Server with the highest tips:
+	public Server getHighestTippedServer() {
+		return tipsByServer.keySet().stream()
+				.max(Server::compareTo)
+				.orElse(null);
+	}
 }
