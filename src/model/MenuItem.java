@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 public class MenuItem {
@@ -34,7 +35,10 @@ public class MenuItem {
     public String getName() {
     	return itemName;
     }
-	
+    
+    
+    
+    
 	// getters
     
     public FoodCourse getFoodCourse() {

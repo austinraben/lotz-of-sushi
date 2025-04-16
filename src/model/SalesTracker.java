@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class SalesTracker {
 	
@@ -96,6 +97,35 @@ public class SalesTracker {
 	public HashMap<MenuItem, Integer> getQuantitySold(){
 		return new HashMap<>(quantitySold);
 	}
+	
+	
+	public String quantitySoldSortedString() {
+		String message = "---Sorted Menu Items Sold---\n";
+		List<Map.Entry<MenuItem, Integer>> entries = new ArrayList<>(quantitySold.entrySet());
+
+	    entries.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue())); // sort descending by value
+	    for (Map.Entry<MenuItem, Integer> entry : entries) {
+	        message += entry.getKey().getItemName() + ": " + entry.getValue() + "\n";
+	    }
+		return message;
+	}
+	
+	
+	public String totalSalesSortedString() {
+		String message = "---Sorted Menu Items Sales---\n";
+		double total = 0.0;
+		List<Map.Entry<MenuItem, Double>> entries = new ArrayList<>(totalSales.entrySet());
+
+	    entries.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue())); // sort descending by value
+	    for (Map.Entry<MenuItem, Double> entry : entries) {
+	        message += entry.getKey().getItemName() + ": $" + entry.getValue() + "\n";
+	        total += entry.getValue();
+	    }
+	    
+	    message += "\nTotal Sales: $" + total + "\n";
+		return message;
+	}
+		
 	
 	public String quantitySoldString() {
 		String message = "---Menu Items Sold---\n";
