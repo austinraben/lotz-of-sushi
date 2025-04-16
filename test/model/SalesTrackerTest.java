@@ -173,5 +173,53 @@ class SalesTrackerTest {
 						"\nTotal Tips Collected: $5.5\n";
 		assertEquals(compare, mySales.totalTipsString());
 	}
-
+	
+	
+	@Test
+	void testTotalTipsSortedString() {
+		Restaurant myRestaurant = new Restaurant("Test Sales");
+		myRestaurant.seatCustomers(1, 1);
+		myRestaurant.seatCustomers(1, 2);
+		Table myTable = myRestaurant.getTableByNumber(1);
+		Table myTable2 = myRestaurant.getTableByNumber(2);
+		
+		myRestaurant.assignServerToTable("Colin Gale", myTable);
+		myRestaurant.assignServerToTable("Ruby Gilliland", myTable2);
+		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
+		myRestaurant.closeOrder(myTable, 1, 5.50);
+		myRestaurant.orderItem(myTable2, 1, "Ruby's Roll", "None");
+		myRestaurant.closeOrder(myTable2, 1, 2.50);
+		
+		
+		SalesTracker mySales = myRestaurant.getSalesTracker();
+		
+		String compare = "---Sorted Server Tips---\n" +
+						"Colin Gale: $5.5\n" +
+						"Ruby Gilliland: $2.5\n" +
+						"Lisette Robles: $0.0\n" +
+						"Austin Raben: $0.0\n" +
+						"\nTotal Tips Collected: $8.0\n";
+		assertEquals(compare, mySales.totalTipsSortedString());
+	}
+	
+	@Test
+	void testGetHighestTippedServer() {
+		Restaurant myRestaurant = new Restaurant("Test Sales");
+		myRestaurant.seatCustomers(1, 1);
+		myRestaurant.seatCustomers(1, 2);
+		Table myTable = myRestaurant.getTableByNumber(1);
+		Table myTable2 = myRestaurant.getTableByNumber(2);
+		
+		myRestaurant.assignServerToTable("Colin Gale", myTable);
+		myRestaurant.assignServerToTable("Ruby Gilliland", myTable2);
+		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
+		myRestaurant.closeOrder(myTable, 1, 5.50);
+		myRestaurant.orderItem(myTable2, 1, "Ruby's Roll", "None");
+		myRestaurant.closeOrder(myTable2, 1, 2.50);
+		
+		SalesTracker mySales = myRestaurant.getSalesTracker();
+		
+		Server myServer = mySales.getHighestTippedServer();
+		assertEquals("Colin Gale", myServer.getServerName());
+	}
 }

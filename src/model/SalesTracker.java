@@ -1,5 +1,6 @@
 package model;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,7 +126,20 @@ public class SalesTracker {
 	    message += "\nTotal Sales: $" + total + "\n";
 		return message;
 	}
+	
+	public String totalTipsSortedString() {
+		String message = "---Sorted Server Tips---\n";
+		double total = 0.0;
 		
+		ArrayList<Server> myList = new ArrayList<Server>(tipsByServer.keySet());
+		Collections.sort(myList, Server.sortByTipsComparator());
+		for (int i=myList.size() - 1; i >= 0; i--) {
+			message += myList.get(i).getServerName() + ": $" + myList.get(i).getTipsEarned() + "\n";
+			total += myList.get(i).getTipsEarned();
+		}
+		message += "\nTotal Tips Collected: $" + total + "\n";
+		return message;
+	}
 	
 	public String quantitySoldString() {
 		String message = "---Menu Items Sold---\n";
@@ -160,8 +174,8 @@ public class SalesTracker {
 	
 	// method to keep track of Server with the highest tips:
 	public Server getHighestTippedServer() {
-		return tipsByServer.keySet().stream()
-				.max(Server::compareTo)
-				.orElse(null);
+		ArrayList<Server> myList = new ArrayList<Server>(tipsByServer.keySet());
+		Collections.sort(myList, Server.sortByTipsComparator());
+		return myList.get(myList.size() - 1);
 	}
 }

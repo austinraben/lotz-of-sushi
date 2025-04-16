@@ -6,14 +6,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-public class Server implements Comparable<Server>{
+public class Server{
 	private String serverName;
     private double tipsEarned;
     private List<Table> assignedTables;
 
     public Server(String serverName) {
         this.serverName = serverName;
-        this.tipsEarned = 0;
+        this.tipsEarned = 0.0;
         this.assignedTables = new ArrayList<>();
     }
 
@@ -25,7 +25,13 @@ public class Server implements Comparable<Server>{
     }
     
     // getters & setters
-    
+    public static Comparator<Server> sortByTipsComparator(){
+    	return new Comparator<Server>() {
+			public int compare(Server s1, Server s2) {
+				return Double.compare(s1.tipsEarned, s2.tipsEarned);	
+			}
+		};
+    }
     
     public static Comparator<Server> sortByNameComparator(){
 		return new Comparator<Server>() {
@@ -60,11 +66,6 @@ public class Server implements Comparable<Server>{
     	ArrayList<Table> tables = new ArrayList<Table>(assignedTables);
     	List<Table> copyTables = tables;
     	return copyTables;
-    }
-    
-    @Override
-    public int compareTo(Server server) {
-    	return Double.compare(server.tipsEarned, this.tipsEarned);	
     }
     
     @Override
