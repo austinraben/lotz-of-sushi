@@ -1,4 +1,4 @@
-package view;
+ package view;
 
 import model.Restaurant;
 import model.Menu;
@@ -17,7 +17,7 @@ public class UserInterface {
     private java.util.Random random;
     
     private final String MAIN_MENU = "Welcome to Lotz of Sushi! What would you like to do today?\n\n"+
-    									"1. Assign Tables to Servers\n2. Act as a Server\n3. Search Menu\n4. View Menu\n5. View Sales\n" +
+    									"1. Manage Servers\n2. Act as a Server\n3. Search Menu\n4. View Menu\n5. View Sales\n" +
     									"6. View Tips\n";
     									
 
@@ -46,8 +46,10 @@ public class UserInterface {
 
 		switch(inputString) {
 			case "1":
+				this.manageServers();
 				break;
-			case "assign tables":
+			case "manage servers":
+				this.manageServers();
 				break;
 			case "2":
 				break;
@@ -74,6 +76,48 @@ public class UserInterface {
 		Scanner wait = new Scanner(System.in);
 		System.out.println("Hit enter to return to list of commands\n");
 		String waitResponse = wait.nextLine();
+    }
+   
+    public void manageServers() {
+    	System.out.println("\nWhat would you like to manage?");
+    	System.out.println("1. View servers\n2. View tables\n3. Assign servers to tables\n4. Hire servers\n5. Fire servers");
+    	System.out.print("Enter in a command (1-4): ");
+    	
+    	Scanner userInput = new Scanner(System.in);
+		String inputString = userInput.nextLine().strip().toLowerCase();
+		
+		switch (inputString) {
+			case "1":
+				System.out.print(restaurant.getAllServersInfo());
+				break;
+			case "2":
+				
+				break;
+			case "3":
+				assignServersToTables();
+				break;
+			case "4":
+				break;
+			case "5":
+				break;
+			default:
+				System.out.println("Command not found. Please enter the NUMBER of the command!");
+				break;
+		}
+    }
+    
+    public void assignServersToTables() {
+    	System.out.println("Which server would you like to assign to a table?");
+    	System.out.print(restaurant.getListOfServers());
+    	System.out.print("Enter the NAME of the server: ");
+    	
+    	Scanner userInput = new Scanner(System.in);
+		String serverName = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
+		
+		System.out.print("\nEnter table number to assign " + serverName + " to (1-25): ");
+		
+		int tableNum = userInput.nextInt();
+		restaurant.assignServerToTable(serverName, tableNum);
     }
     
     

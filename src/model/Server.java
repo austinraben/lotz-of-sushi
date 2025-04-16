@@ -11,7 +11,7 @@ public class Server{
     private double tipsEarned;
     private List<Table> assignedTables;
 
-    public Server(String serverName) {
+    public Server(String serverName) { 
         this.serverName = serverName;
         this.tipsEarned = 0.0;
         this.assignedTables = new ArrayList<>();
@@ -83,6 +83,17 @@ public class Server{
 			return false;
 		Server other = (Server) obj;
 		return this.serverName.equals(other.serverName);
+	}
+	
+	@Override 
+	public String toString() {
+		String serverStr = this.serverName + "\n\tTIPS: " + this.tipsEarned;
+		serverStr += "\n\tTABLES: ";
+		for (Table t : this.assignedTables) {
+			serverStr += t.getTableNumber() + ",";
+		}
+		
+		return serverStr.substring(0, serverStr.length() - 1) + "\n";
 	}
     
 }

@@ -25,7 +25,7 @@ public class Restaurant {
         this.name = name;
         this.servers = new HashMap<>();
         this.serverTables = new HashMap<>();
-        
+         
         try {
         	loadServers("/data/staff.txt");
         }
@@ -163,10 +163,12 @@ public class Restaurant {
     }
     
     // map servers to tables
-    public void assignServerToTable(String serverName, Table table) {
+    public void assignServerToTable(String serverName, int tableNum) {
     	
     	// find Server object with given name
     	Server found = servers.get(serverName);
+    	
+    	Table table = getTableByNumber(tableNum);
     	
     	// add table to Servers internal list
     	found.addTable(table);
@@ -175,6 +177,38 @@ public class Restaurant {
     	serverTables.get(found).add(table);
     }
     
+    // helper method - returns a list of copies of all current server objects
+    private ArrayList<Server> getAlphabeticalServerList(){
+    	ArrayList<Server> serverList = new ArrayList<Server>();
+    	for (Server s : serverTables.keySet()) {
+    		serverList.add(new Server(s));
+    	}
+    	
+    	// gets alphabetical list of servers
+    	serverList.sort(Server.sortByNameComparator());
+    	return serverList;
+    }
+    
+    // returns a string of all servers in the restaurant
+    public String getAllServersInfo() {
+    	ArrayList<Server> serverList = getAlphabeticalServerList();
+    	
+    	String allServers = ""; 
+    	for (Server s : serverList) {
+    		allServers += s.toString() + "\n";
+    	}
+    	return allServers;
+    }
+    
+    public String getListOfServers() {
+    	ArrayList<Server> serverList = getAlphabeticalServerList();
+    	String serverStrList = "";
+    	for (int i = 0; i < serverList.size(); i++) {
+    		serverStrList += (i+1) + ". " +  serverList.get(i).getServerName() + "\n";
+    	}
+    	
+    	return serverStrList.strip();
+    }
     
     // make a set amount of tables -- helper method (stay private)
     private ArrayList<Table> createTables() {
@@ -209,11 +243,6 @@ public class Restaurant {
     		}
     	}
     	return serverName;
-    }
-    
-    // helper method -- adds closed orders to a list
-    private void addToClosedOrders(Order closedOrder) {
-    	closedOrders.add(closedOrder);
     }
     
     public Table getTableByNumber(int tableNumber) {
@@ -269,6 +298,11 @@ public class Restaurant {
     	
     	// remove customer from table
     	tableMap.get(table).remove(customer);    	
+    }
+    
+    // helper method -- adds closed orders to a list
+    private void addToClosedOrders(Order closedOrder) {
+    	closedOrders.add(closedOrder);
     }
     
     public Bill getBillFromCustomer(Table table, int orderNumber) {
