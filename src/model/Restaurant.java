@@ -225,18 +225,16 @@ public class Restaurant {
     
     // customer interaction
     public void seatCustomers(int customerAmt, int tableNum) {
-    	
-    	// gets assigned table by number
-    	Table table = tables.get(tableNum - 1);
-    	
-    	// creates a new customer object for amount of customers given
-    	for (int i = 0; i < customerAmt; i++) {
-    		Customer newCustomer = new Customer(table, i + 1);
-    		
-    		// adds customer list for its table in tableMap
-    		tableMap.get(table).add(newCustomer);
-    	}
+        Table table = tables.get(tableNum - 1);
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+
+        for (int i = 0; i < customerAmt; i++) {
+            Customer newCustomer = new Customer(table, i + 1);
+            customers.add(newCustomer);
+        }
+        tableMap.put(table, customers);
     }
+
     
     public void orderItem(Table table, int orderNum, String item, String modification) {
     	
@@ -274,12 +272,12 @@ public class Restaurant {
     }
     
     // server functionality
-   // helper function
-    private Bill getBillByTable(Table table) {
+    public Bill getBillByTable(Table table) {
     	
+
     	// create new table bill
     	Bill tableBill = new Bill();
-    	
+
     	// iterate through customers at given table
     	ArrayList<Customer> customers = tableMap.get(table);
     	for (Customer c : customers) {
@@ -350,5 +348,10 @@ public class Restaurant {
     public SalesTracker getSalesTracker() {
     	return new SalesTracker(sales);
     }
+    
     // sorters
+
+	public void setTableMap(HashMap<Table, ArrayList<Customer>> tableMap) {
+		this.tableMap = tableMap;
+	}
 }
