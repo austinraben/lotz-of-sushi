@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,16 @@ public class Server {
     }
     
     // getters & setters
+    
+    
+    public static Comparator<Server> sortByNameComparator(){
+		return new Comparator<Server>() {
+			public int compare(Server s1, Server s2) {
+				return s1.getServerName().compareTo(s2.getServerName());
+			}
+		};
+	}
+    
     
     public void addTable(Table table) {
     	assignedTables.add(table);

@@ -38,6 +38,66 @@ class SalesTrackerTest {
 		assertEquals(mySales.getTipForServer(new Server("Colin Gale")), 5.50);
 	}
 	
+	@Test
+	void testQuantitySoldSortedString() {
+		Restaurant myRestaurant = new Restaurant("Test Sales");
+		myRestaurant.seatCustomers(1, 1);
+		Table myTable = myRestaurant.getTableByNumber(1);
+		myRestaurant.assignServerToTable("Colin Gale", myTable);
+		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
+		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
+		myRestaurant.orderItem(myTable, 1, "Colin's Roll", "None");
+		myRestaurant.closeOrder(myTable, 1, 5.50);
+		
+		SalesTracker mySales = myRestaurant.getSalesTracker();
+		
+		String compare = "---Sorted Menu Items Sold---\n";
+		compare += "Miso Soup" + ": 2\n";
+		compare += "Colin's Roll" + ": 1\n";
+		
+		
+        for (MenuItem menuItem : mySales.getQuantitySold().keySet()) {
+        	String name = menuItem.getItemName();
+        	if (name.equals("Miso Soup") || name.equals("Colin's Roll"))
+        		continue;
+        	else
+        		compare += name + ": 0\n";
+        }
+        
+        assertEquals(compare, mySales.quantitySoldSortedString());
+		
+	}
+	
+	@Test
+	void testTotalSalesSortedString() {
+		Restaurant myRestaurant = new Restaurant("Test Sales");
+		myRestaurant.seatCustomers(1, 1);
+		Table myTable = myRestaurant.getTableByNumber(1);
+		myRestaurant.assignServerToTable("Colin Gale", myTable);
+		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
+		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
+		myRestaurant.orderItem(myTable, 1, "Colin's Roll", "None");
+		myRestaurant.closeOrder(myTable, 1, 5.50);
+		
+		SalesTracker mySales = myRestaurant.getSalesTracker();
+		
+		String compare = "---Sorted Menu Items Sales---\n";
+		compare += "Miso Soup" + ": $13.98\n";
+		compare += "Colin's Roll" + ": $8.99\n";
+		
+        for (MenuItem menuItem : mySales.getTotalSales().keySet()) {
+        	String name = menuItem.getItemName();
+        	if (name.equals("Miso Soup") || name.equals("Colin's Roll"))
+        		continue;
+        	else
+        		compare += name + ": $0.0\n";
+        }
+        
+        compare += "\nTotal Sales: $22.97\n";
+        
+        assertEquals(compare, mySales.totalSalesSortedString());
+		
+	}
 	
 	@Test
 	void testQuantitySoldString() {
