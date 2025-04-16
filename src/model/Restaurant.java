@@ -271,6 +271,12 @@ public class Restaurant {
     	tableMap.get(table).remove(customer);    	
     }
     
+    public Bill getBillFromCustomer(Table table, int orderNumber) {
+    	Customer customer = tableMap.get(table).get(orderNumber - 1);
+    	return customer.getBill();
+    }
+    
+    
     // server functionality
     public Bill getBillByTable(Table table) {
     	
