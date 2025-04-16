@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-public class Server {
+public class Server implements Comparable<Server>{
 	private String serverName;
     private double tipsEarned;
     private List<Table> assignedTables;
@@ -49,6 +49,11 @@ public class Server {
     	ArrayList<Table> tables = new ArrayList<Table>(assignedTables);
     	List<Table> copyTables = tables;
     	return copyTables;
+    }
+    
+    @Override
+    public int compareTo(Server server) {
+    	return Double.compare(server.tipsEarned, this.tipsEarned);	
     }
     
     @Override
