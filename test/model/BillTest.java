@@ -11,7 +11,7 @@ class BillTest {
 		Restaurant myRestaurant = new Restaurant("Bill Test");
 		myRestaurant.seatCustomers(1, 1);
 		Table myTable = myRestaurant.getTableByNumber(1);
-		myRestaurant.assignServerToTable("Colin Gale", myTable);
+		myRestaurant.assignServerToTable("Colin Gale", 1);
 		myRestaurant.orderItem(myTable, 1, "Spicy Chicken Ramen", "None");
 
 		
