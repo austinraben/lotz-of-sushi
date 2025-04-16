@@ -7,16 +7,13 @@ public class Order {
 	private int orderNumber;
 	private List<OrderedItem> items;
 	private Bill bill;
-    private boolean isClosed;
-    private double tip;
     private int orderNum;
-
+    private double tip;
 
     public Order(int orderNum) {
     	this.orderNum = orderNum;
     	this.bill = new Bill();
         this.items = new ArrayList<>();
-        this.isClosed = false;
         this.tip = 0.0;
     }
     
@@ -25,7 +22,6 @@ public class Order {
     	this.orderNumber = other.orderNumber;
     	this.bill = other.bill;
         this.items = other.items;
-        this.isClosed = other.isClosed;
         this.tip = other.tip;
     }
     
@@ -66,14 +62,6 @@ public class Order {
    public Bill getBill() {
 	   return new Bill(bill);
    }
-
-   public void closeOrder() {
-	   isClosed = true;
-   }
-   
-   public boolean isClosed() {
-	   return isClosed;
-   }
    
    public int getOrderNum() {
 	   return orderNum;
@@ -93,12 +81,8 @@ public class Order {
 	   }
 	   
 	   message += "AMOUNT: $" + bill.getPriceBeforeTip() + '\n';
-	   if (isClosed) {
-		   message += "TIP: $" + tip + '\n';
-	   }
-	   else {
-		   message += "TIP: NO TIP YET\n";
-	   }
+	   message += "TIP: $" + tip + '\n';
+	  
 	   message += "\nTOTAL: $" + bill.getPriceAfterTip() + "\n---------------------\n";
 	   
 	   return message;

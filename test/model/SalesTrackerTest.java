@@ -14,7 +14,6 @@ class SalesTrackerTest {
 		SalesTracker mySales = myRestaurant.getSalesTracker();
 		Order order = new Order(1);
 		order.orderItem("Miso Soup", "None", myRestaurant.getEntreeMenu());
-		order.closeOrder();
 		mySales.updateOrder(order);
 		
 		assertEquals(mySales.getTotalSale(), 6.99);

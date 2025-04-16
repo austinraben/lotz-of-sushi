@@ -45,16 +45,6 @@ class OrderTest {
 		assertEquals(myOrder1.getBill().getPriceAfterTip(), 20.48);
 	}
 	
-	@Test
-	void testCloseOrder() {
-		Restaurant myRestaurant = new Restaurant("Test");
-		Order myOrder1 = new Order(23);
-		myOrder1.orderItem("Colin's Roll", "None", myRestaurant.getEntreeMenu());
-		myOrder1.orderItem("Ruby's Roll", "None", myRestaurant.getEntreeMenu());
-		myOrder1.closeOrder();
-		
-		assertTrue(myOrder1.isClosed());
-	}
 	
 	@Test
 	void testToString() {
@@ -63,7 +53,6 @@ class OrderTest {
 		myOrder1.orderItem("Colin's Roll", "None", myRestaurant.getEntreeMenu());
 		myOrder1.orderItem("Ruby's Roll", "No Shrimp", myRestaurant.getEntreeMenu());
 		myOrder1.makeTip(2.50);
-		myOrder1.closeOrder();
 		
 		String compare = "---------------------\n" +
 						"Order Number: " + 23 + "\n" +

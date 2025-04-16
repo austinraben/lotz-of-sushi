@@ -14,6 +14,7 @@ public class Restaurant {
     private HashMap<Server, ArrayList<Table>> serverTables;
     private HashMap<Table, ArrayList<Customer>> tableMap;
     private List<Table> tables;
+    private List<Order> closedOrders;
     private Menu drinkMenu;
     private Menu appMenu;
     private Menu entreeMenu;
@@ -35,6 +36,7 @@ public class Restaurant {
         
         this.tables = createTables();
         this.tableMap = createTableMap();
+        this.closedOrders = new ArrayList<Order>();
         this.drinkMenu = new DrinkMenu();
         this.appMenu = new AppMenu();
         this.entreeMenu = new EntreeMenu();
@@ -148,13 +150,6 @@ public class Restaurant {
     
     // server and table
     
-    /*
-     * My idea with the mapping functionality is to reduce the possibility of escaping references
-     * and having too many object assignments. This way, servers and Customers (and subsequently orders and 
-     * Bills) are kept separate, only connected by their shared table, which can easily be found. Then when 
-     * server and customer interaction is required, just look up their shared table and connect them that way.
-     */
-    
     public void hireServers(String serverName) {
     	
     	// create new Server object
@@ -216,6 +211,11 @@ public class Restaurant {
     	return serverName;
     }
     
+    // helper method -- adds closed orders to a list
+    private void addToClosedOrders(Order closedOrder) {
+    	closedOrders.add(closedOrder);
+    }
+    
     public Table getTableByNumber(int tableNumber) {
     	if (tableNumber < tables.size())
     		return tables.get(tableNumber - 1);
@@ -259,22 +259,23 @@ public class Restaurant {
         // update the sales tracker with the customers order
     	sales.updateOrder(customer.getOrder());
     	
+    	// add closed order to maintained list of closed orders -- uses a COPY of the Order
+    	addToClosedOrders(customer.getOrder());
+    	
     	// add tip to servers tip
     	Server server = servers.get(getServerByTable(table));
     	server.addTip(tipAmt);
     	sales.updateServerTips(servers);
     	
-    	// TODO call payBill function?
-    	
+    	// TODO print order toString() ?
     	
     	// remove customer from table
     	tableMap.get(table).remove(customer);    	
     }
     
     // server functionality
-    
-    // fix escaping reference of Bill object -- also maybe this should be a private method?
-    public Bill getBillByTable(Table table) {
+   // helper function
+    private Bill getBillByTable(Table table) {
     	
     	// create new table bill
     	Bill tableBill = new Bill();

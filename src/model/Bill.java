@@ -36,4 +36,5 @@ public class Bill {
     public double getPriceAfterTip() {
     	return priceAfterTip;
     }
+
 }
