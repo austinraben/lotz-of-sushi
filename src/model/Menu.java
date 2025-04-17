@@ -22,16 +22,6 @@ public class Menu implements Iterable<String> {
         String itemName = item.getItemName();
         items.put(itemName, item);
     }
-<<<<<<< Updated upstream
-
-    // Search itemName and return itemName if found, otherwise null
-    public MenuItem searchItemByName(String itemName) {
-        return items.get(itemName); 
-    }
-
-    // getters
-=======
->>>>>>> Stashed changes
   
     public List<MenuItem> getItems() {
         return new ArrayList<>(items.values()); 
