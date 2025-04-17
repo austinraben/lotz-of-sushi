@@ -51,12 +51,8 @@ public class UserInterface {
 			case "manage":
 				this.manage();
 				break;
-<<<<<<< Updated upstream
 			case "2":
 				this.host();
-=======
-		case "2":
->>>>>>> Stashed changes
 				break;
 			case "host":
 				this.host();
@@ -396,4 +392,3 @@ public class UserInterface {
     // - close the order
     // - calculate the bill (either evenly split or individually)
     // - close the table
-
