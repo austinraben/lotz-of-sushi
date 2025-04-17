@@ -113,28 +113,41 @@ public class UserInterface {
     
     public void host() {
     	System.out.println("\n=====Host=====");
-    	System.out.println("1. View servers\n2. View tables\n3. Assign server to table\n4. Remove server from table");
+    	System.out.println("1. Seat customers\n2. View servers\n3. View tables\n4. Assign server to table\n5. Remove server from table");
     	System.out.print("Enter in a command (1-4): ");
     	
     	Scanner userInput = new Scanner(System.in);
 		String inputString = userInput.nextLine().strip().toLowerCase();
 		switch (inputString) {
 		case "1":
+			this.seatCustomers();
+			break;
+		case "2":
 			System.out.print(restaurant.getAllServersInfo());
 			break;
-		case "2": 
+		case "3": 
 			System.out.print(restaurant.toString());
 			break;
-		case "3":
-			assignServersToTables();
-			break;
 		case "4":
-			removeServerFromTable();
+			this.assignServersToTables();
+			break;
+		case "5":
+			this.removeServerFromTable();
 			break;
 		default:
 			System.out.println("Command not found. Please enter the NUMBER of the command!");
 			break;
 		}
+    }
+    
+    public void seatCustomers() {
+    	Scanner userInput = new Scanner(System.in);
+    	System.out.println(restaurant.getAvailableTables());
+    	System.out.print("How many customers should be seated?");
+    	int customerNum = userInput.nextInt();
+    	System.out.print("Enter the NUMBER of the table to seat them at (1-25): ");
+    	int tableNum = userInput.nextInt();
+    	restaurant.seatCustomers(customerNum, tableNum);
     }
     
     public void assignServersToTables() {
@@ -148,7 +161,7 @@ public class UserInterface {
             String serverName = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
 
             if (restaurant.serverIsHired(serverName)) {
-                System.out.print("\nEnter table number to assign " + serverName + " to (1-25): ");
+                System.out.print("\nEnter table NUMBER to assign " + serverName + " to (1-25): ");
                 int tableNum = userInput.nextInt();
                 restaurant.assignServerToTable(serverName, tableNum);
                 break; 
@@ -169,7 +182,7 @@ public class UserInterface {
             String serverName = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
 
             if (restaurant.serverIsHired(serverName)) {
-                System.out.print("\nEnter table number you'd like to remove" + serverName + " from (1-25): ");
+                System.out.print("\nEnter table NUMBER you'd like to remove" + serverName + " from (1-25): ");
                 int tableNum = userInput.nextInt();
                 restaurant.removeServerFromTable(serverName, tableNum);
                 break; 
@@ -189,25 +202,40 @@ public class UserInterface {
 		
 		switch (inputString) {
 		case "1":
-			System.out.print(restaurant.getAllServersInfo());
 			break;
 		case "2": 
-			System.out.print(restaurant.toString());
 			break;
 		case "3":
-			this.viewSales();
 			break;
 		case "4":
-			restaurant.getSalesTracker().getTotalTips();
-			break;
-		case "5": 
-			break;
-		case "6":
 			break;
 		default:
 			System.out.println("Command not found. Please enter the NUMBER of the command!");
 			break;
 	}
+    }
+    
+    public void takeOrders() {
+    	Scanner userInput = new Scanner(System.in);
+    	System.out.print("Which table are you taking orders from? (1-25): ");
+    	int tableNum = userInput.nextInt();
+    	
+    	int customers = restaurant.getNumCustomers(tableNum);
+    	
+    	for (int i = 0; i < customers; i++) {
+    		while(true) {
+    		System.out.println("\nCustumer #" + (i+1));
+    		System.out.print("Ordered item: ");
+    		String orderedItem = userInput.nextLine().strip().toLowerCase();
+    		System.out.print("Modification: ");
+    		String modification = userInput.nextLine().strip().toLowerCase();
+    		restaurant.orderItem(tableNum, i + 1, orderedItem, modification);
+    		
+    		System.out.println("Next customer? (Y/N) ");
+    		if(userInput.nextLine().trim().equalsIgnoreCase("Y")) break;
+    	}
+    	}
+    	// print order to show server
     }
     
     
