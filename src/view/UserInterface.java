@@ -51,8 +51,12 @@ public class UserInterface {
 			case "manage":
 				this.manage();
 				break;
+<<<<<<< Updated upstream
 			case "2":
 				this.host();
+=======
+		case "2":
+>>>>>>> Stashed changes
 				break;
 			case "host":
 				this.host();

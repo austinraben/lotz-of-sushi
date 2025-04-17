@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Comparator;
 import java.util.Objects;
 
 public class MenuItem {
@@ -30,17 +29,8 @@ public class MenuItem {
     	this.price = menuItem.price;
     	this.isModifiable = menuItem.isModifiable;
     	this.description = menuItem.description;
-    }
-    
-    public String getName() {
-    	return itemName;
-    }
-    
-    
-    
-    
-	// getters
-    
+    } 
+        
     public FoodCourse getFoodCourse() {
 		return foodCourse;
 	}
@@ -48,7 +38,6 @@ public class MenuItem {
 	public String getSpecificCategory() {
 		return specificCategory;
 	}
-
 
 	public String getItemName() {
 		return itemName;
@@ -66,12 +55,6 @@ public class MenuItem {
 		return description;
 	}
 	
-	@Override
-	public String toString() {
-		return itemName;
-	}
-	
-	// incremementSales() for SalesTracker
 	@Override
 	public int hashCode() {
 		return Objects.hash(itemName);
