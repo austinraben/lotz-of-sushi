@@ -80,7 +80,7 @@ public class UserInterface {
    
     public void manageServers() {
     	System.out.println("\nWhat would you like to manage?");
-    	System.out.println("1. View servers\n2. View tables\n3. Assign servers to tables\n4. Hire servers\n5. Fire servers");
+    	System.out.println("1. View servers\n2. View tables\n3. Assign server to table\n4. Remove server from table\n5. Hire servers\n6. Fire servers");
     	System.out.print("Enter in a command (1-4): ");
     	
     	Scanner userInput = new Scanner(System.in);
@@ -90,15 +90,18 @@ public class UserInterface {
 			case "1":
 				System.out.print(restaurant.getAllServersInfo());
 				break;
-			case "2":
-				
+			case "2": 
+				System.out.print(restaurant.toString());
 				break;
 			case "3":
 				assignServersToTables();
 				break;
 			case "4":
+				removeServerFromTable();
 				break;
-			case "5":
+			case "5": 
+				break;
+			case "6":
 				break;
 			default:
 				System.out.println("Command not found. Please enter the NUMBER of the command!");
@@ -107,17 +110,45 @@ public class UserInterface {
     }
     
     public void assignServersToTables() {
-    	System.out.println("Which server would you like to assign to a table?");
-    	System.out.print(restaurant.getListOfServers());
-    	System.out.print("Enter the NAME of the server: ");
-    	
     	Scanner userInput = new Scanner(System.in);
-		String serverName = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
-		
-		System.out.print("\nEnter table number to assign " + serverName + " to (1-25): ");
-		
-		int tableNum = userInput.nextInt();
-		restaurant.assignServerToTable(serverName, tableNum);
+
+        while (true) {
+            System.out.println("Which server would you like to assign to a table?");
+            System.out.println(restaurant.getListOfServers());
+            System.out.print("Enter the NAME of the server: ");
+
+            String serverName = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
+
+            if (restaurant.serverIsHired(serverName)) {
+                System.out.print("\nEnter table number to assign " + serverName + " to (1-25): ");
+                int tableNum = userInput.nextInt();
+                restaurant.assignServerToTable(serverName, tableNum);
+                break; 
+            } else {
+                System.out.println("This server does not exist. Please try again.\n");
+            }
+        }
+    }
+    
+    public void removeServerFromTable() {
+    	Scanner userInput = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Which server would you like to remove from a table?");
+            System.out.println(restaurant.getListOfServers());
+            System.out.print("Enter the NAME of the server: ");
+
+            String serverName = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
+
+            if (restaurant.serverIsHired(serverName)) {
+                System.out.print("\nEnter table number you'd like to remove" + serverName + " from (1-25): ");
+                int tableNum = userInput.nextInt();
+                restaurant.removeServerFromTable(serverName, tableNum);
+                break; 
+            } else {
+                System.out.println("This server does not exist. Please try again.\n");
+            }
+        }
     }
     
     

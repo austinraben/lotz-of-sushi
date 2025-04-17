@@ -25,7 +25,7 @@ public class Restaurant {
     private Menu dessertMenu;
     private SalesTracker sales;
 
-    public Restaurant(String name) {
+    public Restaurant(String name) { 
         this.name = name;
         this.servers = new HashMap<>();
         this.serverTables = new HashMap<>();
@@ -169,17 +169,36 @@ public class Restaurant {
     // map servers to tables
     public void assignServerToTable(String serverName, int tableNum) {
     	
+    	// only assigns server to table if table does not have a server
+    	if (!tableHasServer(tableNum)) {
+    		
     	// find Server object with given name
     	Server found = servers.get(serverName);
     	
     	Table table = getTableByNumber(tableNum);
-    	
     	// add table to Servers internal list
     	found.addTable(table);
     	
     	// add table to server/tables map
     	serverTables.get(found).add(table);
+    	
+    	} else System.out.println("This table has already been assigned.");
+    	}
+    
+    public void removeServerFromTable(String serverName, int tableNum) {
+    	if (tableHasServer(tableNum)) {
+    		// find Server object with given name
+        	Server found = servers.get(serverName);
+        	
+        	Table table = getTableByNumber(tableNum);
+        	// add table to Servers internal list
+        	found.removeTable(table);
+        	
+        	// add table to server/tables map
+        	serverTables.get(found).remove(table);
+    	} else System.out.println("This table has not yet been assigned.");
     }
+   
     
     // helper method - returns a list of copies of all current server objects
     private ArrayList<Server> getAlphabeticalServerList(){
@@ -231,6 +250,11 @@ public class Restaurant {
     	}
     	
     	return tableMap;
+    }
+   
+    // verifies whether a server exists in the restaurant
+    public boolean serverIsHired(String serverName) {
+    	return servers.keySet().contains(serverName);
     }
     
     // helper method

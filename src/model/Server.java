@@ -21,7 +21,7 @@ public class Server{
     public Server(Server s) {
     	this.serverName = s.serverName;
     	this.tipsEarned = s.tipsEarned;
-    	this.assignedTables = s.getTables();
+    	this.assignedTables = s.getTables(); 
     }
     
     // getters & setters
