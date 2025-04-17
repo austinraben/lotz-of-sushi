@@ -17,8 +17,8 @@ public class UserInterface {
     private java.util.Random random;
     
     private final String MAIN_MENU = "Welcome to Lotz of Sushi! What would you like to do today?\n\n"+
-    									"1. Manage Servers\n2. Act as a Server\n3. Search Menu\n4. View Menu\n5. View Sales\n" +
-    									"6. View Tips\n";
+    									"1. Manage\n2. Host\n3. Serve\n4. Search Menu\n5. View Menu";
+    									
     									
 
     public UserInterface(Restaurant restaurant) {
@@ -39,21 +39,23 @@ public class UserInterface {
     
     public void mainMenu() {
     	System.out.println(MAIN_MENU);
-    	System.out.print("Enter the number of the command you would like (1-6): ");
+    	System.out.print("Enter the number of the command you would like (1-5): ");
     	
     	Scanner userInput = new Scanner(System.in);
 		String inputString = userInput.nextLine().strip().toLowerCase();
 
 		switch(inputString) {
 			case "1":
-				this.manageServers();
+				this.manage();
 				break;
-			case "manage servers":
-				this.manageServers();
+			case "manage":
+				this.manage();
 				break;
 			case "2":
+				this.host();
 				break;
-			case "act as a server":
+			case "host":
+				this.host();
 				break;
 			case "3":
 				break;
@@ -64,7 +66,6 @@ public class UserInterface {
 				this.displayMenu();
 				break;
 			case "5":
-				this.viewSales();
 				break;
 			case "6":
 				break;
@@ -78,10 +79,11 @@ public class UserInterface {
 		String waitResponse = wait.nextLine();
     }
    
-    public void manageServers() {
-    	System.out.println("\nWhat would you like to manage?");
-    	System.out.println("1. View servers\n2. View tables\n3. Assign server to table\n4. Remove server from table\n5. Hire servers\n6. Fire servers");
-    	System.out.print("Enter in a command (1-4): ");
+    // view sales, view tips
+    public void manage() {
+    	System.out.println("\n======Manage======");
+    	System.out.println("1. View servers\n2. View tables\n3. View sales\n4. View tips\n5. Hire servers\n6. Fire servers");
+    	System.out.print("Enter in a command (1-6): ");
     	
     	Scanner userInput = new Scanner(System.in);
 		String inputString = userInput.nextLine().strip().toLowerCase();
@@ -94,10 +96,10 @@ public class UserInterface {
 				System.out.print(restaurant.toString());
 				break;
 			case "3":
-				assignServersToTables();
+				this.viewSales();
 				break;
 			case "4":
-				removeServerFromTable();
+				restaurant.getSalesTracker().getTotalTips();
 				break;
 			case "5": 
 				break;
@@ -106,6 +108,32 @@ public class UserInterface {
 			default:
 				System.out.println("Command not found. Please enter the NUMBER of the command!");
 				break;
+		}
+    }
+    
+    public void host() {
+    	System.out.println("\n=====Host=====");
+    	System.out.println("1. View servers\n2. View tables\n3. Assign server to table\n4. Remove server from table");
+    	System.out.print("Enter in a command (1-4): ");
+    	
+    	Scanner userInput = new Scanner(System.in);
+		String inputString = userInput.nextLine().strip().toLowerCase();
+		switch (inputString) {
+		case "1":
+			System.out.print(restaurant.getAllServersInfo());
+			break;
+		case "2": 
+			System.out.print(restaurant.toString());
+			break;
+		case "3":
+			assignServersToTables();
+			break;
+		case "4":
+			removeServerFromTable();
+			break;
+		default:
+			System.out.println("Command not found. Please enter the NUMBER of the command!");
+			break;
 		}
     }
     
@@ -149,6 +177,37 @@ public class UserInterface {
                 System.out.println("This server does not exist. Please try again.\n");
             }
         }
+    }
+    
+    public void serve() {
+    	System.out.println("\n=====Server=====");
+    	System.out.println("1. Take orders\n2. View tables\n3. Assign server to table\n4. Remove server from table");
+    	System.out.print("Enter in a command (1-4): ");
+    	
+    	Scanner userInput = new Scanner(System.in);
+		String inputString = userInput.nextLine().strip().toLowerCase();
+		
+		switch (inputString) {
+		case "1":
+			System.out.print(restaurant.getAllServersInfo());
+			break;
+		case "2": 
+			System.out.print(restaurant.toString());
+			break;
+		case "3":
+			this.viewSales();
+			break;
+		case "4":
+			restaurant.getSalesTracker().getTotalTips();
+			break;
+		case "5": 
+			break;
+		case "6":
+			break;
+		default:
+			System.out.println("Command not found. Please enter the NUMBER of the command!");
+			break;
+	}
     }
     
     

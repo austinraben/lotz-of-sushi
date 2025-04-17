@@ -22,7 +22,7 @@ public class Menu implements Iterable<String>{
         items.put(itemName, item);
     }
 
-    // Search itemName and return itenName if found, otherwise null
+    // Search itemName and return itemName if found, otherwise null
     public MenuItem searchItemByName(String itemName) {
         return items.get(itemName); 
     }

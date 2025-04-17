@@ -182,6 +182,8 @@ public class Restaurant {
     	// add table to server/tables map
     	serverTables.get(found).add(table);
     	
+    	System.out.println(serverName + " has been assigned to " + table.toString());
+    	
     	} else System.out.println("This table has already been assigned.");
     	}
     
@@ -196,6 +198,8 @@ public class Restaurant {
         	
         	// add table to server/tables map
         	serverTables.get(found).remove(table);
+        	System.out.println(serverName + " has been removed from " + table.toString());
+
     	} else System.out.println("This table has not yet been assigned.");
     }
    
@@ -236,7 +240,7 @@ public class Restaurant {
     // make a set amount of tables -- helper method (stay private)
     private ArrayList<Table> createTables() {
     	ArrayList<Table> tables = new ArrayList<Table>();
-    	for (int i = 0; i < 25; i++) {
+    	for (int i = 0; i < 26; i++) {
     		tables.add(new Table(i + 1));
     	}
     	return tables;
@@ -357,7 +361,7 @@ public class Restaurant {
     		// sum the bill of all customers at table
     		tableBill.updateBeforeTipPrice(c.getBill().getPriceBeforeTip());
     	}
-    	return tableBill;
+    	return new Bill(tableBill);
     }
     
     // changes the bill amount before tip for all customers
@@ -409,7 +413,6 @@ public class Restaurant {
     			return true;
     		}
     	}
-    	
     	return false;
     }
     
