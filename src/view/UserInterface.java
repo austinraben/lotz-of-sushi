@@ -17,7 +17,7 @@ public class UserInterface {
     private java.util.Random random;
     
     private final String MAIN_MENU = "Welcome to Lotz of Sushi! What would you like to do today?\n\n"+
-    									"1. Manage\n2. Host\n3. Serve\n4. Search Menu\n5. View Menu";
+    									"1. Manage\n2. Host\n3. Serve\n4. View Menu";
     									
     									
 
@@ -34,12 +34,11 @@ public class UserInterface {
         while (true) {
         	ui.mainMenu();
         }
-        //ui.displayMenu();
     }
     
     public void mainMenu() {
     	System.out.println(MAIN_MENU);
-    	System.out.print("Enter the number of the command you would like (1-5): ");
+    	System.out.print("Enter the number of the command you would like (1-4): ");
     	
     	Scanner userInput = new Scanner(System.in);
 		String inputString = userInput.nextLine().strip().toLowerCase();
@@ -60,9 +59,6 @@ public class UserInterface {
 			case "3":
 				break;
 			case "4":
-				this.displayMenu();
-				break;
-			case "view menu":
 				this.displayMenu();
 				break;
 			case "5":
@@ -241,54 +237,31 @@ public class UserInterface {
     
     // Display the menu, grouped by FoodCourse and then by specificCategory
     public void displayMenu() {
-        System.out.println("\n=== Lotz of Sushi Menu ===");
-        
-        // Iterate over all FoodCourse values for consistent ordering
-        for (FoodCourse course : FoodCourse.values()) {
-            Menu menu = restaurant.getMenu(course);
-            if (menu == null || menu.getItems().isEmpty()) {
-                continue; // Skip empty menus
-            }
+        System.out.print("\nWhich menu would you like to view? (App/Drink/Entree/Dessert): ");
+        String choice = scanner.nextLine().trim().toLowerCase();
 
-            // Group items by specificCategory
-            Map<String, List<MenuItem>> itemsByCategory = new HashMap<>();
-            // AI-generated.. creates anonymous ArrayList for each filtered category
-            for (MenuItem item : menu.getItems()) {
-                String category = item.getSpecificCategory().isEmpty() ? "Uncategorized" : item.getSpecificCategory();
-                itemsByCategory.computeIfAbsent(category, k -> new ArrayList<>()).add(item);
-            }
-
-            // Print the FoodCourse header
-            System.out.println("\n" + course + ":");
-
-            // Sort categories alphabetically
-            // AI-generated.. creates ArrayList<> and uses :: to sort)
-            List<String> sortedCategories = new ArrayList<>(itemsByCategory.keySet());
-            sortedCategories.sort(String::compareToIgnoreCase);
-
-            // Iterate over each category
-            for (String category : sortedCategories) {
-                // Skip "Uncategorized" header if it's the only category, or print it explicitly
-                if (!(sortedCategories.size() == 1 && category.equals("Uncategorized"))) {
-                    System.out.println("     " + category + ":");
-                }
-
-                // Sort items within the category by itemName
-                List<MenuItem> items = itemsByCategory.get(category);
-                items.sort((a, b) -> a.getItemName().compareToIgnoreCase(b.getItemName()));
-
-                // Print each item
-                for (MenuItem item : items) {
-                    String displayLine = String.format("        - %s ($%.2f)", item.getItemName(), item.getPrice());
-                    if (!item.getDescription().isEmpty()) {
-                        displayLine += " - " + item.getDescription();
-                    }
-                    System.out.println(displayLine);
-                }
-            }
+        Menu selectedMenu = null;
+        switch (choice) {
+            case "app":
+                selectedMenu = restaurant.getAppMenu();
+                break;
+            case "drink":
+                selectedMenu = restaurant.getDrinkMenu();
+                break;
+            case "entree":
+                selectedMenu = restaurant.getEntreeMenu();
+                break;
+            case "dessert":
+                selectedMenu = restaurant.getDessertMenu();
+                break;
+            default:
+                System.out.println("Invalid choice. Please select apps, drinks, entree, or dessert.");
+                return;
         }
-        // extra newline character for spacing
-        System.out.println();
+
+        if (selectedMenu != null) {
+            selectedMenu.printMenu();
+        }
     }
     
     public void viewSales() {
