@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class RestaurantTest {
 
 	@Test
-	void test() {
+	void testGetServerByTable() {
 		fail("Not yet implemented");
 	}
 
