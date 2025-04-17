@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Restaurant {
+	public static final String RESET = "\u001B[0m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String RED = "\u001B[31m";
+	
     private String name;
     private HashMap<String, Server> servers;
     private HashMap<Server, ArrayList<Table>> serverTables;
@@ -230,7 +234,8 @@ public class Restaurant {
     }
     
     // helper method
-    private String getServerByTable(Table table) {
+    private String getServerByTable(int tableNum) {
+    	Table table = tables.get(tableNum - 1);
     	String serverName = "";
     	
     	// searches for a given table
@@ -265,8 +270,9 @@ public class Restaurant {
     }
 
     
-    public void orderItem(Table table, int orderNum, String item, String modification) {
+    public void orderItem(int tableNum, int orderNum, String item, String modification) {
     	
+    	Table table = tables.get(tableNum - 1);
     	// get customer associated with given orderNum
     	Customer customer = tableMap.get(table).get(orderNum - 1);
     	
@@ -277,8 +283,9 @@ public class Restaurant {
     }
     
     // helper method -- closes an individual order 
-    public void closeOrder(Table table, int orderNum, double tipAmt) {
+    public void closeOrder(int tableNum, int orderNum, double tipAmt) {
     	
+    	Table table = tables.get(tableNum - 1);
     	// add tip to customers bill
     	Customer customer = tableMap.get(table).get(orderNum - 1);
     	customer.tip(tipAmt);
@@ -290,7 +297,7 @@ public class Restaurant {
     	addToClosedOrders(customer.getOrder());
     	
     	// add tip to servers tip
-    	Server server = servers.get(getServerByTable(table));
+    	Server server = servers.get(getServerByTable(tableNum));
     	server.addTip(tipAmt);
     	sales.updateServerTips(servers);
     	
@@ -305,16 +312,17 @@ public class Restaurant {
     	closedOrders.add(closedOrder);
     }
     
-    public Bill getBillFromCustomer(Table table, int orderNumber) {
+    public Bill getBillFromCustomer(int tableNum, int orderNumber) {
+    	Table table = tables.get(tableNum - 1);
     	Customer customer = tableMap.get(table).get(orderNumber - 1);
     	return customer.getBill();
     }
     
     
     // server functionality
-    public Bill getBillByTable(Table table) {
+    public Bill getBillByTable(int tableNum) {
     	
-
+    	Table table = tables.get(tableNum - 1);
     	// create new table bill
     	Bill tableBill = new Bill();
 
@@ -329,10 +337,11 @@ public class Restaurant {
     }
     
     // changes the bill amount before tip for all customers
-    public void splitBillEvenly(Table table){
+    public void splitBillEvenly(int tableNum){
     	
+    	Table table = tables.get(tableNum - 1);
     	// creates a tableBill that is the sum of all current bills at the table
-    	Bill tableBill = getBillByTable(table);
+    	Bill tableBill = getBillByTable(tableNum);
     	
     	// get customers at table
     	ArrayList<Customer> customers = tableMap.get(table);
@@ -362,6 +371,23 @@ public class Restaurant {
         System.out.println("Can't find menu for item.");
         return null;
      }
+     
+    public boolean tableSeated(int tableNumber) {
+    	Table table = tables.get(tableNumber - 1);
+    	int customersAtTable = tableMap.get(table).size();
+    	return (customersAtTable > 0);
+    }
+    
+    public boolean tableHasServer(int tableNumber) {
+    	Table table = tables.get(tableNumber - 1);
+    	for (ArrayList<Table> st : serverTables.values()) {
+    		if (st.contains(table)) {
+    			return true;
+    		}
+    	}
+    	
+    	return false;
+    }
     
     // getters
      
@@ -394,4 +420,112 @@ public class Restaurant {
 	public void setTableMap(HashMap<Table, ArrayList<Customer>> tableMap) {
 		this.tableMap = tableMap;
 	}
+	
+	@Override
+	public String toString() {
+		// Start building the restaurant layout
+        StringBuilder restaurant = new StringBuilder();
+
+        restaurant.append(" ------------------------------------------ \n")
+                  .append(" |                   |                    | \n")
+                  .append(" |   RESTROOMS       |     KITCHEN        | \n")
+                  .append(" |                   |                    | \n")
+                  .append(" --DOOR----------------------------DOOR---- \n");
+
+        for (int i = 0; i < 24; i += 3) {
+            restaurant.append(" |                                        | \n");
+            restaurant.append(" |");
+
+            // Add 3 table labels per row
+            for (int j = 0; j < 3; j++) {
+                if (i + j >= 24) break;
+
+                String tableLabel = String.format(" Table %d:", i + j + 1);
+                tableLabel = (tableSeated(i + j + 1) ? RED : GREEN) + tableLabel + RESET;
+                restaurant.append(String.format(" %-13s", tableLabel));
+                if ((i + j + 1) < 10) {
+                	restaurant.append("   ");
+                }
+                else {
+                	restaurant.append("  ");
+                }
+            }
+            restaurant.append(" |\n");
+
+            restaurant.append(" |");
+
+            // Add up to 3 server labels
+            for (int j = 0; j < 3; j++) {
+                if (i + j >= 24) break;
+
+                String serverLabel = tableHasServer(i + j + 1) ? GREEN + " SERVER " + RESET : RED + " SERVER " + RESET;
+                restaurant.append(" ");
+                restaurant.append(String.format(" %-13s", serverLabel));
+                restaurant.append("   ");
+            }
+            restaurant.append(" |\n");
+        }
+        // 25th table in middle
+        restaurant.append(" |                                        |\n");
+        restaurant.append(" |              ");
+        String tableLabel = "Table 25:";
+        tableLabel = (tableSeated(25) ? RED : GREEN) + tableLabel + RESET;
+        restaurant.append(String.format(" %-13s", tableLabel));
+        restaurant.append("                |\n");
+        restaurant.append(" |              ");
+        String serverLabel = tableHasServer(25) ? GREEN + " SERVER " + RESET : RED + " SERVER " + RESET;
+        restaurant.append(String.format(" %-13s", serverLabel));
+        restaurant.append("                 |\n");
+        
+        
+        restaurant.append(" |                                        |\n")
+                  .append(" | HOSTESS                                |\n")
+                  .append(" |                                        |\n")
+                  .append(" --ENTRANCE-------------------------------- \n");
+
+        return restaurant.toString();
+    }
 }
+	
+	/*
+	@Override
+	public String toString() {
+		String restaurant = " ------------------------------------------ \n" +
+							" |                   |                    | \n" +
+							" |   RESTROOMS       |     KITCHEN        | \n" +
+							" |                   |                    | \n" +
+							" --DOOR----------------------------DOOR---- \n" +
+							" |                                        | \n" +
+							" | Table 1:     Table 2:     Table 3:     | \n" +
+							" |  SERVER       SERVER       SERVER      | \n" +
+							" |                                        | \n" +
+							" | Table 4:     Table 5:     Table 6:     | \n" +
+							" |  SERVER       SERVER       SERVER      | \n" +
+							" |                                        | \n" +
+							" | Table 7:     Table 8:     Table 9:     | \n" +
+							" |  SERVER       SERVER       SERVER      | \n" +
+							" |                                        | \n" +
+							" | Table 10:    Table 11:    Table 12:    | \n" +
+							" |  SERVER       SERVER       SERVER      | \n" +
+							" |                                        | \n" +
+							" | Table 13:    Table 14:    Table 15:    | \n" +
+							" |  SERVER       SERVER       SERVER      | \n" +
+							" |                                        | \n" +
+							" | Table 16:    Table 17:    Table 18:    | \n" +
+							" |  SERVER       SERVER       SERVER      | \n" +
+							" |                                        | \n" +
+							" | Table 19:    Table 20:    Table 21:    | \n" +
+							" |  SERVER       SERVER       SERVER      | \n" +
+							" |                                        | \n" +
+							" | Table 22:    Table 23:    Table 24:    | \n" +
+							" |  SERVER       SERVER       SERVER      | \n" +
+							" |                                        | \n" +
+							" |              Table 25:                 | \n" +
+							" |               SERVER                   | \n" +
+							" |                                        | \n" +
+							" | HOSTESS                                | \n" +
+							" |                                        | \n" +
+							" --ENTRANCE-------------------------------- \n";
+
+	}
+*/

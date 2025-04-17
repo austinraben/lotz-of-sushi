@@ -27,10 +27,9 @@ class SalesTrackerTest {
 	void testUpdateServerTips() {
 		Restaurant myRestaurant = new Restaurant("Test Sales");
 		myRestaurant.seatCustomers(1, 1);
-		Table myTable = myRestaurant.getTableByNumber(1);
 		myRestaurant.assignServerToTable("Colin Gale", 1);
-		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
-		myRestaurant.closeOrder(myTable, 1, 5.50);
+		myRestaurant.orderItem(1, 1, "Miso Soup", "None");
+		myRestaurant.closeOrder(1, 1, 5.50);
 		
 		SalesTracker mySales = myRestaurant.getSalesTracker();
 		
@@ -42,12 +41,11 @@ class SalesTrackerTest {
 	void testQuantitySoldSortedString() {
 		Restaurant myRestaurant = new Restaurant("Test Sales");
 		myRestaurant.seatCustomers(1, 1);
-		Table myTable = myRestaurant.getTableByNumber(1);
 		myRestaurant.assignServerToTable("Colin Gale", 1);
-		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
-		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
-		myRestaurant.orderItem(myTable, 1, "Colin's Roll", "None");
-		myRestaurant.closeOrder(myTable, 1, 5.50);
+		myRestaurant.orderItem(1, 1, "Miso Soup", "None");
+		myRestaurant.orderItem(1, 1, "Miso Soup", "None");
+		myRestaurant.orderItem(1, 1, "Colin's Roll", "None");
+		myRestaurant.closeOrder(1, 1, 5.50);
 		
 		SalesTracker mySales = myRestaurant.getSalesTracker();
 		
@@ -72,12 +70,11 @@ class SalesTrackerTest {
 	void testTotalSalesSortedString() {
 		Restaurant myRestaurant = new Restaurant("Test Sales");
 		myRestaurant.seatCustomers(1, 1);
-		Table myTable = myRestaurant.getTableByNumber(1);
 		myRestaurant.assignServerToTable("Colin Gale", 1);
-		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
-		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
-		myRestaurant.orderItem(myTable, 1, "Colin's Roll", "None");
-		myRestaurant.closeOrder(myTable, 1, 5.50);
+		myRestaurant.orderItem(1, 1, "Miso Soup", "None");
+		myRestaurant.orderItem(1, 1, "Miso Soup", "None");
+		myRestaurant.orderItem(1, 1, "Colin's Roll", "None");
+		myRestaurant.closeOrder(1, 1, 5.50);
 		
 		SalesTracker mySales = myRestaurant.getSalesTracker();
 		
@@ -103,10 +100,9 @@ class SalesTrackerTest {
 	void testQuantitySoldString() {
 		Restaurant myRestaurant = new Restaurant("Test Sales");
 		myRestaurant.seatCustomers(1, 1);
-		Table myTable = myRestaurant.getTableByNumber(1);
 		myRestaurant.assignServerToTable("Colin Gale", 1);
-		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
-		myRestaurant.closeOrder(myTable, 1, 5.50);
+		myRestaurant.orderItem(1, 1, "Miso Soup", "None");
+		myRestaurant.closeOrder(1, 1, 5.50);
 		
 		SalesTracker mySales = myRestaurant.getSalesTracker();
 		
@@ -129,10 +125,9 @@ class SalesTrackerTest {
 	void testTotalSalesString() {
 		Restaurant myRestaurant = new Restaurant("Test Sales");
 		myRestaurant.seatCustomers(1, 1);
-		Table myTable = myRestaurant.getTableByNumber(1);
 		myRestaurant.assignServerToTable("Colin Gale", 1);
-		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
-		myRestaurant.closeOrder(myTable, 1, 5.50);
+		myRestaurant.orderItem(1, 1, "Miso Soup", "None");
+		myRestaurant.closeOrder(1, 1, 5.50);
 		
 		SalesTracker mySales = myRestaurant.getSalesTracker();
 		
@@ -158,10 +153,9 @@ class SalesTrackerTest {
 	void testTotalTipsString() {
 		Restaurant myRestaurant = new Restaurant("Test Sales");
 		myRestaurant.seatCustomers(1, 1);
-		Table myTable = myRestaurant.getTableByNumber(1);
 		myRestaurant.assignServerToTable("Colin Gale", 1);
-		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
-		myRestaurant.closeOrder(myTable, 1, 5.50);
+		myRestaurant.orderItem(1, 1, "Miso Soup", "None");
+		myRestaurant.closeOrder(1, 1, 5.50);
 		
 		SalesTracker mySales = myRestaurant.getSalesTracker();
 		
@@ -180,15 +174,12 @@ class SalesTrackerTest {
 		Restaurant myRestaurant = new Restaurant("Test Sales");
 		myRestaurant.seatCustomers(1, 1);
 		myRestaurant.seatCustomers(1, 2);
-		Table myTable = myRestaurant.getTableByNumber(1);
-		Table myTable2 = myRestaurant.getTableByNumber(2);
-		
 		myRestaurant.assignServerToTable("Colin Gale", 1);
 		myRestaurant.assignServerToTable("Ruby Gilliland", 2);
-		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
-		myRestaurant.closeOrder(myTable, 1, 5.50);
-		myRestaurant.orderItem(myTable2, 1, "Ruby's Roll", "None");
-		myRestaurant.closeOrder(myTable2, 1, 2.50);
+		myRestaurant.orderItem(1, 1, "Miso Soup", "None");
+		myRestaurant.closeOrder(1, 1, 5.50);
+		myRestaurant.orderItem(2, 1, "Ruby's Roll", "None");
+		myRestaurant.closeOrder(2, 1, 2.50);
 		
 		
 		SalesTracker mySales = myRestaurant.getSalesTracker();
@@ -206,16 +197,13 @@ class SalesTrackerTest {
 	void testGetHighestTippedServer() {
 		Restaurant myRestaurant = new Restaurant("Test Sales");
 		myRestaurant.seatCustomers(1, 1);
-		myRestaurant.seatCustomers(1, 2);
-		Table myTable = myRestaurant.getTableByNumber(1);
-		Table myTable2 = myRestaurant.getTableByNumber(2);
-		
+		myRestaurant.seatCustomers(1, 2);		
 		myRestaurant.assignServerToTable("Colin Gale", 1);
 		myRestaurant.assignServerToTable("Ruby Gilliland", 2);
-		myRestaurant.orderItem(myTable, 1, "Miso Soup", "None");
-		myRestaurant.closeOrder(myTable, 1, 5.50);
-		myRestaurant.orderItem(myTable2, 1, "Ruby's Roll", "None");
-		myRestaurant.closeOrder(myTable2, 1, 2.50);
+		myRestaurant.orderItem(1, 1, "Miso Soup", "None");
+		myRestaurant.closeOrder(1, 1, 5.50);
+		myRestaurant.orderItem(2, 1, "Ruby's Roll", "None");
+		myRestaurant.closeOrder(2, 1, 2.50);
 		
 		SalesTracker mySales = myRestaurant.getSalesTracker();
 		

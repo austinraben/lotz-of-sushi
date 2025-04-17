@@ -8,30 +8,36 @@ class BillTest {
 
 	@Test
 	void testUpdateBeforeTip() {
-		Restaurant myRestaurant = new Restaurant("Bill Test");
-		myRestaurant.seatCustomers(1, 1);
-		Table myTable = myRestaurant.getTableByNumber(1);
-		myRestaurant.assignServerToTable("Colin Gale", 1);
-		myRestaurant.orderItem(myTable, 1, "Spicy Chicken Ramen", "None");
-
-		
-		Bill myBill = myRestaurant.getBillByTable(myTable);
-		myRestaurant.closeOrder(myTable, 1, 2.50);
+		Bill myBill = new Bill();
+		myBill.updateBeforeTipPrice(8.99);
 		assertEquals(myBill.getPriceBeforeTip(), 8.99);
 	}
 	
 	@Test
-	void testTipPrice() {
-		Restaurant myRestaurant = new Restaurant("Bill Test");
-		myRestaurant.seatCustomers(1, 1);
-		Table myTable = myRestaurant.getTableByNumber(1);
-		myRestaurant.assignServerToTable("Colin Gale", myTable);
-		myRestaurant.orderItem(myTable, 1, "Spicy Chicken Ramen", "None");
-
-		
-		Bill myBill = myRestaurant.getBillByTable(myTable);
+	void testUpdateTipPrice() {
+		Bill myBill = new Bill();
+		myBill.updateBeforeTipPrice(8.99);
 		myBill.updateTipPrice(5.99);
 		assertEquals(myBill.getPriceAfterTip(), 14.98);
+	}
+	
+	@Test
+	void testCopyConstructor() {
+		Bill myBill = new Bill();
+		myBill.updateBeforeTipPrice(8.99);
+		myBill.updateTipPrice(5.99);
+		Bill myNewBill = new Bill(myBill);
+		assertEquals(myBill.getPriceAfterTip(), 14.98);
+	}
+	
+	@Test
+	void testChangeBeforeTipPrice() {
+		Bill myBill = new Bill();
+		myBill.updateBeforeTipPrice(8.99);
+		myBill.updateTipPrice(5.99);
+		myBill.changeBeforeTipPrice(7.99);
+		assertEquals(myBill.getPriceBeforeTip(), 7.99);
+		assertEquals(myBill.getPriceAfterTip(), 13.98);
 	}
 
 }

@@ -22,7 +22,9 @@ public class Bill {
     }
     
     public void changeBeforeTipPrice(double newPrice) {
+    	priceAfterTip += newPrice - priceBeforeTip;
     	priceBeforeTip = newPrice;
+    	
     }
     
     public void updateTipPrice(double tip) {
