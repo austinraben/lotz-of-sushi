@@ -1,16 +1,18 @@
 package model;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
-import org.junit.jupiter.api.Test;
-
-class AllTests {
-
-	@Test
-	void test() {
-		fail("Not yet implemented");
-	}
-	
-	// Will have a Suite of tests for every backend class
-
+@Suite
+@SelectClasses({
+    BillTest.class,
+    CustomerTest.class,
+    MenuTest.class,
+    MenuItemTest.class,
+    OrderTest.class,
+    SalesTrackerTest.class,
+    TableTest.class
+})
+public class AllTests {
+	// Annotations above handle all tests
 }
