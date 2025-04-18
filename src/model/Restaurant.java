@@ -207,9 +207,9 @@ public class Restaurant {
     	// add table to server/tables map
     	serverTables.get(found).add(table);
     	
-    	System.out.println(serverName + " has been assigned to " + table.toString());
+    	System.out.println("\n" + serverName + " has been assigned to Table " + tableNum);
     	
-    	} else System.out.println("This table has already been assigned.");
+    	} else System.out.println("\nThis table has already been assigned.");
     	}
     
     public void removeServerFromTable(String serverName, int tableNum) {
@@ -225,7 +225,7 @@ public class Restaurant {
         	serverTables.get(found).remove(table);
         	System.out.println(serverName + " has been removed from " + table.toString());
 
-    	} else System.out.println("This table has not yet been assigned.");
+    	} else System.out.println("\nThis table has not yet been assigned.");
     }
    
     
@@ -267,7 +267,7 @@ public class Restaurant {
     // make a set amount of tables -- helper method (stay private)
     private ArrayList<Table> createTables() {
     	ArrayList<Table> tables = new ArrayList<Table>();
-    	for (int i = 0; i < 26; i++) {
+    	for (int i = 0; i < 25; i++) {
     		tables.add(new Table(i + 1));
     	}
     	return tables;
@@ -304,6 +304,7 @@ public class Restaurant {
     	}
     	return serverName;
     }
+    
     
     public Table getTableByNumber(int tableNumber) {
     	if (tableNumber < tables.size())
@@ -439,14 +440,23 @@ public class Restaurant {
     	Customer customer = tableMap.get(table).get(orderNum - 1);
     	return customer.getOrder();
     }
-
+    
+    public String getTablesFromServer(String serverName) {
+    	Server myServer = servers.get(serverName);
+    	String tableStr = "TABLES: ";
+		for (Table t : myServer.getTables()) {
+			tableStr += t.getTableNumber() + ",";
+		}
+		
+		return tableStr;
+    }
      
-     public String getAvailableTables() {
+    public String getAvailableTables() {
     	 String allAvailable = "OPEN TABLES: ";
     	 for (Table t : tables) {
-    		 if (!(tableSeated(t.getTableNumber()))) allAvailable += t.getTableNumber() + " ";
+    		 if (!(tableSeated(t.getTableNumber()))) allAvailable += t.getTableNumber() + ",";
     	 }
-    	 return allAvailable.strip();
+    	 return allAvailable.substring(0, allAvailable.length() - 1);
      }
      
      public int getNumCustomers(int tableNum) {
@@ -475,6 +485,17 @@ public class Restaurant {
     	tableMap.put(table, new ArrayList<Customer>());
     }
     
+    public Order getTableOrder(int tableNumber) {
+    	Table table = tables.get(tableNumber - 1);
+    	int customers = getNumCustomers(tableNumber);
+    	Order combinedOrder = new Order(customers + 1);
+    	for (Customer c : tableMap.get(table)) {
+    		for (OrderedItem oi : c.getOrder().getItems())
+    		combinedOrder.orderItem(oi.getItemName(), oi.getModification(), getMenu(oi.getFoodCourse()));
+    	}
+    	
+    	return combinedOrder;
+    }
     
     // getters
      
