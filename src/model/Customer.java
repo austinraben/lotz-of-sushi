@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Customer {
     private Order order;
@@ -48,5 +49,19 @@ public class Customer {
     public Order getOrder() {
     	return new Order(order);
     }
+    
+    @Override
+    public int hashCode() {
+    	return Objects.hash(this.assignedTable) + this.getOrderNum();
+    }
+    
+    @Override
+    public boolean equals(Object other) {
+    	if (this == other) return true;
+    	if (other == null || this.getClass() != other.getClass()) return false;
+    	
+    	return this.assignedTable.equals(((Customer) other).assignedTable) && this.getOrderNum() == ((Customer) other).getOrderNum();
+    }
+    
     
 }

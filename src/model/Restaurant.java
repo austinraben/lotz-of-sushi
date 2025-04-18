@@ -2,6 +2,7 @@ package model;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,6 +83,9 @@ public class Restaurant {
             while ((line = reader.readLine()) != null) {
             	// skip empty lines and comments
                 if (line.trim().isEmpty() || line.trim().startsWith("//")) {
+                	if (line.trim().equals("//MANAGER")){
+                		break;
+                	}
                     continue;
                 }
                 
@@ -164,6 +168,27 @@ public class Restaurant {
     	
     	// add Server to server/tables map
     	serverTables.put(newServer, new ArrayList<Table>());
+    	
+    	// update text file
+    	ArrayList<Server> allServers = getAlphabeticalServerList();
+    	String filename = System.getProperty("user.dir") + "/data/staff.txt";
+    	try {
+    		FileWriter userFile = new FileWriter(filename);
+    		userFile.write("//SERVERS\n");
+    		for (Server s : allServers) {
+    			userFile.write(s.getServerName() + "\n");
+    		}
+    		userFile.write("//MANAGER\n");
+    		userFile.close();
+    		
+    	}
+    	catch(IOException e) {
+    		System.out.println("File not found.");
+			return;
+    	}
+    	
+    	
+    	
     }
     
     // map servers to tables
@@ -196,7 +221,9 @@ public class Restaurant {
         	
         	// add table to server/tables map
         	serverTables.get(found).remove(table);
-    	} else System.out.println("This table has not yet been assigned.");
+    	} else {
+    		System.out.println("This table has not yet been assigned.");
+    	}
     }
    
     
@@ -258,7 +285,7 @@ public class Restaurant {
     }
     
     // helper method
-    private String getServerByTable(int tableNum) {
+    public String getServerByTable(int tableNum) {
     	Table table = tables.get(tableNum - 1);
     	String serverName = "";
     	
@@ -326,10 +353,10 @@ public class Restaurant {
     	sales.updateServerTips(servers);
     	
     	// TODO print order toString() ?
-    	
-    	// remove customer from table
-    	tableMap.get(table).remove(customer);    	
+    		
     }
+    
+    
     
     // helper method -- adds closed orders to a list
     private void addToClosedOrders(Order closedOrder) {
@@ -339,6 +366,7 @@ public class Restaurant {
     public Bill getBillFromCustomer(int tableNum, int orderNumber) {
     	Table table = tables.get(tableNum - 1);
     	Customer customer = tableMap.get(table).get(orderNumber - 1);
+    	
     	return customer.getBill();
     }
     
@@ -352,11 +380,14 @@ public class Restaurant {
 
     	// iterate through customers at given table
     	ArrayList<Customer> customers = tableMap.get(table);
-    	for (Customer c : customers) {
-    		
+    	int size = customers.size();
+    	for (int i = 0; i < size; i++) {
+    		Bill customerBill = getBillFromCustomer(tableNum, i + 1);
     		// sum the bill of all customers at table
-    		tableBill.updateBeforeTipPrice(c.getBill().getPriceBeforeTip());
+    		tableBill.updateBeforeTipPrice(customerBill.getPriceBeforeTip());
+    		tableBill.updateTipPrice(customerBill.getPriceAfterTip() - customerBill.getPriceBeforeTip());
     	}
+    	
     	return tableBill;
     }
     
@@ -395,7 +426,14 @@ public class Restaurant {
         System.out.println("Can't find menu for item.");
         return null;
      }
-     
+    
+    public Order getOrderFromCustomer(int tableNum, int orderNum) {
+    	Table table = tables.get(tableNum - 1);
+    	if (orderNum - 1 >= tableMap.get(table).size())
+    		return null;
+    	Customer customer = tableMap.get(table).get(orderNum - 1);
+    	return customer.getOrder();
+    }
     public boolean tableSeated(int tableNumber) {
     	Table table = tables.get(tableNumber - 1);
     	int customersAtTable = tableMap.get(table).size();
@@ -412,6 +450,12 @@ public class Restaurant {
     	
     	return false;
     }
+    
+    public void clearCustomersFromTable(int tableNumber) {
+    	Table table = tables.get(tableNumber - 1);
+    	tableMap.put(table, new ArrayList<Customer>());
+    }
+    
     
     // getters
      
@@ -437,6 +481,10 @@ public class Restaurant {
     
     public SalesTracker getSalesTracker() {
     	return new SalesTracker(sales);
+    }
+    
+    public ArrayList<Order> getClosedOrders(){
+    	return new ArrayList<>(closedOrders);
     }
     
     // sorters
