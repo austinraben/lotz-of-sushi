@@ -207,6 +207,8 @@ public class Restaurant {
     	// add table to server/tables map
     	serverTables.get(found).add(table);
     	
+    	System.out.println(serverName + " has been assigned to " + table.toString());
+    	
     	} else System.out.println("This table has already been assigned.");
     	}
     
@@ -221,9 +223,9 @@ public class Restaurant {
         	
         	// add table to server/tables map
         	serverTables.get(found).remove(table);
-    	} else {
-    		System.out.println("This table has not yet been assigned.");
-    	}
+        	System.out.println(serverName + " has been removed from " + table.toString());
+
+    	} else System.out.println("This table has not yet been assigned.");
     }
    
     
@@ -250,6 +252,8 @@ public class Restaurant {
     	return allServers;
     }
     
+    
+    // returns a numbered list of all current servers' names
     public String getListOfServers() {
     	ArrayList<Server> serverList = getAlphabeticalServerList();
     	String serverStrList = "";
@@ -263,7 +267,7 @@ public class Restaurant {
     // make a set amount of tables -- helper method (stay private)
     private ArrayList<Table> createTables() {
     	ArrayList<Table> tables = new ArrayList<Table>();
-    	for (int i = 0; i < 25; i++) {
+    	for (int i = 0; i < 26; i++) {
     		tables.add(new Table(i + 1));
     	}
     	return tables;
@@ -311,6 +315,7 @@ public class Restaurant {
     // customer interaction
     public void seatCustomers(int customerAmt, int tableNum) {
         Table table = tables.get(tableNum - 1);
+        if (!(tableSeated(table.getTableNumber()))) {
         ArrayList<Customer> customers = new ArrayList<Customer>();
 
         for (int i = 0; i < customerAmt; i++) {
@@ -318,12 +323,13 @@ public class Restaurant {
             customers.add(newCustomer);
         }
         tableMap.put(table, customers);
-    }
-
+        } else System.out.println("This table has already been seated.");
+        }
     
+    // if modifications are allowed
     public void orderItem(int tableNum, int orderNum, String item, String modification) {
     	
-    	Table table = tables.get(tableNum - 1);
+    	Table table = getTableByNumber(tableNum);
     	// get customer associated with given orderNum
     	Customer customer = tableMap.get(table).get(orderNum - 1);
     	
@@ -352,8 +358,7 @@ public class Restaurant {
     	server.addTip(tipAmt);
     	sales.updateServerTips(servers);
     	
-    	// TODO print order toString() ?
-    		
+    	// TODO print order toString()
     }
     
     
@@ -368,8 +373,7 @@ public class Restaurant {
     	Customer customer = tableMap.get(table).get(orderNumber - 1);
     	
     	return customer.getBill();
-    }
-    
+    } 
     
     // server functionality
     public Bill getBillByTable(int tableNum) {
@@ -387,8 +391,8 @@ public class Restaurant {
     		tableBill.updateBeforeTipPrice(customerBill.getPriceBeforeTip());
     		tableBill.updateTipPrice(customerBill.getPriceAfterTip() - customerBill.getPriceBeforeTip());
     	}
-    	
-    	return tableBill;
+
+    	return new Bill(tableBill);
     }
     
     // changes the bill amount before tip for all customers
@@ -426,6 +430,7 @@ public class Restaurant {
         System.out.println("Can't find menu for item.");
         return null;
      }
+
     
     public Order getOrderFromCustomer(int tableNum, int orderNum) {
     	Table table = tables.get(tableNum - 1);
@@ -434,6 +439,21 @@ public class Restaurant {
     	Customer customer = tableMap.get(table).get(orderNum - 1);
     	return customer.getOrder();
     }
+
+     
+     public String getAvailableTables() {
+    	 String allAvailable = "OPEN TABLES: ";
+    	 for (Table t : tables) {
+    		 if (!(tableSeated(t.getTableNumber()))) allAvailable += t.getTableNumber() + " ";
+    	 }
+    	 return allAvailable.strip();
+     }
+     
+     public int getNumCustomers(int tableNum) {
+    	 Table t = getTableByNumber(tableNum);
+    	 return tableMap.get(t).size();
+     }
+     
     public boolean tableSeated(int tableNumber) {
     	Table table = tables.get(tableNumber - 1);
     	int customersAtTable = tableMap.get(table).size();
@@ -447,7 +467,6 @@ public class Restaurant {
     			return true;
     		}
     	}
-    	
     	return false;
     }
     

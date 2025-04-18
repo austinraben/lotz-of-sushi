@@ -32,6 +32,11 @@ public class Table {
 		Table other = (Table) obj;
 		return tableNumber == other.tableNumber;
 	}
+	
+	@Override
+	public String toString() {
+		return "TABLE " + tableNumber + 1;
+	}
 
     
     

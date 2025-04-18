@@ -17,8 +17,8 @@ public class UserInterface {
     private java.util.Random random;
     
     private final String MAIN_MENU = "Welcome to Lotz of Sushi! What would you like to do today?\n\n"+
-    									"1. Manage Servers\n2. Act as a Server\n3. Search Menu\n4. View Menu\n5. View Sales\n" +
-    									"6. View Tips\n";
+    									"1. Manage\n2. Host\n3. Serve\n4. View Menu";
+    									
     									
 
     public UserInterface(Restaurant restaurant) {
@@ -34,37 +34,34 @@ public class UserInterface {
         while (true) {
         	ui.mainMenu();
         }
-        //ui.displayMenu();
     }
     
     public void mainMenu() {
     	System.out.println(MAIN_MENU);
-    	System.out.print("Enter the number of the command you would like (1-6): ");
+    	System.out.print("Enter the number of the command you would like (1-4): ");
     	
     	Scanner userInput = new Scanner(System.in);
 		String inputString = userInput.nextLine().strip().toLowerCase();
 
 		switch(inputString) {
 			case "1":
-				this.manageServers();
+				this.manage();
 				break;
-			case "manage servers":
-				this.manageServers();
+			case "manage":
+				this.manage();
 				break;
 			case "2":
+				this.host();
 				break;
-			case "act as a server":
+			case "host":
+				this.host();
 				break;
 			case "3":
 				break;
 			case "4":
 				this.displayMenu();
 				break;
-			case "view menu":
-				this.displayMenu();
-				break;
 			case "5":
-				this.viewSales();
 				break;
 			case "6":
 				break;
@@ -78,10 +75,11 @@ public class UserInterface {
 		String waitResponse = wait.nextLine();
     }
    
-    public void manageServers() {
-    	System.out.println("\nWhat would you like to manage?");
-    	System.out.println("1. View servers\n2. View tables\n3. Assign server to table\n4. Remove server from table\n5. Hire servers\n6. Fire servers");
-    	System.out.print("Enter in a command (1-4): ");
+    // view sales, view tips
+    public void manage() {
+    	System.out.println("\n======Manage======");
+    	System.out.println("1. View servers\n2. View tables\n3. View sales\n4. View tips\n5. Hire servers\n6. Fire servers");
+    	System.out.print("Enter in a command (1-6): ");
     	
     	Scanner userInput = new Scanner(System.in);
 		String inputString = userInput.nextLine().strip().toLowerCase();
@@ -94,10 +92,10 @@ public class UserInterface {
 				System.out.print(restaurant.toString());
 				break;
 			case "3":
-				assignServersToTables();
+				this.viewSales();
 				break;
 			case "4":
-				removeServerFromTable();
+				restaurant.getSalesTracker().getTotalTips();
 				break;
 			case "5": 
 				break;
@@ -107,6 +105,45 @@ public class UserInterface {
 				System.out.println("Command not found. Please enter the NUMBER of the command!");
 				break;
 		}
+    }
+    
+    public void host() {
+    	System.out.println("\n=====Host=====");
+    	System.out.println("1. Seat customers\n2. View servers\n3. View tables\n4. Assign server to table\n5. Remove server from table");
+    	System.out.print("Enter in a command (1-4): ");
+    	
+    	Scanner userInput = new Scanner(System.in);
+		String inputString = userInput.nextLine().strip().toLowerCase();
+		switch (inputString) {
+		case "1":
+			this.seatCustomers();
+			break;
+		case "2":
+			System.out.print(restaurant.getAllServersInfo());
+			break;
+		case "3": 
+			System.out.print(restaurant.toString());
+			break;
+		case "4":
+			this.assignServersToTables();
+			break;
+		case "5":
+			this.removeServerFromTable();
+			break;
+		default:
+			System.out.println("Command not found. Please enter the NUMBER of the command!");
+			break;
+		}
+    }
+    
+    public void seatCustomers() {
+    	Scanner userInput = new Scanner(System.in);
+    	System.out.println(restaurant.getAvailableTables());
+    	System.out.print("How many customers should be seated?");
+    	int customerNum = userInput.nextInt();
+    	System.out.print("Enter the NUMBER of the table to seat them at (1-25): ");
+    	int tableNum = userInput.nextInt();
+    	restaurant.seatCustomers(customerNum, tableNum);
     }
     
     public void assignServersToTables() {
@@ -120,7 +157,7 @@ public class UserInterface {
             String serverName = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
 
             if (restaurant.serverIsHired(serverName)) {
-                System.out.print("\nEnter table number to assign " + serverName + " to (1-25): ");
+                System.out.print("\nEnter table NUMBER to assign " + serverName + " to (1-25): ");
                 int tableNum = userInput.nextInt();
                 restaurant.assignServerToTable(serverName, tableNum);
                 break; 
@@ -141,7 +178,7 @@ public class UserInterface {
             String serverName = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
 
             if (restaurant.serverIsHired(serverName)) {
-                System.out.print("\nEnter table number you'd like to remove" + serverName + " from (1-25): ");
+                System.out.print("\nEnter table NUMBER you'd like to remove" + serverName + " from (1-25): ");
                 int tableNum = userInput.nextInt();
                 restaurant.removeServerFromTable(serverName, tableNum);
                 break; 
@@ -151,57 +188,80 @@ public class UserInterface {
         }
     }
     
+    public void serve() {
+    	System.out.println("\n=====Server=====");
+    	System.out.println("1. Take orders\n2. View tables\n3. Assign server to table\n4. Remove server from table");
+    	System.out.print("Enter in a command (1-4): ");
+    	
+    	Scanner userInput = new Scanner(System.in);
+		String inputString = userInput.nextLine().strip().toLowerCase();
+		
+		switch (inputString) {
+		case "1":
+			break;
+		case "2": 
+			break;
+		case "3":
+			break;
+		case "4":
+			break;
+		default:
+			System.out.println("Command not found. Please enter the NUMBER of the command!");
+			break;
+	}
+    }
+    
+    public void takeOrders() {
+    	Scanner userInput = new Scanner(System.in);
+    	System.out.print("Which table are you taking orders from? (1-25): ");
+    	int tableNum = userInput.nextInt();
+    	
+    	int customers = restaurant.getNumCustomers(tableNum);
+    	
+    	for (int i = 0; i < customers; i++) {
+    		while(true) {
+    		System.out.println("\nCustumer #" + (i+1));
+    		System.out.print("Ordered item: ");
+    		String orderedItem = userInput.nextLine().strip().toLowerCase();
+    		System.out.print("Modification: ");
+    		String modification = userInput.nextLine().strip().toLowerCase();
+    		restaurant.orderItem(tableNum, i + 1, orderedItem, modification);
+    		
+    		System.out.println("Next customer? (Y/N) ");
+    		if(userInput.nextLine().trim().equalsIgnoreCase("Y")) break;
+    	}
+    	}
+    	// print order to show server
+    }
+    
     
     // Display the menu, grouped by FoodCourse and then by specificCategory
     public void displayMenu() {
-        System.out.println("\n=== Lotz of Sushi Menu ===");
-        
-        // Iterate over all FoodCourse values for consistent ordering
-        for (FoodCourse course : FoodCourse.values()) {
-            Menu menu = restaurant.getMenu(course);
-            if (menu == null || menu.getItems().isEmpty()) {
-                continue; // Skip empty menus
-            }
+        System.out.print("\nWhich menu would you like to view? (App/Drink/Entree/Dessert): ");
+        String choice = scanner.nextLine().trim().toLowerCase();
 
-            // Group items by specificCategory
-            Map<String, List<MenuItem>> itemsByCategory = new HashMap<>();
-            // AI-generated.. creates anonymous ArrayList for each filtered category
-            for (MenuItem item : menu.getItems()) {
-                String category = item.getSpecificCategory().isEmpty() ? "Uncategorized" : item.getSpecificCategory();
-                itemsByCategory.computeIfAbsent(category, k -> new ArrayList<>()).add(item);
-            }
-
-            // Print the FoodCourse header
-            System.out.println("\n" + course + ":");
-
-            // Sort categories alphabetically
-            // AI-generated.. creates ArrayList<> and uses :: to sort)
-            List<String> sortedCategories = new ArrayList<>(itemsByCategory.keySet());
-            sortedCategories.sort(String::compareToIgnoreCase);
-
-            // Iterate over each category
-            for (String category : sortedCategories) {
-                // Skip "Uncategorized" header if it's the only category, or print it explicitly
-                if (!(sortedCategories.size() == 1 && category.equals("Uncategorized"))) {
-                    System.out.println("     " + category + ":");
-                }
-
-                // Sort items within the category by itemName
-                List<MenuItem> items = itemsByCategory.get(category);
-                items.sort((a, b) -> a.getItemName().compareToIgnoreCase(b.getItemName()));
-
-                // Print each item
-                for (MenuItem item : items) {
-                    String displayLine = String.format("        - %s ($%.2f)", item.getItemName(), item.getPrice());
-                    if (!item.getDescription().isEmpty()) {
-                        displayLine += " - " + item.getDescription();
-                    }
-                    System.out.println(displayLine);
-                }
-            }
+        Menu selectedMenu = null;
+        switch (choice) {
+            case "app":
+                selectedMenu = restaurant.getAppMenu();
+                break;
+            case "drink":
+                selectedMenu = restaurant.getDrinkMenu();
+                break;
+            case "entree":
+                selectedMenu = restaurant.getEntreeMenu();
+                break;
+            case "dessert":
+                selectedMenu = restaurant.getDessertMenu();
+                break;
+            default:
+                System.out.println("Invalid choice. Please select apps, drinks, entree, or dessert.");
+                return;
         }
-        // extra newline character for spacing
-        System.out.println();
+
+        if (selectedMenu != null) {
+            selectedMenu.printMenu();
+        }
     }
     
     public void viewSales() {
@@ -305,4 +365,3 @@ public class UserInterface {
     // - close the order
     // - calculate the bill (either evenly split or individually)
     // - close the table
-
