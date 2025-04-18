@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Order {
 	private int orderNumber;
@@ -67,7 +68,27 @@ public class Order {
 	   return orderNum;
    }
    
+   
+   
    @Override
+   public int hashCode() {
+	   return Objects.hash(items, orderNum, orderNumber, tip);
+   }
+
+   @Override
+   public boolean equals(Object obj) {
+	   if (this == obj)
+		   return true;
+	   if (obj == null)
+		   return false;
+	   if (getClass() != obj.getClass())
+		   return false;
+	   Order other = (Order) obj;
+	   return Objects.equals(items, other.items) && orderNum == other.orderNum && orderNumber == other.orderNumber
+			&& Double.doubleToLongBits(tip) == Double.doubleToLongBits(other.tip);
+   }
+
+@Override
    public String toString() {
 	   String message = "---------------------\n" +
 			   			"Order Number: " + orderNum + "\n" +

@@ -162,6 +162,7 @@ class SalesTrackerTest {
 		String compare = "---Server Tips---\n" +
 						"Austin Raben: $0.0\n" +
 						"Lisette Robles: $0.0\n" +
+						"Billy Bob: $0.0\n" +
 						"Colin Gale: $5.5\n" +
 						"Ruby Gilliland: $0.0\n" +
 						"\nTotal Tips Collected: $5.5\n";
@@ -187,6 +188,7 @@ class SalesTrackerTest {
 		String compare = "---Sorted Server Tips---\n" +
 						"Colin Gale: $5.5\n" +
 						"Ruby Gilliland: $2.5\n" +
+						"Billy Bob: $0.0\n" +
 						"Lisette Robles: $0.0\n" +
 						"Austin Raben: $0.0\n" +
 						"\nTotal Tips Collected: $8.0\n";

@@ -29,7 +29,7 @@ public class UserInterface {
 
     public static void main(String[] args) {
         Restaurant restaurant = new Restaurant("Lotz of Sushi");
-
+        
         UserInterface ui = new UserInterface(restaurant);
         while (true) {
         	ui.mainMenu();
