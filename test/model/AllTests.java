@@ -7,10 +7,12 @@ import org.junit.platform.suite.api.Suite;
 @SelectClasses({
     BillTest.class,
     CustomerTest.class,
-    MenuTest.class,
     MenuItemTest.class,
+    MenuTest.class,
     OrderTest.class,
+    RestaurantTest.class,
     SalesTrackerTest.class,
+    ServerTest.class,
     TableTest.class
 })
 public class AllTests {
