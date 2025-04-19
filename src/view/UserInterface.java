@@ -16,7 +16,7 @@ public class UserInterface {
     private java.util.Scanner scanner;
     private java.util.Random random;
     
-    private final String MAIN_MENU = "Welcome to Lotz of Sushi! What would you like to do today?\n\n"+
+    private final String MAIN_MENU = "=================================\n    Welcome to Lotz of Sushi!\n=================================\n\nWhat would you like to do today?\n\n"+
     									"1. Manage\n2. Host\n3. Serve\n4. View Menu";
     									
     									
@@ -79,21 +79,27 @@ public class UserInterface {
     // view sales, view tips
     public void manage() {
     	while (true) {
-	    	System.out.println("\n======Manage======\n");
+    		System.out.print("\n=================================\n         Manager Menu\n=================================\n\n");
 	    	System.out.println("1. View servers\n2. View tables\n3. View sales\n4. View tips\n5. Hire servers\n6. Fire servers\n7. Exit Manage");
-	    	System.out.print("\nEnter in a command (1-6): ");
+	    	System.out.print("\nEnter in a command (1-7): ");
 	    	
 	    	Scanner userInput = new Scanner(System.in);
 			String inputString = userInput.nextLine().strip().toLowerCase();
 			
 			switch (inputString) {
 				case "1":
+					System.out.print("\n=================================\n           Server View\n=================================\n\n");
 					System.out.print(restaurant.getAllServersInfo());
+					System.out.print("\nPress Enter to return to Manager Menu");
+					
 					break;
 				case "2": 
+					System.out.print("\n===========================================\n                 Table View\n===========================================\n\n");
 					System.out.print(restaurant.toString());
+					System.out.print("\nPress Enter to return to Manager Menu");
 					break;
 				case "3":
+					System.out.print("\n=================================\n           Sales View\n=================================\n");
 					this.viewSales();
 					break;
 				case "4":
@@ -119,7 +125,7 @@ public class UserInterface {
     
     public void host() {
     	while (true) {
-	    	System.out.println("\n=====Host=====\n");
+    		System.out.print("\n=================================\n            Host Menu\n=================================\n");
 	    	System.out.println("1. Seat customers\n2. View servers\n3. View tables\n4. Assign server to table\n5. Remove server from table\n6. Exit Host");
 	    	System.out.print("\nEnter in a command (1-6): ");
 	    	
@@ -130,15 +136,21 @@ public class UserInterface {
 				this.seatCustomers();
 				break;
 			case "2":
+				System.out.print("\n=================================\n           Server View\n=================================\n\n");
 				System.out.print(restaurant.getAllServersInfo());
+				System.out.print("\nPress Enter to return to Host Menu");
 				break;
 			case "3": 
+				System.out.print("\n===========================================\n                 Table View\n===========================================\n\n");
 				System.out.print(restaurant.toString());
+				System.out.print("\nPress Enter to return to Host Menu");
 				break;
 			case "4":
+				System.out.print("\n=================================================\n                Server Assignment\n=================================================\n");
 				this.assignServersToTables();
 				break;
 			case "5":
+				System.out.print("\n=================================================\n                Server Assignment\n=================================================\n");
 				this.removeServerFromTable();
 				break;
 			case "6":
@@ -157,7 +169,8 @@ public class UserInterface {
     
     public void seatCustomers() {
     	Scanner userInput = new Scanner(System.in);
-    	System.out.print("\nHow many customers should be seated?");
+    	System.out.print("\n====================================\n           Seat Customers\n====================================\n");
+    	System.out.print("\nHow many customers should be seated? ");
     	int customerNum = userInput.nextInt();
     	System.out.println("\n" + restaurant.getAvailableTables() + "\n");
     	System.out.print("\nEnter the NUMBER of the table to seat them at (1-25): ");
@@ -212,12 +225,13 @@ public class UserInterface {
     public void serve() {
     	
     	Scanner userInputName = new Scanner(System.in);
+    	System.out.print("\n=================================\n          Server Login\n=================================\n");
     	System.out.print("\nPlease enter in your name: ");
     	String serverName = userInputName.nextLine().strip();
     	
     	
     	while (true) {
-    		System.out.println("\n=====Server=====\n");
+    		System.out.print("\n=================================\n          Server Menu\n=================================\n\n");
         	System.out.println("1. Take orders\n2. View tables\n3. Close Order\n4. Exit Server");
         	System.out.print("\nEnter in a command (1-4): ");
     		
@@ -230,6 +244,7 @@ public class UserInterface {
 				this.takeOrders(serverName);
 				break;
 			case "2":
+				System.out.print("\n=================================\n          Table View\n=================================\n\n");
 				System.out.println("\nYOUR " + restaurant.getTablesFromServer(serverName) + "\n");
 				System.out.println(restaurant.getAvailableTables());
 				break;
@@ -251,6 +266,7 @@ public class UserInterface {
     
     public void takeOrders(String serverName) {
     	Scanner userInput = new Scanner(System.in);
+    	System.out.print("\n=================================\n          Take Orders!\n=================================\n\n");
     	System.out.print("Which table are you taking orders from? (1-25): ");
     	int tableNum = userInput.nextInt();
     	
@@ -322,7 +338,7 @@ public class UserInterface {
     }
     
     public void viewSales() {
-    	System.out.println("\nWhat would you like to view?");
+    	System.out.println("\nWhat would you like to view?\n");
     	System.out.println("1. Sales for all items\n2. Revenue for all items\n3. Sale for specific item\n4. Revenue for specific item\n");
     	System.out.print("Enter in command (1-4): ");
     	
