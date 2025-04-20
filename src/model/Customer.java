@@ -9,9 +9,9 @@ public class Customer {
     private Table assignedTable;
     //private String serverName; -- maybe include
     
-    public Customer(Table table, int orderNum) {
+    public Customer(Table table, int orderNum, String serverName) {
     	assignedTable = table;
-        this.order = new Order(orderNum);
+        this.order = new Order(orderNum, serverName);
     }
     
     // functionality
