@@ -60,8 +60,8 @@ public class Customer {
     	if (this == other) return true;
     	if (other == null || this.getClass() != other.getClass()) return false;
     	
-    	return this.assignedTable.equals(((Customer) other).assignedTable) && this.getOrderNum() == ((Customer) other).getOrderNum();
+    	return this.assignedTable.equals(((Customer) other).assignedTable) 
+    			&& this.getOrderNum() == ((Customer) other).getOrderNum();
     }
     
-    
-}
+ }

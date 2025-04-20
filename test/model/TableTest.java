@@ -44,6 +44,20 @@ class TableTest {
 		Table t2 = new Table(2);
 		assertFalse(t1.equals(t2));
 	}
+	
+	@Test
+    public void testHashCodeEquality() {
+        Table t1 = new Table(5);
+        Table t2 = new Table(5);
+        
+        assertEquals(t1.hashCode(), t2.hashCode());
+    }
+	
+	@Test
+    public void testToStringFormat() {
+        Table t = new Table(0);
+        assertEquals("TABLE 1", t.toString());
+    }
 }
 
 

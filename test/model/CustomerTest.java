@@ -2,6 +2,8 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Objects;
+
 import org.junit.jupiter.api.Test;
 
 class CustomerTest {
@@ -73,5 +75,52 @@ class CustomerTest {
 		Customer newCustomer = new Customer(table, 1);
 		
 		assertEquals(newCustomer.getOrderNum(), 1);
+	}
+	
+	@Test
+	void testEqualsSame() {
+		Restaurant myRestaurant = new Restaurant("Customer Test");
+		Table table = myRestaurant.getTableByNumber(1);
+		Customer c1 = new Customer(table, 1);
+		
+		assertTrue(c1.equals(c1));
+	}
+	
+	@Test
+	void testEqualsTrue() {
+		Restaurant myRestaurant = new Restaurant("Customer Test");
+		Table table = myRestaurant.getTableByNumber(1);
+		Customer c1 = new Customer(table, 1);
+		Customer c2 = new Customer(table, 1);
+		
+		assertEquals(c1, c2);
+	}
+	
+	@Test
+	void testEqualsFalse() {
+		Restaurant myRestaurant = new Restaurant("Customer Test");
+		Table table = myRestaurant.getTableByNumber(1);
+		Customer c1 = new Customer(table, 1);
+		Customer c2 = new Customer(table, 2);
+		
+		assertFalse(c1.equals(c2));
+	}
+	
+	@Test
+	void testEquals() {
+		Restaurant myRestaurant = new Restaurant("Customer Test");
+		Table table = myRestaurant.getTableByNumber(1);
+		Customer c1 = new Customer(table, 1);
+		
+		assertFalse(c1.equals(table));
+	}
+	
+	@Test
+    public void testHashCodeSameData() {
+        Table table1 = new Table(1);
+        Customer customer1 = new Customer(table1, 1);
+        Customer customer2 = new Customer(new Table(1), 1); 
+
+        assertEquals(customer1.hashCode(), customer2.hashCode());
 	}
 }
