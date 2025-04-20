@@ -35,7 +35,7 @@ public class Table {
 	
 	@Override
 	public String toString() {
-		return "TABLE " + tableNumber + 1;
+		return "TABLE " + (tableNumber + 1);
 	}
 
     

@@ -86,5 +86,93 @@ class OrderTest {
 		Order myOrder1 = new Order(2123213);
 		assertEquals(myOrder1.getOrderNum(), 2123213);
 	}
+	
+	@Test
+	void testChangeBillTotal() {
+		Order myOrder1 = new Order(3);
+		myOrder1.changeBillTotal(33.45);
+		assertEquals(myOrder1.getBill().getPriceBeforeTip(), 33.45);
+	}
+	
+	@Test
+    public void testEqualsSameValues() {
+		Restaurant myRestaurant = new Restaurant("Test");
+        Order o1 = new Order(1);
+        Order o2 = new Order(1);
 
+        List<OrderedItem> items = new ArrayList<>();
+        items.add(new OrderedItem(myRestaurant.getDrinkMenu().getMenuItem("Green Tea"), "None"));
+        o1.setItems(items);
+        o2.setItems(new ArrayList<>(items));
+
+        o1.makeTip(5.0);
+        o2.makeTip(5.0);
+
+        assertEquals(o1, o2);
+    }
+	
+	 @Test
+	 public void testEqualsDifferentItems() {
+		 Restaurant myRestaurant = new Restaurant("Test");
+	        Order o1 = new Order(1);
+	        Order o2 = new Order(1);
+
+	        List<OrderedItem> items1 = new ArrayList<>();
+	        items1.add(new OrderedItem(myRestaurant.getDrinkMenu().getMenuItem("Green Tea"), "None"));
+	        o1.setItems(items1);
+
+	        List<OrderedItem> items2 = new ArrayList<>();
+	        items2.add(new OrderedItem(myRestaurant.getDrinkMenu().getMenuItem("Jasmine Tea"), "None"));
+	        o2.setItems(items2);
+
+	        o1.makeTip(5.0);
+	        o2.makeTip(5.0);
+
+	        assertNotEquals(o1, o2);
+	    }
+	 
+	 @Test
+	 public void testEqualsDifferentTips() {
+	        Order o1 = new Order(1);
+	        Order o2 = new Order(1);
+
+	        o1.makeTip(3.0);
+	        o2.makeTip(5.0);
+
+	        assertNotEquals(o1, o2);
+	    }
+	 
+	 @Test
+	 public void testEqualsSameObject() {
+	        Order o1 = new Order(1);
+	        assertEquals(o1, o1);
+	    }
+
+	 @Test
+	 public void testEqualsNull() {
+	        Order o1 = new Order(1);
+	        assertNotEquals(o1, null);
+	    }
+
+	 @Test
+	 public void testEqualsDifferentClass() {
+	        Order o1 = new Order(1);
+	        assertNotEquals(o1, "NotAnOrder");
+	    }
+	    
+	 @Test
+	 public void testHashCodeConsistency() {
+	    	Restaurant myRestaurant = new Restaurant("Test");
+	        Order o1 = new Order(1);
+	        o1.makeTip(4.0);
+
+	        List<OrderedItem> items = new ArrayList<>();
+	        items.add(new OrderedItem(myRestaurant.getDrinkMenu().getMenuItem("Jasmine Tea"), "None"));
+	        o1.setItems(items);
+
+	        int hash1 = o1.hashCode();
+	        int hash2 = o1.hashCode();
+
+	        assertEquals(hash1, hash2, "hashCode should be consistent on same object");
+	    }
 }
