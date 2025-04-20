@@ -229,6 +229,11 @@ public class UserInterface {
     	System.out.print("\nPlease enter in your name: ");
     	String serverName = userInputName.nextLine().strip();
     	
+    	if (!this.restaurant.serverIsHired(serverName)) {
+    		System.out.println("\nServer not found. Please try again!\n");
+    		return;
+    	}
+    	
     	
     	while (true) {
     		System.out.print("\n=================================\n          Server Menu\n=================================\n\n");
@@ -240,6 +245,7 @@ public class UserInterface {
 			
 			switch (inputString) {
 			case "1":
+				System.out.print("\n=================================\n          Take Orders!\n=================================\n\n");
 				System.out.println("\nYOUR " + restaurant.getTablesFromServer(serverName) + "\n");
 				this.takeOrders(serverName);
 				break;
@@ -249,6 +255,9 @@ public class UserInterface {
 				System.out.println(restaurant.getAvailableTables());
 				break;
 			case "3":
+				System.out.print("\n=================================\n          Close Order\n=================================\n\n");
+				System.out.println("\nYOUR " + restaurant.getTablesFromServer(serverName) + "\n");
+				this.closeOrder(serverName);
 				break;
 			case "4":
 				break;
@@ -266,13 +275,17 @@ public class UserInterface {
     
     public void takeOrders(String serverName) {
     	Scanner userInput = new Scanner(System.in);
-    	System.out.print("\n=================================\n          Take Orders!\n=================================\n\n");
     	System.out.print("Which table are you taking orders from? (1-25): ");
     	int tableNum = userInput.nextInt();
     	
+    	userInput.nextLine();
     	boolean validTable = false;
+    	String[] checkTableList = restaurant.getTablesFromServer(serverName).split(" ");
+    	if (checkTableList.length <= 1) {
+    		System.out.println("\nNo Tables Found. Ask host to assign you to a table.");
+    		return;
+    	}
     	String[] tableList = restaurant.getTablesFromServer(serverName).split(" ")[1].split(",");
-    	System.out.println(tableList[0]);
     	for (int i = 0; i < tableList.length; i++) {
     		if(Integer.valueOf(tableList[i]).equals(tableNum)) validTable = true;
     	}
@@ -285,18 +298,23 @@ public class UserInterface {
 	    	}
 	    	for (int i = 0; i < customers; i++) {
 	    		while(true) {
-	    		System.out.println("\nCustumer #" + (i+1));
+	    		System.out.println("\nCostumer #" + (i+1));
 	    		System.out.print("Ordered item: ");
-	    		String orderedItem = userInput.nextLine().strip().toLowerCase();
+	    		String orderedItem = userInput.nextLine().strip();
 	    		System.out.print("Modification: ");
-	    		String modification = userInput.nextLine().strip().toLowerCase();
+	    		String modification = userInput.nextLine().strip();
 	    		restaurant.orderItem(tableNum, i + 1, orderedItem, modification);
 	    		
-	    		System.out.println("Next customer? (Y/N) ");
-	    		if(userInput.nextLine().trim().equalsIgnoreCase("Y")) break;
+	    		if (i != customers - 1) {
+	    			System.out.println("Next customer? (Y/N) ");
+	    			if(userInput.nextLine().trim().equalsIgnoreCase("Y")) break;
+	    			}
+	    		else {
+	    			break;
+	    		}
+	    		}
 	    	}
-	    	}
-	    	System.out.println(restaurant.getTableOrder(tableNum).toString());
+	    	System.out.println("\n" + restaurant.getTableOrder(tableNum).toString());
     	}
     	else {
     		System.out.println("\nYou are not assigned to this table. Ask host to assign you to the table and try again!");
@@ -305,6 +323,51 @@ public class UserInterface {
     	// print order to show server
     }
     
+    public void closeOrder(String serverName) {
+    	Scanner userInput = new Scanner(System.in);
+    	System.out.print("Which table are you taking orders from? (1-25): ");
+    	int tableNum = userInput.nextInt();
+    	
+    	userInput.nextLine();
+    	boolean validTable = false;
+    	String[] checkTableList = restaurant.getTablesFromServer(serverName).split(" ");
+    	if (checkTableList.length <= 1) {
+    		System.out.println("\nNo Tables Found. Ask host to assign you to a table.");
+    		return;
+    	}
+    	String[] tableList = restaurant.getTablesFromServer(serverName).split(" ")[1].split(",");
+    	for (int i = 0; i < tableList.length; i++) {
+    		if(Integer.valueOf(tableList[i]).equals(tableNum)) validTable = true;
+    	}
+    	
+    	if (validTable) {
+	    	int customers = restaurant.getNumCustomers(tableNum);
+	    	if (customers == 0) {
+	    		System.out.println("\nThis table has not been seated yet. Try again when host has seated table.");
+	    		return;
+	    	}
+	    	for (int i = 0; i < customers; i++) {
+	    		while(true) {
+	    		System.out.println("\nCostumer #" + (i+1));
+	    		System.out.print("Tip Amount: ");
+	    		int tipAmt = userInput.nextInt();
+	    		this.restaurant.closeOrder(tableNum, i + 1, tipAmt);
+	    		
+	    		if (i != customers - 1) {
+	    			System.out.println("Next customer? (Y/N) ");
+	    			if(userInput.nextLine().trim().equalsIgnoreCase("Y")) break;
+	    		}
+	    		}
+	    	}
+	    	System.out.println(restaurant.getTableOrder(tableNum).toString());
+	    	this.restaurant.clearCustomersFromTable(tableNum);
+    	}
+    	else {
+    		System.out.println("\nYou are not assigned to this table. Ask host to assign you to the table and try again!");
+    		return;
+    	}
+    	// print order to show server
+    }
     
     
     

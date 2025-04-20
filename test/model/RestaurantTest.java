@@ -165,31 +165,31 @@ class RestaurantTest {
 				" |                   |                    | \n" +
 				" --DOOR----------------------------DOOR---- \n" +
 				" |                                        | \n" +
-				" | \u001B[32m Table 1:\u001B[0m    \u001B[32m Table 2:\u001B[0m    \u001B[31m Table 3:\u001B[0m    |\n" +
+				" | \u001B[31m Table 1:\u001B[0m    \u001B[31m Table 2:\u001B[0m    \u001B[32m Table 3:\u001B[0m    |\n" +
 				" |  \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m    |\n" +
 				" |                                        | \n" +
-				" | \u001B[32m Table 4:\u001B[0m    \u001B[32m Table 5:\u001B[0m    \u001B[32m Table 6:\u001B[0m    |\n" +
+				" | \u001B[31m Table 4:\u001B[0m    \u001B[31m Table 5:\u001B[0m    \u001B[31m Table 6:\u001B[0m    |\n" +
 				" |  \u001B[32m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m    |\n" +
 				" |                                        | \n" +
-				" | \u001B[32m Table 7:\u001B[0m    \u001B[32m Table 8:\u001B[0m    \u001B[32m Table 9:\u001B[0m    |\n" +
+				" | \u001B[31m Table 7:\u001B[0m    \u001B[31m Table 8:\u001B[0m    \u001B[31m Table 9:\u001B[0m    |\n" +
 				" |  \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m    |\n" +
 				" |                                        | \n" +
-				" | \u001B[32m Table 10:\u001B[0m   \u001B[32m Table 11:\u001B[0m   \u001B[32m Table 12:\u001B[0m   |\n" +
+				" | \u001B[31m Table 10:\u001B[0m   \u001B[31m Table 11:\u001B[0m   \u001B[31m Table 12:\u001B[0m   |\n" +
 				" |  \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m    |\n" +
 				" |                                        | \n" +
-				" | \u001B[32m Table 13:\u001B[0m   \u001B[32m Table 14:\u001B[0m   \u001B[32m Table 15:\u001B[0m   |\n" +
+				" | \u001B[31m Table 13:\u001B[0m   \u001B[31m Table 14:\u001B[0m   \u001B[31m Table 15:\u001B[0m   |\n" +
 				" |  \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m    |\n" +
 				" |                                        | \n" +
-				" | \u001B[32m Table 16:\u001B[0m   \u001B[32m Table 17:\u001B[0m   \u001B[32m Table 18:\u001B[0m   |\n" +
+				" | \u001B[31m Table 16:\u001B[0m   \u001B[31m Table 17:\u001B[0m   \u001B[31m Table 18:\u001B[0m   |\n" +
 				" |  \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m    |\n" +
 				" |                                        | \n" +
-				" | \u001B[32m Table 19:\u001B[0m   \u001B[32m Table 20:\u001B[0m   \u001B[32m Table 21:\u001B[0m   |\n" +
+				" | \u001B[31m Table 19:\u001B[0m   \u001B[31m Table 20:\u001B[0m   \u001B[31m Table 21:\u001B[0m   |\n" +
 				" |  \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m    |\n" +
 				" |                                        | \n" +
-				" | \u001B[32m Table 22:\u001B[0m   \u001B[32m Table 23:\u001B[0m   \u001B[32m Table 24:\u001B[0m   |\n" +
+				" | \u001B[31m Table 22:\u001B[0m   \u001B[31m Table 23:\u001B[0m   \u001B[31m Table 24:\u001B[0m   |\n" +
 				" |  \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m     \u001B[31m SERVER \u001B[0m    |\n" +
 				" |                                        |\n" +
-				" |               \u001B[32mTable 25:\u001B[0m                |\n" +
+				" |               \u001B[31mTable 25:\u001B[0m                |\n" +
 				" |               \u001B[31m SERVER \u001B[0m                 |\n" +
 				" |                                        |\n" +
 				" | HOSTESS                                |\n" +

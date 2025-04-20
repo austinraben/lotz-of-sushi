@@ -497,6 +497,8 @@ public class Restaurant {
     	return combinedOrder;
     }
     
+    
+    
     // getters
      
     public Menu getDrinkMenu() {
@@ -553,7 +555,7 @@ public class Restaurant {
                 if (i + j >= 24) break;
 
                 String tableLabel = String.format(" Table %d:", i + j + 1);
-                tableLabel = (tableSeated(i + j + 1) ? RED : GREEN) + tableLabel + RESET;
+                tableLabel = (tableSeated(i + j + 1) ? GREEN : RED) + tableLabel + RESET;
                 restaurant.append(String.format(" %-13s", tableLabel));
                 if ((i + j + 1) < 10) {
                 	restaurant.append("   ");
@@ -581,7 +583,7 @@ public class Restaurant {
         restaurant.append(" |                                        |\n");
         restaurant.append(" |              ");
         String tableLabel = "Table 25:";
-        tableLabel = (tableSeated(25) ? RED : GREEN) + tableLabel + RESET;
+        tableLabel = (tableSeated(25) ? GREEN : RED) + tableLabel + RESET;
         restaurant.append(String.format(" %-13s", tableLabel));
         restaurant.append("                |\n");
         restaurant.append(" |              ");
