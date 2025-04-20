@@ -458,6 +458,24 @@ public class Restaurant {
     	 }
     	 return allAvailable.substring(0, allAvailable.length() - 1);
      }
+    
+    
+     public String getUnassignedTables() {
+    	 String allUnassigned = "UNASSIGNED TABLES: ";
+    	 for (Table t : tables) {
+    		 boolean isAssigned = false;
+    	     for (ArrayList<Table> serverTablesList : serverTables.values()) {
+    	    	 if (serverTablesList.contains(t)) {
+    	    		 isAssigned = true;
+    	             break;
+    	         }
+    	     }
+    	     if (!isAssigned) {
+    	    	 allUnassigned += t.getTableNumber() + ",";
+    	     }
+    	 }
+		return allUnassigned.substring(0, allUnassigned.length() - 1);
+    }
      
      public int getNumCustomers(int tableNum) {
     	 Table t = getTableByNumber(tableNum);

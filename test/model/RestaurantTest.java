@@ -85,6 +85,19 @@ class RestaurantTest {
 		assertEquals(myBill.getPriceBeforeTip(), 35.95);
 		assertEquals(myBill.getPriceAfterTip(), 43.45);
 	}
+	@Test
+	void testUnassignedTables() {
+		Restaurant myRestaurant = new Restaurant("Resturant Test");
+		String result1 = "UNASSIGNED TABLES: 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25";
+		assertEquals(result1, myRestaurant.getUnassignedTables());
+		
+		
+		myRestaurant.hireServers("Server");
+		myRestaurant.assignServerToTable("Server", 1);
+        myRestaurant.assignServerToTable("Server", 2);
+        String result2 = "UNASSIGNED TABLES: 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25";
+        assertEquals(result2, myRestaurant.getUnassignedTables());
+	}
 	
 	@Test
 	void splitBillEvenly() {
