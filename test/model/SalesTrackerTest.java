@@ -12,7 +12,7 @@ class SalesTrackerTest {
 	void testUpdateOrder() {
 		Restaurant myRestaurant = new Restaurant("Test Sales");
 		SalesTracker mySales = myRestaurant.getSalesTracker();
-		Order order = new Order(1);
+		Order order = new Order(1, "Billy Bob");
 		order.orderItem("Miso Soup", "None", myRestaurant.getEntreeMenu());
 		mySales.updateOrder(order);
 		
