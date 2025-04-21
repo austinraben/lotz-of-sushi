@@ -62,10 +62,6 @@ public class UserInterface {
 			case "4":
 				this.displayMenu();
 				break;
-			case "5":
-				break;
-			case "6":
-				break;
 			default:
 				System.out.println("Command not found. Please try again!");
 				break;
@@ -189,7 +185,8 @@ public class UserInterface {
             String serverName = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
 
             if (restaurant.serverIsHired(serverName)) {
-            	System.out.println("\n" + restaurant.getAvailableTables());
+            	System.out.println("\n" + restaurant.getUnassignedTables());
+            	
                 System.out.print("\nEnter table NUMBER to assign " + serverName + " to (1-25): ");
                 int tableNum = userInput.nextInt();
                 restaurant.assignServerToTable(serverName, tableNum);
@@ -227,16 +224,23 @@ public class UserInterface {
     	Scanner userInputName = new Scanner(System.in);
     	System.out.print("\n=================================\n          Server Login\n=================================\n");
     	System.out.print("\nPlease enter in your name: ");
-    	String serverName = userInputName.nextLine().strip();
+    	String serverName = capitalizeFirstLetterOfEachWord(userInputName.nextLine().strip());
     	
     	if (!this.restaurant.serverIsHired(serverName)) {
     		System.out.println("\nServer not found. Please try again!\n");
     		return;
     	}
-    	
-    	
+
     	while (true) {
-    		System.out.print("\n=================================\n          Server Menu\n=================================\n\n");
+    		String firstName = (serverName.split(" "))[0];
+    		String header = firstName + "'s Server Menu";
+    		int totalWidth = 33;
+    		int padding = (totalWidth - header.length()) / 2;
+    		String formattedHeader = " ".repeat(Math.max(0, padding)) + header;
+
+    		System.out.print("\n=================================\n" +
+    		    formattedHeader + "\n" +
+    		    "=================================\n\n");
         	System.out.println("1. Take orders\n2. View tables\n3. Close Order\n4. Exit Server");
         	System.out.print("\nEnter in a command (1-4): ");
     		
@@ -251,8 +255,7 @@ public class UserInterface {
 				break;
 			case "2":
 				System.out.print("\n=================================\n          Table View\n=================================\n\n");
-				System.out.println("\nYOUR " + restaurant.getTablesFromServer(serverName) + "\n");
-				System.out.println(restaurant.getAvailableTables());
+				getIndividualTable(serverName);
 				break;
 			case "3":
 				System.out.print("\n=================================\n          Close Order\n=================================\n\n");
@@ -307,6 +310,7 @@ public class UserInterface {
 	    		
 	    		if (i != customers - 1) {
 	    			System.out.println("Next customer? (Y/N) ");
+	    			// print out each customers order
 	    			if(userInput.nextLine().trim().equalsIgnoreCase("Y")) break;
 	    			}
 	    		else {
@@ -335,6 +339,7 @@ public class UserInterface {
     		System.out.println("\nNo Tables Found. Ask host to assign you to a table.");
     		return;
     	}
+    	
     	String[] tableList = restaurant.getTablesFromServer(serverName).split(" ")[1].split(",");
     	for (int i = 0; i < tableList.length; i++) {
     		if(Integer.valueOf(tableList[i]).equals(tableNum)) validTable = true;
@@ -366,7 +371,14 @@ public class UserInterface {
     		System.out.println("\nYou are not assigned to this table. Ask host to assign you to the table and try again!");
     		return;
     	}
-    	// print order to show server
+    }
+    
+    public void getIndividualTable(String serverName) {
+    	System.out.print("What table would you like to view? (Enter NUMBER)");
+    	System.out.println("\nYOUR " + restaurant.getTablesFromServer(serverName) + "\n");
+    	int choice = scanner.nextInt();
+    	
+    	restaurant.printServerTable(choice);
     }
     
     

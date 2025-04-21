@@ -23,11 +23,6 @@ public class Customer {
     	order.makeTip(tipAmt);
     }
     
-    // TODO
-    /*
-     * public void payBill()
-     */
-    
     // getters and setters
         
     public Table getAssignedTable() {
