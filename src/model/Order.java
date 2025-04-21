@@ -12,11 +12,12 @@ public class Order {
     private double tip;
     private String serverName;
 
-    public Order(int orderNum) {
+    public Order(int orderNum, String serverName) {
     	this.orderNum = orderNum;
     	this.bill = new Bill();
         this.items = new ArrayList<>();
         this.tip = 0.0;
+        this.serverName = serverName;
     }
     
     // copy constructor
@@ -25,6 +26,7 @@ public class Order {
     	this.bill = other.bill;
         this.items = other.items;
         this.tip = other.tip;
+        this.serverName = other.serverName;
     }
     
    public void orderItem(String itemName, String modification, Menu menu) {
@@ -73,7 +75,9 @@ public class Order {
 	   return orderNum;
    }
    
-   
+   public String getServerName() {
+       return serverName;
+   }
    
    @Override
    public int hashCode() {

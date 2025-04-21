@@ -305,22 +305,14 @@ public class Restaurant {
     	return serverName;
     }
     
-    
-    public Table getTableByNumber(int tableNumber) {
-    	if (tableNumber < tables.size())
-    		return tables.get(tableNumber - 1);
-    	else
-    		return null;
-    }
-    
     // customer interaction
     public void seatCustomers(int customerAmt, int tableNum) {
         Table table = tables.get(tableNum - 1);
         if (!(tableSeated(table.getTableNumber()))) {
         ArrayList<Customer> customers = new ArrayList<Customer>();
-
+        String serverName = getServerByTable(tableNum);
         for (int i = 0; i < customerAmt; i++) {
-            Customer newCustomer = new Customer(table, i + 1);
+            Customer newCustomer = new Customer(table, i + 1, serverName);
             customers.add(newCustomer);
         }
         tableMap.put(table, customers);
@@ -359,10 +351,7 @@ public class Restaurant {
     	server.addTip(tipAmt);
     	sales.updateServerTips(servers);
     	
-    	// TODO print order toString()
     }
-    
-    
     
     // helper method -- adds closed orders to a list
     private void addToClosedOrders(Order closedOrder) {
@@ -379,6 +368,21 @@ public class Restaurant {
     } 
     
     // server functionality
+    
+    public void printServerTable(int tableNum) {
+    	Table table = getTableByNumber(tableNum);
+    	
+    	String tableStr = table.toString() + "\n";
+    	tableStr += "# of Customers: " + tableMap.get(table).size() + "\n";
+    	tableStr += "Current Table Bill:\n";
+    	
+    	for (Customer c : tableMap.get(table)) {
+    		tableStr += c.getOrder().toString();
+    	}
+    	
+    	System.out.print(tableStr);
+    
+    }
     public Bill getBillByTable(int tableNum) {
     	
     	Table table = tables.get(tableNum - 1);
@@ -459,7 +463,7 @@ public class Restaurant {
     public String getAvailableTables() {
     	 String allAvailable = "OPEN TABLES: ";
     	 for (Table t : tables) {
-    		 if (!(tableSeated(t.getTableNumber()))) allAvailable += t.getTableNumber() + ",";
+    		 if ((!(tableSeated(t.getTableNumber()))) && tableHasServer(t.getTableNumber())) allAvailable += t.getTableNumber() + ",";
     	 }
     	 return allAvailable.substring(0, allAvailable.length() - 1);
      }
@@ -511,7 +515,8 @@ public class Restaurant {
     public Order getTableOrder(int tableNumber) {
     	Table table = tables.get(tableNumber - 1);
     	int customers = getNumCustomers(tableNumber);
-    	Order combinedOrder = new Order(customers + 1);
+    	String serverName = getServerByTable(tableNumber);
+    	Order combinedOrder = new Order(customers + 1, serverName);
     	for (Customer c : tableMap.get(table)) {
     		for (OrderedItem oi : c.getOrder().getItems())
     		combinedOrder.orderItem(oi.getItemName(), oi.getModification(), getMenu(oi.getFoodCourse()));
@@ -520,6 +525,12 @@ public class Restaurant {
     	return combinedOrder;
     }
     
+    public Table getTableByNumber(int tableNumber) {
+    	if (tableNumber < tables.size())
+    		return tables.get(tableNumber - 1);
+    	else
+    		return null;
+    }
     
     
     // getters

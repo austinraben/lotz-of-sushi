@@ -30,16 +30,13 @@ public class Table {
 		if (getClass() != obj.getClass())
 			return false;
 		Table other = (Table) obj;
-		return tableNumber == other.tableNumber;
+		return tableNumber == osther.tableNumber;
 	}
 	
 	@Override
 	public String toString() {
-		return "TABLE " + (tableNumber + 1);
+		return "TABLE " + tableNumber;
 	}
-
-    
-    
-    
+       
     
 }
