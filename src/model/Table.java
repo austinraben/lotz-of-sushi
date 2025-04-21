@@ -30,7 +30,7 @@ public class Table {
 		if (getClass() != obj.getClass())
 			return false;
 		Table other = (Table) obj;
-		return tableNumber == osther.tableNumber;
+		return tableNumber == other.tableNumber;
 	}
 	
 	@Override
