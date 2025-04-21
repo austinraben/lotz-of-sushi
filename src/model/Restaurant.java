@@ -310,9 +310,9 @@ public class Restaurant {
         Table table = tables.get(tableNum - 1);
         if (!(tableSeated(table.getTableNumber()))) {
         ArrayList<Customer> customers = new ArrayList<Customer>();
-
+        String serverName = getServerByTable(tableNum);
         for (int i = 0; i < customerAmt; i++) {
-            Customer newCustomer = new Customer(table, i + 1);
+            Customer newCustomer = new Customer(table, i + 1, serverName);
             customers.add(newCustomer);
         }
         tableMap.put(table, customers);
@@ -510,7 +510,8 @@ public class Restaurant {
     public Order getTableOrder(int tableNumber) {
     	Table table = tables.get(tableNumber - 1);
     	int customers = getNumCustomers(tableNumber);
-    	Order combinedOrder = new Order(customers + 1);
+    	String serverName = getServerByTable(tableNumber);
+    	Order combinedOrder = new Order(customers + 1, serverName);
     	for (Customer c : tableMap.get(table)) {
     		for (OrderedItem oi : c.getOrder().getItems())
     		combinedOrder.orderItem(oi.getItemName(), oi.getModification(), getMenu(oi.getFoodCourse()));

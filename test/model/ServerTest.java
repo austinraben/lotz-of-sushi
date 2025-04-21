@@ -77,7 +77,7 @@ class ServerTest {
 		myServer.addTip(5.50);
 		myServer.addTable(myRestaurant.getTableByNumber(1));
 		myServer.addTable(myRestaurant.getTableByNumber(4));
-		Order notAServer = new Order(1);
+		Order notAServer = new Order(1, "Billy Bob");
 		
 		Server myNewServer = new Server("Ruby Gilliland");
 
