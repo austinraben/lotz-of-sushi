@@ -172,10 +172,32 @@ public class UserInterface {
     	System.out.print("\n====================================\n           Seat Customers\n====================================\n");
     	System.out.print("\nHow many customers should be seated? ");
     	int customerNum = userInput.nextInt();
+    	
+    	if (restaurant.getAvailableTables().equals("OPEN TABLES:")) System.out.println("\nNo tables are available.");
+    	
+    	else {
     	System.out.println("\n" + restaurant.getAvailableTables() + "\n");
+    	
+    	while(true) {
     	System.out.print("\nEnter the NUMBER of the table to seat them at (1-25): ");
     	int tableNum = userInput.nextInt();
+    	
+    	boolean validTable = false;
+        String[] tableList = restaurant.getAvailableTables().split(": ");
+        if (tableList.length > 1) {
+        	tableList = tableList[1].split(",");
+    	for (int i = 0; i < tableList.length; i++) {
+    		if(Integer.valueOf(tableList[i]).equals(tableNum)) validTable = true;
+    	}
+    	} 
+    	
+    	if (validTable) {
     	restaurant.seatCustomers(customerNum, tableNum);
+    	System.out.println("\n" + customerNum + " customers have been seated at TABLE " + tableNum);
+    	break;
+    	} else System.out.println("\nThis table has no server or has already been seated. Try again.");
+    	}
+    	}
     }
     
     public void assignServersToTables() {
@@ -189,11 +211,24 @@ public class UserInterface {
             String serverName = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
 
             if (restaurant.serverIsHired(serverName)) {
+            	
+            	while(true) {
             	System.out.println("\n" + restaurant.getUnassignedTables());
                 System.out.print("\nEnter table NUMBER to assign " + serverName + " to (1-25): ");
                 int tableNum = userInput.nextInt();
+                
+                boolean validTable = false;
+                String[] tableList = restaurant.getUnassignedTables().split(": ")[1].split(",");
+            	for (int i = 0; i < tableList.length; i++) {
+            		if(Integer.valueOf(tableList[i]).equals(tableNum)) validTable = true;
+            	} 
+            	
+            	if (validTable) {
                 restaurant.assignServerToTable(serverName, tableNum);
                 break; 
+            	} else System.out.println("\n"
+            			+ "This table has already been assigned. Please try again.");
+            	} break;
             } else {
                 System.out.println("This server does not exist. Please try again.\n");
             }
@@ -201,7 +236,7 @@ public class UserInterface {
     }
     
     public void removeServerFromTable() {
-    	Scanner userInput = new Scanner(System.in);
+        Scanner userInput = new Scanner(System.in);
 
         while (true) {
             System.out.println("\nWhich server would you like to remove from a table?\n");
@@ -211,16 +246,43 @@ public class UserInterface {
             String serverName = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
 
             if (restaurant.serverIsHired(serverName)) {
-            	System.out.println("\n" + restaurant.getTablesFromServer(serverName));
-                System.out.print("\nEnter table NUMBER you'd like to remove " + serverName + " from (1-25): ");
-                int tableNum = userInput.nextInt();
-                restaurant.removeServerFromTable(serverName, tableNum);
-                break; 
+                String[] tableList = restaurant.getTablesFromServer(serverName).split(":");
+
+                if (tableList.length <= 1 || tableList[1].strip().isEmpty()) {
+                    System.out.println("\nThis server has no assigned tables.");
+                    continue; 
+                }
+
+                while (true) {
+                    System.out.println("\n" + restaurant.getTablesFromServer(serverName));
+                    System.out.print("\nEnter table NUMBER you'd like to remove " + serverName + " from (1-25): ");
+
+                    int tableNum = userInput.nextInt();
+                    userInput.nextLine(); 
+
+                    boolean validTable = false;
+                    String[] assignedTables = tableList[1].split(",");
+
+                    for (String table : assignedTables) {
+                        if (Integer.valueOf(table.strip()).equals(tableNum)) {
+                            validTable = true;
+                            break;
+                        }
+                    }
+
+                    if (validTable) {
+                        restaurant.removeServerFromTable(serverName, tableNum);
+                        return; 
+                    } else {
+                        System.out.println("\nThis table is not currently assigned to " + serverName + ". Please try again.");
+                    }
+                }
             } else {
-                System.out.println("This server does not exist. Please try again.\n");
+                System.out.println("\nThis server does not exist. Please try again.\n");
             }
         }
     }
+
     
     public void viewClosedOrders() {
     	System.out.print("\n====================================\n           All Closed Orders\n====================================\n");

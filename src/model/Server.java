@@ -88,12 +88,15 @@ public class Server{
 	@Override 
 	public String toString() {
 		String serverStr = this.serverName + "\n\tTIPS: " + this.tipsEarned;
+		if (this.assignedTables.size() > 0) {
 		serverStr += "\n\tTABLES: ";
 		for (Table t : this.assignedTables) {
 			serverStr += t.getTableNumber() + ",";
 		}
-		
 		return serverStr.substring(0, serverStr.length() - 1) + "\n";
+		} else serverStr += "\n\tNO TABLES ASSIGNED";
+		
+		return serverStr+ "\n";
 	}
     
 }
