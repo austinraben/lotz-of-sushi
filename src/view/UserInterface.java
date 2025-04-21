@@ -15,7 +15,6 @@ import java.util.Scanner;
 public class UserInterface {
     private Restaurant restaurant;
     private java.util.Scanner scanner;
-    private java.util.Random random;
     
     private final String MAIN_MENU = "=================================\n    Welcome to Lotz of Sushi!\n=================================\n\nWhat would you like to do today?\n\n"+
     									"1. Manage\n2. Host\n3. Serve\n4. View Menu";
@@ -25,7 +24,6 @@ public class UserInterface {
     public UserInterface(Restaurant restaurant) {
         this.restaurant = restaurant;
         this.scanner = new java.util.Scanner(System.in);
-        this.random = new java.util.Random();
     }
 
     public static void main(String[] args) {
@@ -588,18 +586,3 @@ public class UserInterface {
     }
     
 }
-    
-    // Main Menu
-    // Option 1: Assign Tables to Servers
-    // Option 2: Act as a Server
-    // Option 3: Search Menu
-    // Option 4: View Menu
-    // Option 5: View Sorted Menu by sales or revenue
-    // Option 6: View Sorted Server Tips
-    
-    // Option 2: Act as a Server (Customer decisions are random)
-    // - create Order 
-    //   - add OrderedItems per Customer (for each of the 4 Menus)
-    // - close the order
-    // - calculate the bill (either evenly split or individually)
-    // - close the table

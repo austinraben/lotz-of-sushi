@@ -55,8 +55,8 @@ class TableTest {
 	
 	@Test
     public void testToStringFormat() {
-        Table t = new Table(0);
-        assertEquals("TABLE 1", t.toString());
+        Table t = new Table(2);
+        assertEquals("TABLE 2", t.toString());
     }
 }
 

@@ -2,10 +2,28 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.junit.jupiter.api.Test;
 
 class RestaurantTest {
-
+	
+	void fireTestServer() {
+	    Path path = Paths.get("data/staff.txt");
+	    if (Files.exists(path)) {
+	        try {
+	            String content = Files.readString(path);
+	            if (content.contains("Server")) {
+	                Files.write(path, content.replace("Test Server\n", "").replace("Test Server", "").getBytes());
+	            }
+	        } catch (IOException e) {
+	        }
+	    }
+	}
+	
 	@Test
 	void testAssignServerToTable() {
 		Restaurant myRestaurant = new Restaurant("Restaurant Test");
@@ -92,11 +110,12 @@ class RestaurantTest {
 		assertEquals(result1, myRestaurant.getUnassignedTables());
 		
 		
-		myRestaurant.hireServers("Server");
-		myRestaurant.assignServerToTable("Server", 1);
-        myRestaurant.assignServerToTable("Server", 2);
+		myRestaurant.hireServers("Test Server");
+		myRestaurant.assignServerToTable("Test Server", 1);
+        myRestaurant.assignServerToTable("Test Server", 2);
         String result2 = "UNASSIGNED TABLES: 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25";
         assertEquals(result2, myRestaurant.getUnassignedTables());
+        fireTestServer();
 	}
 	
 	@Test
@@ -160,10 +179,12 @@ class RestaurantTest {
 	
 	@Test
 	void testGetListOfServers() {
+		System.out.println("Testing getListOfServers()...");
 		Restaurant myRestaurant = new Restaurant("Restaurant Test");
 		String servers = "1. Austin Raben\n2. Billy Bob\n3. Colin Gale\n4. Lisette Robles\n5. Ruby Gilliland";
 		
 		assertEquals(myRestaurant.getListOfServers(), servers);
+		
 	}
 	
 	
