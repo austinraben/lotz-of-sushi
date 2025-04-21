@@ -67,6 +67,10 @@ public class Order {
 	   return new Bill(bill);
    }
    
+   public void setOrderNum(int orderNum) {
+	   this.orderNum = orderNum;
+   }
+   
    public int getOrderNum() {
 	   return orderNum;
    }
@@ -97,7 +101,7 @@ public class Order {
    public String toString() {
 	   String message = "---------------------\n" +
 			   			"Order Number: " + orderNum + "\n" +
-			   			"Server: " + serverName + "NONE\n\n" +
+			   			"Server: " + serverName + "\n\n" +
 			   			"ITEMS:\n";
 	   for (OrderedItem oi : items) {
 		   message += "\t$" + oi.getPrice() + " - " + oi.getItemName() + "\n";
