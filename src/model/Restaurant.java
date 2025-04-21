@@ -305,14 +305,6 @@ public class Restaurant {
     	return serverName;
     }
     
-    
-    public Table getTableByNumber(int tableNumber) {
-    	if (tableNumber < tables.size())
-    		return tables.get(tableNumber - 1);
-    	else
-    		return null;
-    }
-    
     // customer interaction
     public void seatCustomers(int customerAmt, int tableNum) {
         Table table = tables.get(tableNum - 1);
@@ -359,10 +351,7 @@ public class Restaurant {
     	server.addTip(tipAmt);
     	sales.updateServerTips(servers);
     	
-    	// TODO print order toString()
     }
-    
-    
     
     // helper method -- adds closed orders to a list
     private void addToClosedOrders(Order closedOrder) {
@@ -377,6 +366,21 @@ public class Restaurant {
     } 
     
     // server functionality
+    
+    public void printServerTable(int tableNum) {
+    	Table table = getTableByNumber(tableNum);
+    	
+    	String tableStr = table.toString() + "\n";
+    	tableStr += "# of Customers: " + tableMap.get(table).size() + "\n";
+    	tableStr += "Current Table Bill:\n";
+    	
+    	for (Customer c : tableMap.get(table)) {
+    		tableStr += c.getOrder().toString();
+    	}
+    	
+    	System.out.print(tableStr);
+    
+    }
     public Bill getBillByTable(int tableNum) {
     	
     	Table table = tables.get(tableNum - 1);
@@ -454,7 +458,7 @@ public class Restaurant {
     public String getAvailableTables() {
     	 String allAvailable = "OPEN TABLES: ";
     	 for (Table t : tables) {
-    		 if (!(tableSeated(t.getTableNumber()))) allAvailable += t.getTableNumber() + ",";
+    		 if ((!(tableSeated(t.getTableNumber()))) && tableHasServer(t.getTableNumber())) allAvailable += t.getTableNumber() + ",";
     	 }
     	 return allAvailable.substring(0, allAvailable.length() - 1);
      }
@@ -515,6 +519,12 @@ public class Restaurant {
     	return combinedOrder;
     }
     
+    public Table getTableByNumber(int tableNumber) {
+    	if (tableNumber < tables.size())
+    		return tables.get(tableNumber - 1);
+    	else
+    		return null;
+    }
     
     
     // getters
