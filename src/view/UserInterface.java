@@ -3,6 +3,7 @@
 import model.Restaurant;
 import model.Menu;
 import model.MenuItem;
+import model.Order;
 import model.FoodCourse;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class UserInterface {
     public void manage() {
     	while (true) {
     		System.out.print("\n=================================\n         Manager Menu\n=================================\n\n");
-	    	System.out.println("1. View servers\n2. View tables\n3. View sales\n4. View tips\n5. Hire servers\n6. Fire servers\n7. Exit Manage");
+	    	System.out.println("1. View servers\n2. View tables\n3. View sales\n4. View tips\n5. View closed orders\n6. Hire servers\n7. Fire servers\n8. Exit Manage");
 	    	System.out.print("\nEnter in a command (1-7): ");
 	    	
 	    	Scanner userInput = new Scanner(System.in);
@@ -106,17 +107,20 @@ public class UserInterface {
 					restaurant.getSalesTracker().getTotalTips();
 					break;
 				case "5": 
+					this.viewClosedOrders();
 					break;
 				case "6":
 					break;
 				case "7":
+					break;
+				case "8":
 					break;
 				default:
 					System.out.println("Command not found. Please enter the NUMBER of the command!");
 					break;
 			}
 			
-			if (inputString.equals("7")) break;
+			if (inputString.equals("8")) break;
 			
 			Scanner wait = new Scanner(System.in);
 			String waitString = wait.nextLine();
@@ -189,7 +193,7 @@ public class UserInterface {
             String serverName = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
 
             if (restaurant.serverIsHired(serverName)) {
-            	System.out.println("\n" + restaurant.getAvailableTables());
+            	System.out.println("\n" + restaurant.getUnassignedTables());
                 System.out.print("\nEnter table NUMBER to assign " + serverName + " to (1-25): ");
                 int tableNum = userInput.nextInt();
                 restaurant.assignServerToTable(serverName, tableNum);
@@ -212,7 +216,7 @@ public class UserInterface {
 
             if (restaurant.serverIsHired(serverName)) {
             	System.out.println("\n" + restaurant.getTablesFromServer(serverName));
-                System.out.print("\nEnter table NUMBER you'd like to remove" + serverName + " from (1-25): ");
+                System.out.print("\nEnter table NUMBER you'd like to remove " + serverName + " from (1-25): ");
                 int tableNum = userInput.nextInt();
                 restaurant.removeServerFromTable(serverName, tableNum);
                 break; 
@@ -220,6 +224,14 @@ public class UserInterface {
                 System.out.println("This server does not exist. Please try again.\n");
             }
         }
+    }
+    
+    public void viewClosedOrders() {
+    	System.out.print("\n====================================\n           All Closed Orders\n====================================\n");
+    	if (this.restaurant.getClosedOrders().size() == 0) System.out.println("\nNo orders to show.\n");
+    	for (Order o : this.restaurant.getClosedOrders()) {
+    		System.out.println("\n" + o);
+    	}
     }
     
     public void serve() {
@@ -310,18 +322,20 @@ public class UserInterface {
 	    			if(userInput.nextLine().trim().equalsIgnoreCase("Y")) break;
 	    			}
 	    		else {
+	    			System.out.println("Done with table? (Y/N) ");
+	    			if(userInput.nextLine().trim().equalsIgnoreCase("Y")) break;
+	    			}
 	    			break;
 	    		}
 	    		}
-	    	}
 	    	System.out.println("\n" + restaurant.getTableOrder(tableNum).toString());
-    	}
+    		}
     	else {
     		System.out.println("\nYou are not assigned to this table. Ask host to assign you to the table and try again!");
     		return;
     	}
-    	// print order to show server
     }
+    	// print order to show server
     
     public void closeOrder(String serverName) {
     	Scanner userInput = new Scanner(System.in);
@@ -346,18 +360,33 @@ public class UserInterface {
 	    		System.out.println("\nThis table has not been seated yet. Try again when host has seated table.");
 	    		return;
 	    	}
+	    	
+	    	while (true) {
+		    	System.out.println("1. Pay seperate\n2. Split bill evenly\n");
+		    	System.out.print("How are customers paying? ");
+		    	String inputString = userInput.nextLine().strip().toLowerCase();
+		    	
+		    	switch (inputString) {
+		    		case "1":
+		    			break;
+		    		case "2":
+		    			this.restaurant.splitBillEvenly(tableNum);
+		    			break;
+		    		default:
+		    			System.out.println("\nCommand not found. Please try again!\n");
+		    			break;
+		    	
+		    	}
+		    	if (inputString.equals("1") || inputString.equals("2")) break;
+	    	}
+	    	
 	    	for (int i = 0; i < customers; i++) {
-	    		while(true) {
+	    		System.out.println("\n" + this.restaurant.getOrderFromCustomer(tableNum, i + 1));
 	    		System.out.println("\nCostumer #" + (i+1));
 	    		System.out.print("Tip Amount: ");
-	    		int tipAmt = userInput.nextInt();
+	    		double tipAmt = userInput.nextDouble();
+	    		userInput.nextLine();
 	    		this.restaurant.closeOrder(tableNum, i + 1, tipAmt);
-	    		
-	    		if (i != customers - 1) {
-	    			System.out.println("Next customer? (Y/N) ");
-	    			if(userInput.nextLine().trim().equalsIgnoreCase("Y")) break;
-	    		}
-	    		}
 	    	}
 	    	System.out.println(restaurant.getTableOrder(tableNum).toString());
 	    	this.restaurant.clearCustomersFromTable(tableNum);

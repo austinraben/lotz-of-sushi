@@ -366,7 +366,9 @@ public class Restaurant {
     
     // helper method -- adds closed orders to a list
     private void addToClosedOrders(Order closedOrder) {
-    	closedOrders.add(closedOrder);
+    	Order newClosedOrder = new Order(closedOrder);
+    	newClosedOrder.setOrderNum(closedOrders.size() + 1);
+    	closedOrders.add(newClosedOrder);
     }
     
     public Bill getBillFromCustomer(int tableNum, int orderNumber) {
@@ -408,6 +410,7 @@ public class Restaurant {
     	
     	// calculate amount per customer for evenly split bill
     	double amtPerCustomer = tableBill.getPriceBeforeTip()/customers.size();
+    	amtPerCustomer = Math.round(amtPerCustomer * 100.0) / 100.0;
     	
     	// change bill amount before tip for all customers
     	for (Customer c : customers) {
@@ -438,7 +441,9 @@ public class Restaurant {
     	if (orderNum - 1 >= tableMap.get(table).size())
     		return null;
     	Customer customer = tableMap.get(table).get(orderNum - 1);
-    	return customer.getOrder();
+    	Order returnOrder = customer.getOrder();
+    	returnOrder.setOrderNum(orderNum);
+    	return returnOrder;
     }
     
     public String getTablesFromServer(String serverName) {
@@ -448,7 +453,7 @@ public class Restaurant {
 			tableStr += t.getTableNumber() + ",";
 		}
 		
-		return tableStr;
+		return tableStr.substring(0, tableStr.length() - 1);
     }
      
     public String getAvailableTables() {
