@@ -185,6 +185,7 @@ class RestaurantTest {
 		assertEquals(myRestaurant.getAllServersInfo(), servers);
 	}
 	
+	
 	@Test
 	void testGetListOfServers() {
 		System.out.println("Testing getListOfServers()...");
@@ -193,6 +194,65 @@ class RestaurantTest {
 		
 		assertEquals(myRestaurant.getListOfServers(), servers);
 		
+	}
+	
+	@Test
+	void testGetAvailableTables() {
+		Restaurant myRestaurant = new Restaurant("Restaurant Test");
+		myRestaurant.assignServerToTable("Colin Gale", 22);
+		myRestaurant.assignServerToTable("Colin Gale", 11);
+		
+		String allAvailable = "OPEN TABLES: 11,22";
+		
+		assertEquals(allAvailable, myRestaurant.getAvailableTables());
+	}
+	
+	@Test
+	void testGetTablesFromServer() {
+		Restaurant myRestaurant = new Restaurant("Restaurant Test");
+		myRestaurant.assignServerToTable("Colin Gale", 22);
+		myRestaurant.assignServerToTable("Colin Gale", 11);
+		
+		String allAvailable = "TABLES: 22,11";
+		
+		assertEquals(allAvailable, myRestaurant.getTablesFromServer("Colin Gale"));
+	}
+	
+	@Test
+	void testHasModification() {
+		Restaurant myRestaurant = new Restaurant("Restaurant Test");
+		
+		assertTrue(myRestaurant.hasModification("Colin's Roll"));
+		assertFalse(myRestaurant.hasModification("Miso Soup"));
+		assertFalse(myRestaurant.hasModification("Pepsi"));
+		assertFalse(myRestaurant.hasModification("Edamame"));
+	}
+	
+	@Test
+	void testGetTableOrder() {
+		Restaurant myRestaurant = new Restaurant("Restaurant Test");
+		myRestaurant.assignServerToTable("Colin Gale", 1);
+		myRestaurant.seatCustomers(3, 1);
+		myRestaurant.orderItem(1, 1, "Miso Soup", "None");
+		myRestaurant.orderItem(1, 1, "Spider Roll", "No Mayo");
+		myRestaurant.orderItem(1, 2, "Pepsi", "None");
+		myRestaurant.orderItem(1, 2, "Colin's Roll", "None");
+		myRestaurant.orderItem(1, 3, "Ruby's Roll", "None");
+		
+		Order myOrder = myRestaurant.getTableOrder(1);
+		Order testOrder = new Order(-1, "Colin Gale");
+		testOrder.orderItem("Miso Soup", "None", myRestaurant.getEntreeMenu());
+		testOrder.orderItem("Spider Roll", "No Mayo", myRestaurant.getEntreeMenu());
+		testOrder.orderItem("Pepsi", "None", myRestaurant.getDrinkMenu());
+		testOrder.orderItem("Colin's Roll", "None", myRestaurant.getEntreeMenu());
+		testOrder.orderItem("Ruby's Roll", "None", myRestaurant.getEntreeMenu());
+		
+		for (int i = 0; i < myOrder.getItems().size(); i++) {
+			assertEquals(myOrder.getItems().get(i).getItemName(), testOrder.getItems().get(i).getItemName());
+			assertEquals(myOrder.getItems().get(i).getModification(), testOrder.getItems().get(i).getModification());
+		}
+		
+		assertEquals(myOrder.getBill().getPriceBeforeTip(), testOrder.getBill().getPriceBeforeTip());
 	}
 	
 	
