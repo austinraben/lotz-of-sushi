@@ -88,8 +88,8 @@ public class UserInterface {
 			if (ManagerPassword.hashPassword(password, managerPassword.getSalt()).equals(managerPassword.getHashedPassword())) {
 				while (true) {
 					System.out.print("\n=================================\n         Manager Menu\n=================================\n\n");
-					System.out.println("1. View servers\n2. View tables\n3. View sales\n4. View tips\n5. View closed orders\n6. Hire servers\n7. Fire servers\n8. Exit Manage");
-					System.out.print("\nEnter in a command (1-8): ");
+					System.out.println("1. View servers\n2. View tables\n3. View sales\n4. View tips\n5. View closed orders\n6. Hire servers\n7. Fire servers\n8. Change Password\n9. Exit Manage");
+					System.out.print("\nEnter in a command (1-9): ");
 					
 					Scanner userInput = new Scanner(System.in);
 					String inputString = userInput.nextLine().strip().toLowerCase();
@@ -123,13 +123,18 @@ public class UserInterface {
 							this.fireServers();
 							break;
 						case "8":
+							password = this.changePassword(password);
+							managerPassword.setPassword(password);
+							managerPassword.rewriteToFile("/data/staff.txt");
+							break;
+						case "9":
 							break;
 						default:
 							System.out.println("Command not found. Please enter the NUMBER of the command!");
 							break;
 					}
 					
-					if (inputString.equals("8")) break;
+					if (inputString.equals("9")) break;
 					
 					Scanner wait = new Scanner(System.in);
 					String waitString = wait.nextLine();
@@ -183,6 +188,24 @@ public class UserInterface {
 			if (exit) break;
     	}
     }
+    
+    public String changePassword(String oldPassword) {
+    	Scanner userInputPass = new Scanner(System.in);
+    	System.out.print("\nEnter in NEW password: ");
+    	String password = userInputPass.nextLine().strip();
+    	System.out.print("Confirm NEW passoword: ");
+    	String checkPassword = userInputPass.nextLine().strip();
+    	
+    	if (password.equals(checkPassword)) {
+    		System.out.println("\nPassword Updated");
+    		return password;
+    	}
+    	else {
+    		System.out.println("\nFailed to update password. Please try again.");
+    		return oldPassword;
+    	}
+    }
+    
     
     public void host() {
     	while (true) {
@@ -438,8 +461,11 @@ public class UserInterface {
 	    		System.out.println("\nCostumer #" + (i+1));
 	    		System.out.print("Ordered item: ");
 	    		String orderedItem = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
-	    		System.out.print("Modification: ");
-	    		String modification = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
+	    		String modification = "None";
+	    		if (this.restaurant.hasModification(orderedItem)) {
+	    			System.out.print("Modification: ");
+		    		modification = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
+	    		}
 	    		try {
 	    			restaurant.orderItem(tableNum, i + 1, orderedItem, modification);
 	    		} catch (Exception e) {
@@ -451,8 +477,9 @@ public class UserInterface {
     			// print out each customers order
     			if(userInput.nextLine().trim().equalsIgnoreCase("Y")) break;
 	    		}
-	    	System.out.println("\n" + restaurant.getTableOrder(tableNum).toString());
+	    		System.out.println("\n" + restaurant.getOrderFromCustomer(tableNum, (i+1)).toString());
 	    	}
+	    	System.out.println("\n" + restaurant.getTableOrder(tableNum).toString());
     	}
     	else {
     		System.out.println("\nYou are not assigned to this table. Ask host to assign you to the table and try again!");
