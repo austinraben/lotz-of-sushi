@@ -43,7 +43,7 @@ public class Order {
    }
    
    public void makeTip(double tip) {
-	   this.tip = tip;
+	   this.tip += tip;
 	   bill.updateTipPrice(tip);
    }
    

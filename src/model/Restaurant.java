@@ -1,6 +1,7 @@
 package model;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -159,37 +160,107 @@ public class Restaurant {
     // server and table
     
     public void hireServers(String serverName) {
-    	
-    	// create new Server object
-    	Server newServer = new Server(serverName);
-    	
-    	// add Server to servers map
-    	servers.put(serverName, newServer);
-    	
-    	// add Server to server/tables map
-    	serverTables.put(newServer, new ArrayList<Table>());
-    	
-    	// update text file
-    	ArrayList<Server> allServers = getAlphabeticalServerList();
-    	String filename = System.getProperty("user.dir") + "/data/staff.txt";
-    	try {
-    		FileWriter userFile = new FileWriter(filename);
-    		userFile.write("//SERVERS\n");
-    		for (Server s : allServers) {
-    			userFile.write(s.getServerName() + "\n");
-    		}
-    		userFile.write("//MANAGER\n");
-    		userFile.close();
-    		
-    	}
-    	catch(IOException e) {
-    		System.out.println("File not found.");
-			return;
-    	}
-    	
-    	
-    	
+        // new server object
+        Server newServer = new Server(serverName);
+        
+        // add server to server map and server tables map
+        servers.put(serverName, newServer);
+        serverTables.put(newServer, new ArrayList<>());
+
+        // prepare new server list
+        ArrayList<Server> allServers = getAlphabeticalServerList();
+        
+        // update text file path
+        String filename = System.getProperty("user.dir") + "/data/staff.txt";
+
+        try {
+        	
+        	// list of everything in manager section including header
+            List<String> managerSection = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            
+            String line;
+            boolean managerReached = false;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().equals("//MANAGER")) {
+                    managerReached = true;
+                    managerSection.add(line);
+                } 
+                else if (managerReached) {
+                	// everything after //MANAGER
+                    managerSection.add(line);
+                }
+            }
+            reader.close();
+
+            // rewrite file
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+            writer.write("//SERVERS\n");
+            for (Server s : allServers) {
+                writer.write(s.getServerName() + "\n");
+            }
+            for (String managerLine : managerSection) {
+                writer.write(managerLine + "\n");
+            }
+            writer.close();
+
+        } catch (IOException e) {
+            System.out.println("File not found.");
+        }
     }
+
+    
+    public void fireServers(String serverName) {
+    	
+        // create new server object
+        Server newServer = new Server(serverName);
+        
+        // remove server from server map and server table map
+        servers.remove(serverName);
+        serverTables.remove(newServer);
+
+        // prepare new server list
+        ArrayList<Server> allServers = getAlphabeticalServerList();
+        
+        // update text file path
+        String filename = System.getProperty("user.dir") + "/data/staff.txt";
+
+        try {
+        	// list of everything in manager section including header
+            List<String> managerSection = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            String line;
+            boolean managerReached = false;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().equals("//MANAGER")) {
+                    managerReached = true;
+                    managerSection.add(line);
+                } else if (managerReached) {
+                    managerSection.add(line);
+                }
+            }
+            reader.close();
+
+            // rewrite file
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+            writer.write("//SERVERS\n");
+            for (Server s : allServers) {
+                writer.write(s.getServerName() + "\n");
+            }
+            for (String managerLine : managerSection) {
+                writer.write(managerLine + "\n");
+            }
+            writer.close();
+
+        } catch (IOException e) {
+            System.out.println("File not found.");
+        }
+    }
+
+    
+    
     
     // map servers to tables
     public void assignServerToTable(String serverName, int tableNum) {
@@ -201,6 +272,7 @@ public class Restaurant {
     	Server found = servers.get(serverName);
     	
     	Table table = getTableByNumber(tableNum);
+    	
     	// add table to Servers internal list
     	found.addTable(table);
     	
@@ -518,15 +590,18 @@ public class Restaurant {
     	String serverName = getServerByTable(tableNumber);
     	Order combinedOrder = new Order(customers + 1, serverName);
     	for (Customer c : tableMap.get(table)) {
-    		for (OrderedItem oi : c.getOrder().getItems())
+    		for (OrderedItem oi : c.getOrder().getItems()) {
     		combinedOrder.orderItem(oi.getItemName(), oi.getModification(), getMenu(oi.getFoodCourse()));
+    		}
+    		combinedOrder.makeTip(c.getOrder().getTip());
     	}
+    	
     	
     	return combinedOrder;
     }
     
     public Table getTableByNumber(int tableNumber) {
-    	if (tableNumber < tables.size())
+    	if (tableNumber <= tables.size())
     		return tables.get(tableNumber - 1);
     	else
     		return null;

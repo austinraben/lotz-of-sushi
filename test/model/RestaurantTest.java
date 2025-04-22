@@ -43,6 +43,14 @@ class RestaurantTest {
 	}
 	
 	@Test
+	void testFireServer() {
+		Restaurant myRestaurant = new Restaurant("Restaurant Test");
+		myRestaurant.fireServers("Billy Bob");
+		assertFalse(myRestaurant.serverIsHired("Billy Bob"));
+		myRestaurant.hireServers("Billy Bob");
+	}
+	
+	@Test
 	void testRemoveServerFromTable() {
 		Restaurant myRestaurant = new Restaurant("Restaurant Test");
 		myRestaurant.assignServerToTable("Colin Gale", 22);
@@ -163,16 +171,16 @@ class RestaurantTest {
 						"\tTABLES: 5\n\n" +
 						"Billy Bob\n" +
 						"\tTIPS: 0.0\n" +
-						"\tTABLES:\n\n" +
+						"\tNO TABLES ASSIGNED\n\n" +
 						"Colin Gale\n" +
 						"\tTIPS: 2.0\n" +
 						"\tTABLES: 1,2\n\n" +
 						"Lisette Robles\n" +
 						"\tTIPS: 0.0\n" +
-						"\tTABLES:\n\n" +
+						"\tNO TABLES ASSIGNED\n\n" +
 						"Ruby Gilliland\n" +
 						"\tTIPS: 0.0\n" +
-						"\tTABLES:\n\n";
+						"\tNO TABLES ASSIGNED\n\n";
 		
 		assertEquals(myRestaurant.getAllServersInfo(), servers);
 	}
