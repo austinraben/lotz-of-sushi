@@ -462,10 +462,20 @@ public class UserInterface {
 	    		System.out.print("Ordered item: ");
 	    		String orderedItem = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
 	    		String modification = "None";
+	    		
+	    		if ((!restaurant.getAppMenu().containsMenuItem(orderedItem) &&
+	    			!restaurant.getDrinkMenu().containsMenuItem(orderedItem) &&
+	    			!restaurant.getEntreeMenu().containsMenuItem(orderedItem) &&
+	    			!restaurant.getDessertMenu().containsMenuItem(orderedItem))) {
+	    			System.out.println("\nMenu item not found. Please try again!\n");
+	    			continue;
+	    		}
+	    		
 	    		if (this.restaurant.hasModification(orderedItem)) {
 	    			System.out.print("Modification: ");
 		    		modification = capitalizeFirstLetterOfEachWord(userInput.nextLine().strip().toLowerCase());
 	    		}
+	    		
 	    		try {
 	    			restaurant.orderItem(tableNum, i + 1, orderedItem, modification);
 	    		} catch (Exception e) {
