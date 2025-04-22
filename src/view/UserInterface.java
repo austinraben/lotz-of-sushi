@@ -10,6 +10,7 @@ import model.ManagerPassword;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -254,8 +255,8 @@ public class UserInterface {
     public void seatCustomers() {
     	Scanner userInput = new Scanner(System.in);
     	System.out.print("\n====================================\n           Seat Customers\n====================================\n");
-    	System.out.print("\nHow many customers should be seated? ");
-    	int customerNum = userInput.nextInt();
+        int customerNum = getValidIntegerInput(userInput, "\nHow many customers should be seated? ");
+
     	
     	if (restaurant.getAvailableTables().equals("OPEN TABLES:")) System.out.println("\nNo tables are available.");
     	
@@ -263,8 +264,8 @@ public class UserInterface {
     	System.out.println("\n" + restaurant.getAvailableTables() + "\n");
     	
     	while(true) {
-    	System.out.print("\nEnter the NUMBER of the table to seat them at (1-25): ");
-    	int tableNum = userInput.nextInt();
+        int tableNum = getValidIntegerInput(userInput, "\nEnter the NUMBER of the table to seat them at (1-25): ");
+
     	
     	boolean validTable = false;
         String[] tableList = restaurant.getAvailableTables().split(": ");
@@ -298,8 +299,7 @@ public class UserInterface {
             	
             	while(true) {
             	System.out.println("\n" + restaurant.getUnassignedTables());
-                System.out.print("\nEnter table NUMBER to assign " + serverName + " to (1-25): ");
-                int tableNum = userInput.nextInt();
+                int tableNum = getValidIntegerInput(userInput, "\nEnter table NUMBER to assign " + serverName + " to (1-25): ");
                 
                 boolean validTable = false;
                 String[] tableList = restaurant.getUnassignedTables().split(": ")[1].split(",");
@@ -339,9 +339,8 @@ public class UserInterface {
 
                 while (true) {
                     System.out.println("\n" + restaurant.getTablesFromServer(serverName));
-                    System.out.print("\nEnter table NUMBER you'd like to remove " + serverName + " from (1-25): ");
 
-                    int tableNum = userInput.nextInt();
+                    int tableNum = getValidIntegerInput(userInput, "\nEnter table NUMBER you'd like to remove " + serverName + " from (1-25): ");
                     userInput.nextLine(); 
 
                     boolean validTable = false;
@@ -435,10 +434,8 @@ public class UserInterface {
     
     public void takeOrders(String serverName) {
     	Scanner userInput = new Scanner(System.in);
-    	System.out.print("Which table are you taking orders from? (1-25): ");
-    	int tableNum = userInput.nextInt();
-    	
-    	userInput.nextLine();
+        int tableNum = getValidIntegerInput(userInput, "Which table are you taking orders from? (1-25): ");
+
     	boolean validTable = false;
     	String[] checkTableList = restaurant.getTablesFromServer(serverName).split(" ");
     	if (checkTableList.length <= 1) {
@@ -500,8 +497,7 @@ public class UserInterface {
     
     public void closeOrder(String serverName) {
     	Scanner userInput = new Scanner(System.in);
-    	System.out.print("Which table are you closing orders from? (1-25): ");
-    	int tableNum = userInput.nextInt();
+        int tableNum = getValidIntegerInput(userInput, "Which table are you closing orders from? (1-25): ");
     	
     	userInput.nextLine();
     	boolean validTable = false;
@@ -545,8 +541,24 @@ public class UserInterface {
 	    	
 	    	for (int i = 0; i < customers; i++) {
 	    		System.out.println("\nCostumer #" + (i+1));
-	    		System.out.print("Tip Amount: ");
-	    		double tipAmt = userInput.nextDouble();
+	    		double tipAmt = 0.0;
+	    	    boolean validInput = false;
+
+	    	    while (!validInput) {
+	    	        System.out.print("Tip Amount: ");
+	    	        try {
+	    	            tipAmt = userInput.nextDouble();
+	    	            if (tipAmt < 0) {
+	    	                System.out.println("Tip amount cannot be negative. Please try again!");
+	    	                continue;
+	    	            }
+	    	            validInput = true;
+	    	        } catch (InputMismatchException e) {
+	    	            System.out.println("Invalid input. Please enter a valid number for the tip amount!");
+	    	            userInput.nextLine(); 
+	    	        }
+	    	    }	    		
+	    		
 	    		userInput.nextLine();
 	    		System.out.println("\n" + this.restaurant.getOrderFromCustomer(tableNum, i + 1));
 	    		this.restaurant.closeOrder(tableNum, i + 1, tipAmt);
@@ -564,8 +576,8 @@ public class UserInterface {
     
     public void getIndividualTable(String serverName) {
     	System.out.println("YOUR " + restaurant.getTablesFromServer(serverName) + "\n");
-    	System.out.print("What table would you like to view? (Enter NUMBER): ");
-    	int choice = scanner.nextInt();
+    	Scanner userInput = new Scanner(System.in);
+        int choice = getValidIntegerInput(userInput, "What table would you like to view? (Enter NUMBER): ");
     	
     	restaurant.printServerTable(choice);
     }
@@ -686,4 +698,23 @@ public class UserInterface {
         return result.toString().trim();
     }
     
+    public int getValidIntegerInput(Scanner userInput, String prompt) {
+        int number = 0;
+        boolean validInput = false;
+
+        while (!validInput) {
+            System.out.print(prompt);
+            try {
+                number = Integer.parseInt(userInput.nextLine());
+                if (number < 0) {
+                    System.out.println("Number cannot be negative. Please try again!");
+                    continue;
+                }
+                validInput = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid integer!");
+            }
+        }
+        return number;
+    }
 }

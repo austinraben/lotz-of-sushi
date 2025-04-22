@@ -116,6 +116,7 @@ public class Order {
 		   message += "\t$" + oi.getPrice() + " - " + oi.getItemName() + "\n";
 		   if (oi.getModification() != null && 
 			  !oi.getModification().equals("None") && 
+			  !oi.getModification().isEmpty() && 
 			  !oi.getModification().equals("This item can not be modified")) {
 			   message += "\t\tModification: " + oi.getModification() + "\n";
 		   }
