@@ -588,14 +588,14 @@ public class Restaurant {
     	Table table = tables.get(tableNumber - 1);
     	int customers = getNumCustomers(tableNumber);
     	String serverName = getServerByTable(tableNumber);
-    	Order combinedOrder = new Order(customers + 1, serverName);
+    	Order combinedOrder = new Order(-1, serverName);
     	for (Customer c : tableMap.get(table)) {
     		for (OrderedItem oi : c.getOrder().getItems()) {
     		combinedOrder.orderItem(oi.getItemName(), oi.getModification(), getMenu(oi.getFoodCourse()));
     		}
     		combinedOrder.makeTip(c.getOrder().getTip());
     	}
-    	
+    
     	
     	return combinedOrder;
     }
@@ -607,6 +607,11 @@ public class Restaurant {
     		return null;
     }
     
+    public boolean hasModification(String itemName) {
+    	Menu menu = getMenuForItem(itemName);
+    	MenuItem item = menu.getMenuItem(itemName);
+    	return item.isModifiable();
+    }
     
     // getters
      

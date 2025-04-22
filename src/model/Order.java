@@ -97,12 +97,21 @@ public class Order {
 			&& Double.doubleToLongBits(tip) == Double.doubleToLongBits(other.tip);
    }
 
-@Override
+   @Override
    public String toString() {
-	   String message = "---------------------\n" +
+		String message = "";
+		if (orderNum >= 0) {
+			message += "---------------------\n" +
 			   			"Order Number: " + orderNum + "\n" +
 			   			"Server: " + serverName + "\n\n" +
 			   			"ITEMS:\n";
+		}
+		else {
+			message += "---------------------\n" +
+		   			"Order Number: TABLE'S ORDER\n" +
+		   			"Server: " + serverName + "\n\n" +
+		   			"ITEMS:\n";
+		}
 	   for (OrderedItem oi : items) {
 		   message += "\t$" + oi.getPrice() + " - " + oi.getItemName() + "\n";
 		   if (oi.getModification() != null && !oi.getModification().equals("None")) {
