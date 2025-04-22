@@ -114,7 +114,9 @@ public class Order {
 		}
 	   for (OrderedItem oi : items) {
 		   message += "\t$" + oi.getPrice() + " - " + oi.getItemName() + "\n";
-		   if (oi.getModification() != null && !oi.getModification().equals("None")) {
+		   if (oi.getModification() != null && 
+			  !oi.getModification().equals("None") && 
+			  !oi.getModification().equals("This item can not be modified")) {
 			   message += "\t\tModification: " + oi.getModification() + "\n";
 		   }
 	   }
