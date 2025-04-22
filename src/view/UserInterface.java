@@ -111,7 +111,7 @@ public class UserInterface {
 							this.viewSales();
 							break;
 						case "4":
-							restaurant.getSalesTracker().getTotalTips();
+							System.out.println("TOTAL TIPS: " + restaurant.getSalesTracker().getTotalTips());
 							break;
 						case "5": 
 							this.viewClosedOrders();
@@ -534,11 +534,11 @@ public class UserInterface {
 	    	}
 	    	
 	    	for (int i = 0; i < customers; i++) {
-	    		System.out.println("\n" + this.restaurant.getOrderFromCustomer(tableNum, i + 1));
 	    		System.out.println("\nCostumer #" + (i+1));
 	    		System.out.print("Tip Amount: ");
 	    		double tipAmt = userInput.nextDouble();
 	    		userInput.nextLine();
+	    		System.out.println("\n" + this.restaurant.getOrderFromCustomer(tableNum, i + 1));
 	    		this.restaurant.closeOrder(tableNum, i + 1, tipAmt);
 	    	}
 	    	
@@ -553,8 +553,8 @@ public class UserInterface {
     }
     
     public void getIndividualTable(String serverName) {
-    	System.out.print("What table would you like to view? (Enter NUMBER)");
-    	System.out.println("\nYOUR " + restaurant.getTablesFromServer(serverName) + "\n");
+    	System.out.println("YOUR " + restaurant.getTablesFromServer(serverName) + "\n");
+    	System.out.print("What table would you like to view? (Enter NUMBER): ");
     	int choice = scanner.nextInt();
     	
     	restaurant.printServerTable(choice);
@@ -564,7 +564,7 @@ public class UserInterface {
     
     // Display the menu, grouped by FoodCourse and then by specificCategory
     public void displayMenu() {
-        System.out.print("\nWhich menu would you like to view? (App/Drink/Entree/Dessert): ");
+        System.out.print("\nWhich menu would you like to view? (App/Drink/Entree/Dessert/): ");
         String choice = scanner.nextLine().trim().toLowerCase();
 
         Menu selectedMenu = null;

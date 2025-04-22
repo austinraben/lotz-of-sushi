@@ -5,7 +5,6 @@ import java.util.Objects;
 public class Customer {
     private Order order;
     private Table assignedTable;
-    //private String serverName; -- maybe include
     
     public Customer(Table table, int orderNum, String serverName) {
     	assignedTable = table;
