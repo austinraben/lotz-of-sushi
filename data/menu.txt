@@ -8,8 +8,8 @@ ENTREES,Regular Roll,Spider Roll,7.99,true,softshell crab avocado cucumber spicy
 ENTREES,Regular Roll,Tuna Roll,6.99,true,tuna and avocado
 ENTREES,Regular Roll,Rainbow Roll,7.99,inside out roll with yellowtail tuna and salmon with cucumber and avocado
 ENTREES,Speciality Roll,Melanie Roll,8.99,true,yellowtail stuffed with wasabi and wasabi on top
-ENTREES,Speciality Roll,Michelle Roll,8.99,true, this is the TA's roll
-ENTREES,Speciality Roll,Austin's Roll,8.99,true,this will have eel sauce and spicy mayo
+ENTREES,Speciality Roll,Michelle Roll,8.99,true, crunchy california roll with extra crunch
+ENTREES,Speciality Roll,Austin's Roll,8.99,true, shrimp tempura and avocado topped with grilled eel, avocado slices, unagi sauce and spicy mayo
 ENTREES,Speciality Roll,Colin's Roll,8.99,true, this roll is probably fire
 ENTREES,Speciality Roll,Lisette's Roll,8.99,true, yummy roll
 ENTREES,Speciality Roll,Ruby's Roll,8.99,true,tempura shrimp with cream cheese cucumber and teriyaki
