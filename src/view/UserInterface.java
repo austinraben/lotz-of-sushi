@@ -310,8 +310,10 @@ public class UserInterface {
             	if (validTable) {
                 restaurant.assignServerToTable(serverName, tableNum);
                 break; 
-            	} else System.out.println("\n"
-            			+ "This table has already been assigned. Please try again.");
+            	} else {
+            		System.out.println("\n" + "This table has already been assigned. Please try again.");
+            		break;
+            	}
             	} break;
             } else {
                 System.out.println("This server does not exist. Please try again.\n");
@@ -334,7 +336,7 @@ public class UserInterface {
 
                 if (tableList.length <= 1 || tableList[1].strip().isEmpty()) {
                     System.out.println("\nThis server has no assigned tables.");
-                    continue; 
+                    break; 
                 }
 
                 while (true) {
