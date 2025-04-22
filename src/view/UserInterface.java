@@ -500,7 +500,7 @@ public class UserInterface {
     
     public void closeOrder(String serverName) {
     	Scanner userInput = new Scanner(System.in);
-    	System.out.print("Which table are you taking orders from? (1-25): ");
+    	System.out.print("Which table are you closing orders from? (1-25): ");
     	int tableNum = userInput.nextInt();
     	
     	userInput.nextLine();
