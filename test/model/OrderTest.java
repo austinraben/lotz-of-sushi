@@ -13,7 +13,8 @@ class OrderTest {
 	void testOrderItem() {
 		Restaurant myRestaurant = new Restaurant("Test");
 		Order myOrder = new Order(1, "Billy Bob");
-		myOrder.orderItem("Colin's Roll", "None", myRestaurant.getEntreeMenu());
+	    MenuItem colinsRoll = new MenuItem(FoodCourse.ENTREES, "Specialty Roll", "Colin's Roll", 8.99, true, "description omitted");
+		myOrder.orderItem("Colin's Roll", "None", myRestaurant.getEntreeMenu(), colinsRoll);
 		
 		assertEquals(myOrder.getItems().get(0).getItemName(), "Colin's Roll");
 		assertEquals(myOrder.getBill().getPriceBeforeTip(), 8.99);
@@ -23,8 +24,10 @@ class OrderTest {
 	void testCopyOrder() {
 		Restaurant myRestaurant = new Restaurant("Test");
 		Order myOrder1 = new Order(23, "Billy Bob");
-		myOrder1.orderItem("Colin's Roll", "None", myRestaurant.getEntreeMenu());
-		myOrder1.orderItem("Ruby's Roll", "None", myRestaurant.getEntreeMenu());
+	    MenuItem colinsRoll = new MenuItem(FoodCourse.ENTREES, "Specialty Roll", "Colin's Roll", 8.99, true, "description omitted");
+	    MenuItem rubysRoll = new MenuItem(FoodCourse.ENTREES, "Specialty Roll", "Ruby's Roll", 8.99, true, "description omitted");
+		myOrder1.orderItem("Colin's Roll", "None", myRestaurant.getEntreeMenu(), colinsRoll);
+		myOrder1.orderItem("Ruby's Roll", "None", myRestaurant.getEntreeMenu(), rubysRoll);
 		Order myOrder2 = new Order(myOrder1);
 		
 		assertEquals(myOrder2.getItems().get(0).getItemName(), "Colin's Roll");
@@ -36,8 +39,10 @@ class OrderTest {
 	void testMakeTip() {
 		Restaurant myRestaurant = new Restaurant("Test");
 		Order myOrder1 = new Order(23, "Billy Bob");
-		myOrder1.orderItem("Colin's Roll", "None", myRestaurant.getEntreeMenu());
-		myOrder1.orderItem("Ruby's Roll", "None", myRestaurant.getEntreeMenu());
+		MenuItem colinsRoll = new MenuItem(FoodCourse.ENTREES, "Specialty Roll", "Colin's Roll", 8.99, true, "description omitted");
+	    MenuItem rubysRoll = new MenuItem(FoodCourse.ENTREES, "Specialty Roll", "Ruby's Roll", 8.99, true, "description omitted");
+		myOrder1.orderItem("Colin's Roll", "None", myRestaurant.getEntreeMenu(), colinsRoll);
+		myOrder1.orderItem("Ruby's Roll", "None", myRestaurant.getEntreeMenu(), rubysRoll);
 		
 		myOrder1.makeTip(2.50);
 		
@@ -50,8 +55,10 @@ class OrderTest {
 	void testToString() {
 		Restaurant myRestaurant = new Restaurant("Test");
 		Order myOrder1 = new Order(23, "Billy Bob");
-		myOrder1.orderItem("Colin's Roll", "None", myRestaurant.getEntreeMenu());
-		myOrder1.orderItem("Ruby's Roll", "No Shrimp", myRestaurant.getEntreeMenu());
+		MenuItem colinsRoll = new MenuItem(FoodCourse.ENTREES, "Specialty Roll", "Colin's Roll", 8.99, true, "description omitted");
+	    MenuItem rubysRoll = new MenuItem(FoodCourse.ENTREES, "Specialty Roll", "Ruby's Roll", 8.99, true, "description omitted");
+		myOrder1.orderItem("Colin's Roll", "None", myRestaurant.getEntreeMenu(), colinsRoll);
+		myOrder1.orderItem("Ruby's Roll", "No Shrimp", myRestaurant.getEntreeMenu(), rubysRoll);
 		myOrder1.makeTip(2.50);
 		
 		String compare = "---------------------\n" +
@@ -71,11 +78,14 @@ class OrderTest {
 	void testSetItems() {
 		Restaurant myRestaurant = new Restaurant("Test");
 		Order myOrder1 = new Order(123, "Billy Bob");
-		myOrder1.orderItem("Austin's Roll", "None", myRestaurant.getEntreeMenu());
-		myOrder1.orderItem("Lisette's Roll", "None", myRestaurant.getEntreeMenu());
+	    MenuItem austinsRoll = new MenuItem(FoodCourse.ENTREES, "Specialty Roll", "Austin's Roll", 8.99, true, "description omitted");
+	    MenuItem lisettesRoll = new MenuItem(FoodCourse.ENTREES, "Specialty Roll", "Lisette's Roll", 8.99, true, "description omitted");
+	    myOrder1.orderItem("Austin's Roll", "None", myRestaurant.getEntreeMenu(), austinsRoll);
+		myOrder1.orderItem("Lisette's Roll", "None", myRestaurant.getEntreeMenu(), lisettesRoll);
 		
 		List<OrderedItem> myOrderItems = new ArrayList<>();
-		myOrderItems.add(new OrderedItem(myRestaurant.getDrinkMenu().getMenuItem("Green Tea"), "None"));
+		MenuItem greenTea = myRestaurant.getDrinkMenu().getMenuItem("Green Tea");
+		myOrderItems.add(new OrderedItem(greenTea, "None", greenTea));
 		myOrder1.setItems(myOrderItems);
 		
 		assertEquals(myOrder1.getItems().get(0).getItemName(), "Green Tea");
@@ -101,7 +111,8 @@ class OrderTest {
         Order o2 = new Order(1, "Billy Bob");
 
         List<OrderedItem> items = new ArrayList<>();
-        items.add(new OrderedItem(myRestaurant.getDrinkMenu().getMenuItem("Green Tea"), "None"));
+		MenuItem greenTea = myRestaurant.getDrinkMenu().getMenuItem("Green Tea");
+        items.add(new OrderedItem(greenTea, "None", greenTea));
         o1.setItems(items);
         o2.setItems(new ArrayList<>(items));
 
@@ -118,11 +129,13 @@ class OrderTest {
 	        Order o2 = new Order(1, "Billy Bob");
 
 	        List<OrderedItem> items1 = new ArrayList<>();
-	        items1.add(new OrderedItem(myRestaurant.getDrinkMenu().getMenuItem("Green Tea"), "None"));
+			MenuItem greenTea = myRestaurant.getDrinkMenu().getMenuItem("Green Tea");
+	        items1.add(new OrderedItem(greenTea, "None", greenTea));
 	        o1.setItems(items1);
 
 	        List<OrderedItem> items2 = new ArrayList<>();
-	        items2.add(new OrderedItem(myRestaurant.getDrinkMenu().getMenuItem("Jasmine Tea"), "None"));
+			MenuItem jasmineTea = myRestaurant.getDrinkMenu().getMenuItem("Jasmine Tea");
+	        items2.add(new OrderedItem(jasmineTea, "None", jasmineTea));
 	        o2.setItems(items2);
 
 	        o1.makeTip(5.0);
@@ -167,7 +180,8 @@ class OrderTest {
 	        o1.makeTip(4.0);
 
 	        List<OrderedItem> items = new ArrayList<>();
-	        items.add(new OrderedItem(myRestaurant.getDrinkMenu().getMenuItem("Jasmine Tea"), "None"));
+			MenuItem jasmineTea = myRestaurant.getDrinkMenu().getMenuItem("Jasmine Tea");
+	        items.add(new OrderedItem(jasmineTea, "None", jasmineTea));
 	        o1.setItems(items);
 
 	        int hash1 = o1.hashCode();

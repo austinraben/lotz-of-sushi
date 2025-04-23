@@ -103,7 +103,7 @@ public class Restaurant {
     }
     
     // read menu.txt, create MenuItems and add them to Menu and its respective child class
-    private void loadMenuItems(String filename) {
+    public void loadMenuItems(String filename) {
     	filename = System.getProperty("user.dir") + filename;
 
     	try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
@@ -143,7 +143,7 @@ public class Restaurant {
         }
     }
     
-    private Menu getMenuForCourse(FoodCourse course) {
+    public Menu getMenuForCourse(FoodCourse course) {
         switch (course) {
             case DRINKS:
                 return drinkMenu;
@@ -394,15 +394,19 @@ public class Restaurant {
     
     // if modifications are allowed
     public void orderItem(int tableNum, int orderNum, String item, String modification) {
-    	
-    	Table table = getTableByNumber(tableNum);
-    	// get customer associated with given orderNum
-    	Customer customer = tableMap.get(table).get(orderNum - 1);
-    	
-    	Menu menu = getMenuForItem(item);
-    	
-    	// order item 
-    	customer.orderItem(item, modification, menu);
+        Table table = getTableByNumber(tableNum);
+        Customer customer = tableMap.get(table).get(orderNum - 1);
+        Menu menu = getMenuForItem(item);
+        MenuItem originalItem = menu.getMenuItem(item);
+
+        // Apply discount if happy hour is active
+        MenuItem itemToOrder = originalItem;
+        if (HappyHourManager.isHappyHour() && 
+            (originalItem.getFoodCourse() == FoodCourse.APPS || originalItem.getFoodCourse() == FoodCourse.DRINKS)) {
+            itemToOrder = new DiscountedMenuItem(originalItem);
+        }
+        
+        customer.orderItem(itemToOrder, modification, menu);
     }
     
     // helper method -- closes an individual order 
@@ -590,9 +594,10 @@ public class Restaurant {
     	int customers = getNumCustomers(tableNumber);
     	String serverName = getServerByTable(tableNumber);
     	Order combinedOrder = new Order(-1, serverName);
+    	
     	for (Customer c : tableMap.get(table)) {
     		for (OrderedItem oi : c.getOrder().getItems()) {
-    		combinedOrder.orderItem(oi.getItemName(), oi.getModification(), getMenu(oi.getFoodCourse()));
+    			combinedOrder.orderItem(oi.getItemName(), oi.getModification(), getMenu(oi.getFoodCourse()), oi);
     		}
     		combinedOrder.makeTip(c.getOrder().getTip());
     	}

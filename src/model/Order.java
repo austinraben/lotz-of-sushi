@@ -28,14 +28,13 @@ public class Order {
         this.serverName = other.serverName;
     }
     
-   public void orderItem(String itemName, String modification, Menu menu) {
+   public void orderItem(String itemName, String modification, Menu menu, MenuItem decoratedItem) {
 	   if (menu.containsMenuItem(itemName)) {
 		   MenuItem menuItem = menu.getMenuItem(itemName);
-		   OrderedItem orderedItem = new OrderedItem(menuItem, modification);
+		   OrderedItem orderedItem = new OrderedItem(menuItem, modification, decoratedItem);
 		   items.add(orderedItem);
 		   bill.updateBeforeTipPrice(orderedItem.getPrice());
-	   }
-	   else {
+	   } else {
 		   System.out.println("This item is not on the menu");
 		   return;
 	   }
@@ -109,7 +108,7 @@ public class Order {
 			message += "---------------------\n" +
 		   			"Order Number: TABLE'S ORDER\n" +
 		   			"Server: " + serverName + "\n\n" +
-		   			"ITEMS:\n";
+		   			"ITEMS:";
 		}
 	   for (OrderedItem oi : items) {
 		   message += "\t$" + oi.getPrice() + " - " + oi.getItemName() + "\n";

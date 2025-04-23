@@ -32,11 +32,12 @@ public class Bill {
     }
     
     public double getPriceBeforeTip() {
-    	return priceBeforeTip;
+    	String roundedPriceBeforeTip = String.format("%.2f", priceBeforeTip);
+    	return Double.parseDouble(roundedPriceBeforeTip);
     }
     
     public double getPriceAfterTip() {
-    	return priceAfterTip;
-    }
+    	String roundedPriceAfterTip = String.format("%.2f", priceAfterTip);
+    	return Double.parseDouble(roundedPriceAfterTip);    }
 
 }

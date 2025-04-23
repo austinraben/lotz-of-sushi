@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 class RestaurantTest {
@@ -241,11 +242,18 @@ class RestaurantTest {
 		
 		Order myOrder = myRestaurant.getTableOrder(1);
 		Order testOrder = new Order(-1, "Colin Gale");
-		testOrder.orderItem("Miso Soup", "None", myRestaurant.getEntreeMenu());
-		testOrder.orderItem("Spider Roll", "No Mayo", myRestaurant.getEntreeMenu());
-		testOrder.orderItem("Pepsi", "None", myRestaurant.getDrinkMenu());
-		testOrder.orderItem("Colin's Roll", "None", myRestaurant.getEntreeMenu());
-		testOrder.orderItem("Ruby's Roll", "None", myRestaurant.getEntreeMenu());
+		
+	    MenuItem misoSoup = new MenuItem(FoodCourse.ENTREES, "", "Miso Soup", 6.99, false, "tofu seaweed and green onions in a miso broth");
+	    MenuItem spiderRoll = new MenuItem(FoodCourse.ENTREES, "Speciality Roll", "Spider Roll", 7.99, true, "description omitted");
+	    MenuItem pepsi = new MenuItem(FoodCourse.DRINKS, "Soda", "Pepsi", 2.99, false, "");
+	    MenuItem colinsRoll = new MenuItem(FoodCourse.ENTREES, "Specialty Roll", "Colin's Roll", 8.99, true, "description omitted");
+	    MenuItem rubysRoll = new MenuItem(FoodCourse.ENTREES, "Specialty Roll", "Ruby's Roll", 8.99, true, "description omitted");
+
+		testOrder.orderItem("Miso Soup", "None", myRestaurant.getEntreeMenu(), misoSoup);
+		testOrder.orderItem("Spider Roll", "No Mayo", myRestaurant.getEntreeMenu(), spiderRoll);
+		testOrder.orderItem("Pepsi", "None", myRestaurant.getDrinkMenu(), pepsi);
+		testOrder.orderItem("Colin's Roll", "None", myRestaurant.getEntreeMenu(), colinsRoll);
+		testOrder.orderItem("Ruby's Roll", "None", myRestaurant.getEntreeMenu(), rubysRoll);
 		
 		for (int i = 0; i < myOrder.getItems().size(); i++) {
 			assertEquals(myOrder.getItems().get(i).getItemName(), testOrder.getItems().get(i).getItemName());
