@@ -48,17 +48,19 @@ public class MenuItemTest {
         assertEquals("", water.getDescription());
     }
     
+    // this also tests happy hour now
     @Test
     public void testOrderedItemConstructor() {
         // Test with modifiable item
-        OrderedItem orderedTunaRoll = new OrderedItem(tunaRoll, "No avocado");
+        OrderedItem orderedTunaRoll = new OrderedItem(tunaRoll, "No avocado", copy);
         assertEquals("No avocado", orderedTunaRoll.getModification());
         assertEquals("Tuna Roll", orderedTunaRoll.getItemName());
         assertEquals(6.99, orderedTunaRoll.getPrice(), 0.001);
 
         // Test with non-modifiable item
-        OrderedItem orderedMisoSoup = new OrderedItem(misoSoup, "No miso with my miso soup");
+        OrderedItem orderedMisoSoup = new OrderedItem(misoSoup, "No miso with my miso soup", misoSoup);
         assertEquals("This item can not be modified", orderedMisoSoup.getModification());
         assertEquals("Miso Soup", orderedMisoSoup.getItemName());
+        assertEquals(6.99, misoSoup.getPrice(), 0.001);
     }
 }

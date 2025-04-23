@@ -13,7 +13,8 @@ class SalesTrackerTest {
 		Restaurant myRestaurant = new Restaurant("Test Sales");
 		SalesTracker mySales = myRestaurant.getSalesTracker();
 		Order order = new Order(1, "Billy Bob");
-		order.orderItem("Miso Soup", "None", myRestaurant.getEntreeMenu());
+	    MenuItem misoSoup = new MenuItem(FoodCourse.ENTREES, "", "Miso Soup", 6.99, false, "tofu seaweed and green onions in a miso broth");
+		order.orderItem("Miso Soup", "None", myRestaurant.getEntreeMenu(), misoSoup);
 		mySales.updateOrder(order);
 		
 		assertEquals(mySales.getTotalSale(), 6.99);

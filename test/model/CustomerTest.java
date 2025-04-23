@@ -13,9 +13,9 @@ class CustomerTest {
 		Restaurant myRestaurant = new Restaurant("Customer Test");
 		Table table = myRestaurant.getTableByNumber(1);
 		Customer newCustomer = new Customer(table, 1, "Billy Bob");
-		newCustomer.orderItem("Miso Soup", "None", myRestaurant.getEntreeMenu());
+	    MenuItem misoSoup = new MenuItem(FoodCourse.ENTREES, "", "Miso Soup", 6.99, false, "tofu seaweed and green onions in a miso broth");
+		newCustomer.orderItem(misoSoup, "None", myRestaurant.getEntreeMenu());
 		Order myOrder = newCustomer.getOrder();
-		
 		assertEquals(myOrder.getItems().get(0).getItemName(), "Miso Soup");
 	}
 	
@@ -34,7 +34,8 @@ class CustomerTest {
 		Restaurant myRestaurant = new Restaurant("Customer Test");
 		Table table = myRestaurant.getTableByNumber(1);
 		Customer newCustomer = new Customer(table, 1, "Billy Bob");
-		newCustomer.orderItem("Miso Soup", "None", myRestaurant.getEntreeMenu());
+	    MenuItem misoSoup = new MenuItem(FoodCourse.ENTREES, "", "Miso Soup", 6.99, false, "tofu seaweed and green onions in a miso broth");
+		newCustomer.orderItem(misoSoup, "None", myRestaurant.getEntreeMenu());
 		newCustomer.tip(6.99);
 		Order myOrder = newCustomer.getOrder();
 		
@@ -46,7 +47,8 @@ class CustomerTest {
 		Restaurant myRestaurant = new Restaurant("Customer Test");
 		Table table = myRestaurant.getTableByNumber(1);
 		Customer newCustomer = new Customer(table, 1, "Billy Bob");
-		newCustomer.orderItem("Miso Soup", "None", myRestaurant.getEntreeMenu());
+	    MenuItem misoSoup = new MenuItem(FoodCourse.ENTREES, "", "Miso Soup", 6.99, false, "tofu seaweed and green onions in a miso broth");
+		newCustomer.orderItem(misoSoup, "None", myRestaurant.getEntreeMenu());
 		newCustomer.tip(6.99);
 		Bill myBill = newCustomer.getBill();
 		
@@ -59,8 +61,8 @@ class CustomerTest {
 		Restaurant myRestaurant = new Restaurant("Customer Test");
 		Table table = myRestaurant.getTableByNumber(1);
 		Customer newCustomer = new Customer(table, 1, "Billy Bob");
-		newCustomer.orderItem("Miso Soup", "None", myRestaurant.getEntreeMenu());
-		newCustomer.tip(6.99);
+	    MenuItem misoSoup = new MenuItem(FoodCourse.ENTREES, "", "Miso Soup", 6.99, false, "tofu seaweed and green onions in a miso broth");
+		newCustomer.orderItem(misoSoup, "None", myRestaurant.getEntreeMenu());		newCustomer.tip(6.99);
 		newCustomer.changeBillTotal(5.00);
 		Bill myBill = newCustomer.getBill();
 		

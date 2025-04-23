@@ -103,7 +103,7 @@ public class Restaurant {
     }
     
     // read menu.txt, create MenuItems and add them to Menu and its respective child class
-    private void loadMenuItems(String filename) {
+    public void loadMenuItems(String filename) {
     	filename = System.getProperty("user.dir") + filename;
 
     	try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
@@ -143,7 +143,7 @@ public class Restaurant {
         }
     }
     
-    private Menu getMenuForCourse(FoodCourse course) {
+    public Menu getMenuForCourse(FoodCourse course) {
         switch (course) {
             case DRINKS:
                 return drinkMenu;

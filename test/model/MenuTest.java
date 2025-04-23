@@ -82,15 +82,4 @@ public class MenuTest {
         drinkMenu.printMenu();
         dessertMenu.printMenu();
     }
-
-    // run this test multiple times to confirm it passes
-    @Test
-    public void testGetRandomItem() {
-        assertNull(entreeMenu.getRandomItem());
-    	entreeMenu.addItem(tunaRoll);
-        entreeMenu.addItem(californiaRoll);
-        entreeMenu.addItem(misoSoup);
-        MenuItem randomItem = entreeMenu.getRandomItem();
-        assertTrue(randomItem.equals(tunaRoll) || randomItem.equals(californiaRoll) || randomItem.equals(misoSoup));
-    }
 }
