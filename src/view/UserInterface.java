@@ -444,7 +444,7 @@ public class UserInterface {
 			Scanner wait = new Scanner(System.in);
 			String waitString = wait.nextLine();
     	}
-    }
+    } 
     
     public void takeOrders(String serverName) {
     	Scanner userInput = new Scanner(System.in);
@@ -495,7 +495,7 @@ public class UserInterface {
 	    		
 	    		
 	    		System.out.print("Next customer? (Y/N) ");
-    			// print out each customers order
+	    		
     			if(userInput.nextLine().trim().equalsIgnoreCase("Y")) break;
 	    		}
 	    		System.out.println("\n" + restaurant.getOrderFromCustomer(tableNum, (i+1)).toString());
@@ -599,31 +599,11 @@ public class UserInterface {
     
     // Display the menu, grouped by FoodCourse and then by specificCategory
     public void displayMenu() {
-        System.out.print("\nWhich menu would you like to view? (App/Drink/Entree/Dessert/): ");
+        System.out.print("\nWhich menu would you like to view? (App/Drink/Entree/Dessert/All): ");
         String choice = scanner.nextLine().trim().toLowerCase();
-
-        Menu selectedMenu = null;
-        switch (choice) {
-            case "app":
-                selectedMenu = restaurant.getAppMenu();
-                break;
-            case "drink":
-                selectedMenu = restaurant.getDrinkMenu();
-                break;
-            case "entree":
-                selectedMenu = restaurant.getEntreeMenu();
-                break;
-            case "dessert":
-                selectedMenu = restaurant.getDessertMenu();
-                break;
-            default:
-                System.out.println("Invalid choice. Please select apps, drinks, entree, or dessert.");
-                return;
-        }
-
-        if (selectedMenu != null) {
-            selectedMenu.printMenu();
-        }
+        restaurant.printMenu(choice);
+        return;
+        
     }
     
     public void viewSales() {

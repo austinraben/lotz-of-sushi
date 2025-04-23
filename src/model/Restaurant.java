@@ -44,10 +44,10 @@ public class Restaurant {
         this.tables = createTables();
         this.tableMap = createTableMap();
         this.closedOrders = new ArrayList<Order>();
-        this.drinkMenu = new DrinkMenu();
-        this.appMenu = new AppMenu();
-        this.entreeMenu = new EntreeMenu();
-        this.dessertMenu = new DessertMenu();
+        this.drinkMenu = new Menu(FoodCourse.DRINKS);
+        this.appMenu = new Menu(FoodCourse.APPS);
+        this.entreeMenu = new Menu(FoodCourse.ENTREES);
+        this.dessertMenu = new Menu(FoodCourse.DESSERTS);
         
         try {
             loadMenuItems("/data/menu.txt");
@@ -597,7 +597,7 @@ public class Restaurant {
     	
     	for (Customer c : tableMap.get(table)) {
     		for (OrderedItem oi : c.getOrder().getItems()) {
-    			combinedOrder.orderItem(oi.getItemName(), oi.getModification(), getMenu(oi.getFoodCourse()), oi);
+    			combinedOrder.orderItem(oi.getItemName(), oi.getModification(), getMenuForCourse(oi.getFoodCourse()), oi);
     		}
     		combinedOrder.makeTip(c.getOrder().getTip());
     	}
@@ -619,28 +619,25 @@ public class Restaurant {
     	return item.isModifiable();
     }
     
+
     // getters
-     
+    
     public Menu getDrinkMenu() {
-        return drinkMenu;
+    	return new Menu(drinkMenu);
     }
 
     public Menu getAppMenu() {
-        return appMenu;
+        return new Menu(appMenu);
     }
 
     public Menu getEntreeMenu() {
-        return entreeMenu;
+        return new Menu(entreeMenu);
     }
 
     public Menu getDessertMenu() {
-        return dessertMenu;
-    }
-
-    public Menu getMenu(FoodCourse course) {
-        return getMenuForCourse(course);
-    }   
-    
+        return new Menu(dessertMenu);
+    }  
+ 
     public SalesTracker getSalesTracker() {
     	return new SalesTracker(sales);
     }
@@ -654,6 +651,34 @@ public class Restaurant {
 	public void setTableMap(HashMap<Table, ArrayList<Customer>> tableMap) {
 		this.tableMap = tableMap;
 	}
+	
+	
+	// string methods
+	public void printMenu(String foodCourse) {
+		switch(foodCourse) {
+		case "drink":
+			drinkMenu.printMenu();
+			break;
+		case "app":
+			appMenu.printMenu();
+			break;
+		case "entree":
+			entreeMenu.printMenu();
+			break;
+		case "dessert":
+			dessertMenu.printMenu();
+			break;
+		case "all":
+			appMenu.printMenu();
+			entreeMenu.printMenu();
+			dessertMenu.printMenu();
+			drinkMenu.printMenu();
+			break;
+		default:
+	        System.out.println("Invalid choice. Please select apps, drinks, entree, or dessert.");
+		}
+	}
+	
 	
 	@Override
 	public String toString() {
@@ -713,7 +738,7 @@ public class Restaurant {
         
         
         restaurant.append(" |                                        |\n")
-                  .append(" | HOSTESS                                |\n")
+                  .append(" | HOST                                   |\n")
                   .append(" |                                        |\n")
                   .append(" --ENTRANCE-------------------------------- \n");
 

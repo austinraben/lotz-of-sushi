@@ -17,6 +17,11 @@ public class Menu implements Iterable<String> {
         this.course = course;
         this.items = new HashMap<>(); 
     }
+    
+    public Menu (Menu menu) {
+    	this.course = menu.course;
+    	this.items = new HashMap<>(menu.items);
+    }
 
     public void addItem(MenuItem item) {
         String itemName = item.getItemName();
