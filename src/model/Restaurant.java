@@ -394,15 +394,19 @@ public class Restaurant {
     
     // if modifications are allowed
     public void orderItem(int tableNum, int orderNum, String item, String modification) {
-    	
-    	Table table = getTableByNumber(tableNum);
-    	// get customer associated with given orderNum
-    	Customer customer = tableMap.get(table).get(orderNum - 1);
-    	
-    	Menu menu = getMenuForItem(item);
-    	
-    	// order item 
-    	customer.orderItem(item, modification, menu);
+        Table table = getTableByNumber(tableNum);
+        Customer customer = tableMap.get(table).get(orderNum - 1);
+        Menu menu = getMenuForItem(item);
+        MenuItem originalItem = menu.getMenuItem(item);
+
+        // Apply discount if happy hour is active
+        MenuItem itemToOrder = originalItem;
+        if (HappyHourManager.isHappyHour() && 
+            (originalItem.getFoodCourse() == FoodCourse.APPS || originalItem.getFoodCourse() == FoodCourse.DRINKS)) {
+            itemToOrder = new DiscountedMenuItem(originalItem);
+        }
+        
+        customer.orderItem(itemToOrder, modification, menu);
     }
     
     // helper method -- closes an individual order 
@@ -590,9 +594,10 @@ public class Restaurant {
     	int customers = getNumCustomers(tableNumber);
     	String serverName = getServerByTable(tableNumber);
     	Order combinedOrder = new Order(-1, serverName);
+    	
     	for (Customer c : tableMap.get(table)) {
     		for (OrderedItem oi : c.getOrder().getItems()) {
-    		combinedOrder.orderItem(oi.getItemName(), oi.getModification(), getMenu(oi.getFoodCourse()));
+    			combinedOrder.orderItem(oi.getItemName(), oi.getModification(), getMenu(oi.getFoodCourse()), oi);
     		}
     		combinedOrder.makeTip(c.getOrder().getTip());
     	}

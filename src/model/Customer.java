@@ -11,9 +11,8 @@ public class Customer {
         this.order = new Order(orderNum, serverName);
     }
     
-    // functionality
-    public void orderItem(String itemName, String modification, Menu menu) {
-    	order.orderItem(itemName, modification, menu);
+    public void orderItem(MenuItem item, String modification, Menu menu) {
+        order.orderItem(item.getItemName(), modification, menu, item);
     }
     
     public void tip(double tipAmt) {
