@@ -90,7 +90,8 @@ public class UserInterface {
 			if (ManagerPassword.hashPassword(password, managerPassword.getSalt()).equals(managerPassword.getHashedPassword())) {
 				while (true) {
 					System.out.print("\n=================================\n         Manager Menu\n=================================\n\n");
-					System.out.println("1. Turn ON Happy Hour\n2. Turn OFF Happy Hour\n3. View servers\n4. View tables\n5. View sales\n6. View tips\n7. View closed orders\n8. Hire servers\n9. Fire servers\n10. Change Password\n11. Exit Manage");
+					String happy = HappyHourManager.isHappyHour() ? "\u001B[32m Happy Hour On\u001B[0m" : "\u001B[31m Happy Hour Off\u001B[0m";
+					System.out.println("1. View servers\n2. View tables\n3. View sales\n4. View tips\n5. View closed orders\n6." + happy +" \n7. Hire servers\n8. Fire servers\n9. Change Password\n10. Exit Manage");
 					System.out.print("\nEnter in a command (1-11): ");
 					
 					Scanner userInput = new Scanner(System.in);
@@ -98,56 +99,54 @@ public class UserInterface {
 					
 					switch (inputString) {
 						case "1":
-						    if (!HappyHourManager.isHappyHour()) {
-						        HappyHourManager.toggleHappyHour();
-						    }
-						    System.out.println("Happy Hour is now ON");
-						    break;
-						case "2":
-						    if (HappyHourManager.isHappyHour()) {
-						        HappyHourManager.toggleHappyHour();
-						    }
-						    System.out.println("Happy Hour is now OFF");
-						break;
-						case "3":
 							System.out.print("\n=================================\n           Server View\n=================================\n\n");
 							System.out.print(restaurant.getAllServersInfo());
 							System.out.print("\nPress Enter to return to Manager Menu");
 							break;
-						case "4": 
+						case "2": 
 							System.out.print("\n===========================================\n                 Table View\n===========================================\n\n");
 							System.out.print(restaurant.toString());
 							System.out.print("\nPress Enter to return to Manager Menu");
 							break;
-						case "5":
+						case "3":
 							System.out.print("\n=================================\n           Sales View\n=================================\n");
 							this.viewSales();
 							break;
-						case "6":
+						case "4":
 							System.out.println("TOTAL TIPS: " + restaurant.getSalesTracker().getTotalTips());
 							break;
-						case "7": 
+						case "5": 
 							this.viewClosedOrders();
 							break;
-						case "8":
+						case "6":
+						    if (!HappyHourManager.isHappyHour()) {
+						        HappyHourManager.toggleHappyHour();
+						        System.out.println("Happy Hour is now ON");
+						    }
+						    else {
+						    	HappyHourManager.toggleHappyHour();
+						        System.out.println("Happy Hour is now OFF");
+						    }
+						    break;
+						case "7":
 							this.hireServers();
 							break;
-						case "9":
+						case "8":
 							this.fireServers();
 							break;
-						case "10":
+						case "9":
 							password = this.changePassword(password);
 							managerPassword.setPassword(password);
 							managerPassword.rewriteToFile("/data/staff.txt");
 							break;
-						case "11":
+						case "10":
 							break;
 						default:
 							System.out.println("Command not found. Please enter the NUMBER of the command!");
 							break;
 					}
 					
-					if (inputString.equals("11")) break;
+					if (inputString.equals("10")) break;
 					
 					Scanner wait = new Scanner(System.in);
 					String waitString = wait.nextLine();

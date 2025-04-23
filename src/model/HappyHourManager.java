@@ -1,13 +1,13 @@
 package model;
 
 public class HappyHourManager {
-    private static SwitchModelDecorator switchModel = new SwitchModelDecorator();
+    private static HappyHourSwitch switchModel = new HappyHourSwitch();
 
     public static boolean isHappyHour() {
         return switchModel.isHappyHour();
     }
 
     public static void toggleHappyHour() {
-        switchModel.toggleHappyHour();
+        switchModel.toggle();
     }
 }
