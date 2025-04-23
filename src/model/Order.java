@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Order {
-	private int orderNumber;
 	private List<OrderedItem> items;
 	private Bill bill;
     private int orderNum;
@@ -22,7 +21,7 @@ public class Order {
     
     // copy constructor
     public Order(Order other) {
-    	this.orderNumber = other.orderNumber;
+    	this.orderNum = other.orderNum;
     	this.bill = other.bill;
         this.items = other.items;
         this.tip = other.tip;
@@ -81,7 +80,7 @@ public class Order {
    
    @Override
    public int hashCode() {
-	   return Objects.hash(items, orderNum, orderNumber, tip);
+	   return Objects.hash(items, orderNum, tip);
    }
 
    @Override
@@ -93,7 +92,7 @@ public class Order {
 	   if (getClass() != obj.getClass())
 		   return false;
 	   Order other = (Order) obj;
-	   return Objects.equals(items, other.items) && orderNum == other.orderNum && orderNumber == other.orderNumber
+	   return Objects.equals(items, other.items) && orderNum == other.orderNum
 			&& Double.doubleToLongBits(tip) == Double.doubleToLongBits(other.tip);
    }
 
