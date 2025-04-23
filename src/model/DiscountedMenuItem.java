@@ -13,7 +13,7 @@ public class DiscountedMenuItem extends MenuItem {
     public double getPrice() {
         if (HappyHourManager.isHappyHour() && 
             (getFoodCourse() == FoodCourse.APPS || getFoodCourse() == FoodCourse.DRINKS)) {
-            return super.getPrice() * 0.8;
+            return Math.round((super.getPrice() * 0.8) * 100) / 100.0;
         }
         return super.getPrice();
     }
