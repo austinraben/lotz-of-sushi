@@ -92,7 +92,7 @@ public class UserInterface {
 					System.out.print("\n=================================\n         Manager Menu\n=================================\n\n");
 					String happy = HappyHourManager.isHappyHour() ? "\u001B[32m Happy Hour On\u001B[0m" : "\u001B[31m Happy Hour Off\u001B[0m";
 					System.out.println("1. View servers\n2. View tables\n3. View sales\n4. View tips\n5. View closed orders\n6." + happy +" \n7. Hire servers\n8. Fire servers\n9. Change Password\n10. Exit Manage");
-					System.out.print("\nEnter in a command (1-11): ");
+					System.out.print("\nEnter in a command (1-10): ");
 					
 					Scanner userInput = new Scanner(System.in);
 					String inputString = userInput.nextLine().strip().toLowerCase();
@@ -598,7 +598,7 @@ public class UserInterface {
     
     // Display the menu, grouped by FoodCourse and then by specificCategory
     public void displayMenu() {
-        System.out.print("\nWhich menu would you like to view? (App/Drink/Entree/Dessert/All): ");
+        System.out.print("\nWhich menu would you like to view? (App/Drink/Entree/Dessert/Full): ");
         String choice = scanner.nextLine().trim().toLowerCase();
         restaurant.printMenu(choice);
         return;

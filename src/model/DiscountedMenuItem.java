@@ -7,6 +7,12 @@ public class DiscountedMenuItem extends MenuItem {
         super(wrapped); 
         this.wrapped = wrapped;
     }
+    
+    // copy constructor
+    public DiscountedMenuItem(DiscountedMenuItem other) {
+    	super(other);
+    	this.wrapped = other.wrapped;
+    }
 
     // 20% off
     @Override

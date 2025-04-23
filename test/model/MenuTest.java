@@ -71,7 +71,19 @@ public class MenuTest {
         assertNotEquals(item2, item3);
         assertFalse(iterator.hasNext());
     }
-
+    
+    @Test
+    public void testCopyConstructor() {
+    	entreeMenu.addItem(californiaRoll);
+        entreeMenu.addItem(misoSoup);
+        
+        Menu myMenuCopy = new Menu(entreeMenu);
+        assertEquals(myMenuCopy.getCourse(), entreeMenu.getCourse());
+        assertTrue(myMenuCopy.containsMenuItem("California Roll"));
+        assertTrue(myMenuCopy.containsMenuItem("Miso Soup"));
+        
+    }
+    
     @Test
     public void testPrintMenu() {
         entreeMenu.addItem(californiaRoll);

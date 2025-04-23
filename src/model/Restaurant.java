@@ -130,8 +130,7 @@ public class Restaurant {
                 boolean modifiable = Boolean.parseBoolean(parts[4]);
                 String description = (parts.length > 5) ? parts[5] : ""; 
 
-                MenuItem item = new MenuItem(course, category, itemName, price, modifiable, description);
-
+                MenuItem item = new DiscountedMenuItem(new MenuItem(course, category, itemName, price, modifiable, description));
                 Menu subMenu = getMenuForCourse(course);
                 if (subMenu != null) {
                 	//System.out.println(item.getItemName() + " added to " + subMenu.getCourse());
@@ -399,14 +398,8 @@ public class Restaurant {
         Menu menu = getMenuForItem(item);
         MenuItem originalItem = menu.getMenuItem(item);
 
-        // Apply discount if happy hour is active
-        MenuItem itemToOrder = originalItem;
-        if (HappyHourManager.isHappyHour() && 
-            (originalItem.getFoodCourse() == FoodCourse.APPS || originalItem.getFoodCourse() == FoodCourse.DRINKS)) {
-            itemToOrder = new DiscountedMenuItem(originalItem);
-        }
         
-        customer.orderItem(itemToOrder, modification, menu);
+        customer.orderItem(originalItem, modification, menu);
     }
     
     // helper method -- closes an individual order 
