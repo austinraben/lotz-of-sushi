@@ -302,7 +302,7 @@ class RestaurantTest {
 				" |               \u001B[31mTable 25:\u001B[0m                |\n" +
 				" |               \u001B[31m SERVER \u001B[0m                 |\n" +
 				" |                                        |\n" +
-				" | HOSTESS                                |\n" +
+				" | HOST                                   |\n" +
 				" |                                        |\n" +
 				" --ENTRANCE-------------------------------- \n";
 		
