@@ -4,16 +4,11 @@ import model.Restaurant;
 import model.Menu;
 import model.MenuItem;
 import model.Order;
-import model.FoodCourse;
 import model.HappyHourManager;
 import model.ManagerPassword;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class UserInterface {
