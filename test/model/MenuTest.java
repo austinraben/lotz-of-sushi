@@ -6,10 +6,10 @@ import org.junit.Test;
 import java.util.Iterator;
 
 public class MenuTest {
-    private AppMenu appMenu;
-    private DrinkMenu drinkMenu;
-    private EntreeMenu entreeMenu;
-    private DessertMenu dessertMenu;
+    private Menu appMenu;
+    private Menu drinkMenu;
+    private Menu entreeMenu;
+    private Menu dessertMenu;
     private MenuItem tunaRoll;
     private MenuItem californiaRoll;
     private MenuItem misoSoup;
@@ -18,10 +18,10 @@ public class MenuTest {
 
     @Before
     public void setUp() {
-        appMenu = new AppMenu();
-        drinkMenu = new DrinkMenu();
-        entreeMenu = new EntreeMenu();
-        dessertMenu = new DessertMenu();
+        appMenu = new Menu(FoodCourse.APPS);
+        drinkMenu = new Menu(FoodCourse.DRINKS);
+        entreeMenu = new Menu(FoodCourse.ENTREES);
+        dessertMenu = new Menu(FoodCourse.DESSERTS);
         tunaRoll = new MenuItem(FoodCourse.ENTREES, "Regular Roll", "Tuna Roll", 6.99, true, "tuna and avocado");
         californiaRoll = new MenuItem(FoodCourse.ENTREES, "Regular Roll", "California Roll", 6.99, true, "cucumber avocado and imitation crab");
         misoSoup = new MenuItem(FoodCourse.ENTREES, "", "Miso Soup", 6.99, false, "tofu seaweed and green onions in a miso broth");
@@ -71,7 +71,19 @@ public class MenuTest {
         assertNotEquals(item2, item3);
         assertFalse(iterator.hasNext());
     }
-
+    
+    @Test
+    public void testCopyConstructor() {
+    	entreeMenu.addItem(californiaRoll);
+        entreeMenu.addItem(misoSoup);
+        
+        Menu myMenuCopy = new Menu(entreeMenu);
+        assertEquals(myMenuCopy.getCourse(), entreeMenu.getCourse());
+        assertTrue(myMenuCopy.containsMenuItem("California Roll"));
+        assertTrue(myMenuCopy.containsMenuItem("Miso Soup"));
+        
+    }
+    
     @Test
     public void testPrintMenu() {
         entreeMenu.addItem(californiaRoll);

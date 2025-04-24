@@ -28,4 +28,12 @@ class OrderedItemTest {
 		OrderedItem orderedDiscountedMisoSoup = new OrderedItem(misoSoup, "modification", discountedMisoSoup);
 		assertEquals(discountedMisoSoup, orderedDiscountedMisoSoup.getDecoratedItem());
 	}
+	
+	@Test
+	void testGetPrice() {
+		MenuItem misoSoup = new MenuItem(FoodCourse.ENTREES, "", "Miso Soup", 6.99, false, "tofu seaweed and green onions in a miso broth");
+		OrderedItem soup = new OrderedItem(misoSoup, "modification", misoSoup);
+		assertEquals(soup.getPrice(), 6.99);
+		
+	}
 }

@@ -17,6 +17,11 @@ public class Menu implements Iterable<String> {
         this.course = course;
         this.items = new HashMap<>(); 
     }
+    
+    public Menu (Menu menu) {
+    	this.course = menu.course;
+    	this.items = new HashMap<>(menu.items);
+    }
 
     public void addItem(MenuItem item) {
         String itemName = item.getItemName();
@@ -32,7 +37,7 @@ public class Menu implements Iterable<String> {
         if (item == null) {
         	return null;
         }
-        return new MenuItem(item);
+        return new DiscountedMenuItem(item);
     }
 
     public FoodCourse getCourse() {
@@ -77,15 +82,6 @@ public class Menu implements Iterable<String> {
         }
     }
 
-    // Return a random item from the Menu for Customer decisions
-    public MenuItem getRandomItem() {
-        if (items.isEmpty()) {
-            return null;
-        }
-        List<MenuItem> itemList = new ArrayList<>(items.values());
-        int randomIndex = (int) (Math.random() * itemList.size());
-        return itemList.get(randomIndex);
-    }
 
     
     // Sort category names alphabetically
