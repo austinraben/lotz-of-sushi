@@ -7,6 +7,7 @@ import org.junit.platform.suite.api.Suite;
 @SelectClasses({
     BillTest.class,
     CustomerTest.class,
+    HappyHourDecoratorTest.class,
     MenuItemTest.class,
     MenuTest.class,
     OrderTest.class,
