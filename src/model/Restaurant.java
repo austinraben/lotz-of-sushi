@@ -661,7 +661,7 @@ public class Restaurant {
 		case "dessert":
 			dessertMenu.printMenu();
 			break;
-		case "all":
+		case "full":
 			appMenu.printMenu();
 			entreeMenu.printMenu();
 			dessertMenu.printMenu();
