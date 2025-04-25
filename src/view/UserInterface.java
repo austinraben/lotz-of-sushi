@@ -100,7 +100,7 @@ public class UserInterface {
 					System.out.print(COLOR_RESET);
 					String happy = HappyHourManager.isHappyHour() ? "Happy Hour " + COLOR_SUCCESS + "On" + COLOR_RESET : "Happy Hour " + COLOR_ERROR + "Off" + COLOR_RESET;
 					System.out.println("1. " + happy + "\n2. View servers\n3. View tables\n4. View sales\n5. View tips\n6. View closed orders\n7. Hire servers\n8. Fire servers\n9. Change Password\n0. Exit Manage");
-					System.out.print("\nChoose an option (1-10): ");
+					System.out.print("\nChoose an option (0-9): ");
 					
 					System.out.print(COLOR_INPUT);
 					Scanner userInput = new Scanner(System.in);
@@ -260,7 +260,7 @@ public class UserInterface {
     		System.out.print("\n=================================\n            Host Menu\n=================================\n");
     		System.out.print(COLOR_RESET);
 	    	System.out.println("1. Seat customers\n2. View servers\n3. View tables\n4. Assign server to table\n5. Remove server from table\n0. Exit Host\n");
-	    	System.out.print("Choose an option (1-6): ");
+	    	System.out.print("Choose an option (0-5): ");
 	    	
 	    	System.out.print(COLOR_INPUT);
 	    	Scanner userInput = new Scanner(System.in);
@@ -488,7 +488,7 @@ public class UserInterface {
     		    "=================================\n\n");
 			System.out.print(COLOR_RESET);
         	System.out.println("1. Take orders\n2. View tables\n3. Close Order\n0. Exit Server");
-        	System.out.print("\nChoose an option (1-4): ");
+        	System.out.print("\nChoose an option (0-3): ");
     		
         	System.out.print(COLOR_INPUT);
 	    	Scanner userInput = new Scanner(System.in);

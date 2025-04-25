@@ -1,3 +1,9 @@
+/*
+ * This class represents a MenuItem that is held on a Menu. MenuItem has a FoodCourse representing whether it is a appetizer, entree, drink, or
+ * dessert, a String for its name, and specific category (ie specialty roll), a price, boolean for if it can be modified or not, and lastly a
+ * description of what ingredients are in it. This object is immutable upon instantiation.
+ */
+
 package model;
 
 import java.util.Objects;
@@ -10,7 +16,8 @@ public class MenuItem {
     private double price;
     private boolean isModifiable;
     private String description;
-
+    
+    // default constructor
     public MenuItem(FoodCourse foodCourse, String specificCategory, String itemName, 
                     double price, boolean modifiable, String description) {
         this.foodCourse = foodCourse;
@@ -30,7 +37,9 @@ public class MenuItem {
     	this.isModifiable = menuItem.isModifiable;
     	this.description = menuItem.description;
     } 
-        
+    
+    // getters
+    
     public FoodCourse getFoodCourse() {
 		return foodCourse;
 	}
@@ -54,6 +63,8 @@ public class MenuItem {
 	public String getDescription() {
 		return description;
 	}
+	
+	// hash code and equals
 	
 	@Override
 	public int hashCode() {

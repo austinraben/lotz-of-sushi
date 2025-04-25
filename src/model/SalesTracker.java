@@ -1,3 +1,9 @@
+/*
+ * This class represents a SalesTracker that keeps history of all the sales made by the restaurant. SalesTracker holds a quantitySold
+ * HashMap that represents how many times a MenuItem has been ordered, totalSales HashMap that represents how much each MenuItem has
+ * made in revenue, and tipsByServer HashMap that represents how many tips each server has earned.
+ */
+
 package model;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,10 +17,13 @@ public class SalesTracker {
 	private HashMap<MenuItem, Double> totalSales;
 	private HashMap<Server, Double> tipsByServer;
 	
+	// default constructor
 	public SalesTracker(ArrayList<Menu> menuList, ArrayList<String> menuItems, HashMap<String, Server> servers) {
 		quantitySold = new HashMap<>();
 		totalSales = new HashMap<>();
 		tipsByServer = new HashMap<>();
+		
+		// initialize all HashMaps by getting all MenuItems/Servers and setting the values to 0/0.0
 		for (Menu m : menuList) {
 			for (String s : menuItems) 
 				if (m.containsMenuItem(s)) {
@@ -22,6 +31,7 @@ public class SalesTracker {
 					totalSales.put(m.getMenuItem(s), 0.0);
 				}
 			}
+		
 		for (String s : servers.keySet()) {
 			tipsByServer.put(servers.get(s), 0.0);
 		}
@@ -37,22 +47,37 @@ public class SalesTracker {
 	
 	
 	public void updateOrder(Order order) {
+		/*
+		 * This method updates the quantitySold and totalSales HashMaps for a given order. 
+		 * It gets the OrderedItems list from the Order and counts each instance as well as
+		 * adds the price of each OrderedItem.
+		 */
 		List<OrderedItem> orderedItems = order.getItems();
 		for (OrderedItem orderItem : orderedItems) {
+			// get count and price from sales tracker
 			int count = quantitySold.get(orderItem);
 			double price = totalSales.get(orderItem);
+			
 			count++;
 			price += orderItem.getPrice();
+			
+			// update sales tracker
 			quantitySold.put(orderItem, count);
 			totalSales.put(orderItem, price);
 		}
 	}
 	
 	public void updateServerTips(HashMap<String, Server> servers) {
+		/*
+		 * This method updates the HashMap representing server tips by getting
+		 * each servers tip attribute.
+		 */
 		for (Map.Entry<String, Server> entry : servers.entrySet()) {
 			tipsByServer.put(entry.getValue(), entry.getValue().getTipsEarned());
 		}
 	}
+	
+	// getters
 	
 	public double getSaleForItem(MenuItem menuItem) {
 		return totalSales.get(menuItem);
@@ -98,6 +123,7 @@ public class SalesTracker {
 		return new HashMap<>(quantitySold);
 	}
 	
+	// toString methods
 	
 	public String quantitySoldSortedString() {
 		String message = "---Sorted Menu Items Sold---\n";

@@ -1,3 +1,9 @@
+/*
+ * This class models an Order which has a list of OrderedItems, a Bill, an order number, a tip amount, and a server name representing
+ * the server who took the order. Orders are associated with customers; each customer has their own unique order that they can add to. There is also
+ * a collective order for the table representing the combination of all customers' orders at the table.
+ */
+
 package model;
 
 import java.util.ArrayList;
@@ -10,7 +16,8 @@ public class Order {
     private int orderNum;
     private double tip;
     private String serverName;
-
+    
+    // default constructor
     public Order(int orderNum, String serverName) {
     	this.orderNum = orderNum;
     	this.bill = new Bill();
@@ -29,6 +36,10 @@ public class Order {
     }
     
    public void orderItem(String itemName, String modification, Menu menu, MenuItem decoratedItem) {
+	   /*
+	    * This method checks if a item is on the given menu, creates a OrderedItem from the MenuItem
+	    * it retrieves from the given menu, and finally adds that OrderedItem to the list of OrderedItems.
+	    */
 	   if (menu.containsMenuItem(itemName)) {
 		   MenuItem menuItem = menu.getMenuItem(itemName);
 		   OrderedItem orderedItem = new OrderedItem(menuItem, modification, decoratedItem);
@@ -50,15 +61,18 @@ public class Order {
    }
    
    public void changeBillTotal(double price) {
+	   /*
+	    * This method allows for the Bill of an order to change, without the order itself changing (ie splitting bill equally)
+	    */
 	   bill.changeBeforeTipPrice(price);
    }
    
    public List<OrderedItem> getItems() {
-	return items;
+	return new ArrayList<OrderedItem>(items);
    }
 
    public void setItems(List<OrderedItem> items) {
-	   this.items = items;
+	   this.items = new ArrayList<OrderedItem>(items);
    }
 
    public Bill getBill() {
@@ -77,6 +91,8 @@ public class Order {
        return serverName;
    }
    
+   // hash code and equals
+   
    @Override
    public int hashCode() {
 	   return Objects.hash(items, orderNum, tip);
@@ -94,10 +110,14 @@ public class Order {
 	   return Objects.equals(items, other.items) && orderNum == other.orderNum
 			&& Double.doubleToLongBits(tip) == Double.doubleToLongBits(other.tip);
    }
+   
+   // toString method
 
    @Override
    public String toString() {
 		String message = "";
+		
+		// any negative orderNum represents the table's collective order
 		if (orderNum >= 0) {
 			message += "---------------------\n" +
 			   			"Order Number: " + orderNum + "\n" +
