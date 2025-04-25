@@ -1,5 +1,4 @@
 // FoodCourse, Category, itemName, price, modifiable, description
-// please add to this
 
 ENTREES,Regular Roll,California Roll,6.99,true,cucumber avocado and imitation crab
 ENTREES,Regular Roll,Spicy Tuna Roll,6.99,true,tuna cucumber and spicy mayo
@@ -7,8 +6,8 @@ ENTREES,Regular Roll,Philadelphia Roll,6.99,true,salmon cream cheese and avocado
 ENTREES,Regular Roll,Spider Roll,7.99,true,softshell crab avocado cucumber spicy mayo
 ENTREES,Regular Roll,Tuna Roll,6.99,true,tuna and avocado
 ENTREES,Regular Roll,Rainbow Roll,7.99,inside out roll with yellowtail tuna and salmon with cucumber and avocado
-ENTREES,Speciality Roll,Melanie Roll,8.99,true,yellowtail stuffed with wasabi and wasabi on top
-ENTREES,Speciality Roll,Michelle Roll,8.99,true, crunchy california roll with extra crunch
+ENTREES,Speciality Roll,Melanie's Roll,8.99,true,yellowtail stuffed with wasabi and wasabi on top
+ENTREES,Speciality Roll,Michelle's Roll,8.99,true, crunchy california roll with extra crunch
 ENTREES,Speciality Roll,Austin's Roll,8.99,true, shrimp tempura and avocado topped with grilled eel, avocado slices, unagi sauce and spicy mayo
 ENTREES,Speciality Roll,Colin's Roll,8.99,true, spicy tuna avocado and cucumber topped with jalapeno slices and green onions
 ENTREES,Speciality Roll,Lisette's Roll,8.99,true, imitation crab avocado cucumber topped with thin slices of fresh salmon and spicy mayo
