@@ -84,7 +84,7 @@ public class UserInterface {
     public void manage() {
     	managerPassword.getManagerPassword("/data/staff.txt");
     	System.out.print(COLOR_HEADER);
-    	System.out.print("\n=================================\n          Manger Login\n=================================");
+    	System.out.print("\n=================================\n         Manager Login\n=================================");
     	System.out.print(COLOR_RESET);
     	System.out.print("\nEnter password: ");
     	System.out.print(COLOR_INPUT);

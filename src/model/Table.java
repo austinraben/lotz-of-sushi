@@ -1,3 +1,7 @@
+/*
+ * This class defines methods for a Table object. A Table object is immutable and is meant to connect the 
+ * Servers with their Customers. Tables are solely identified by their tableNumber.
+ */
 package model;
 
 import java.util.Objects;
@@ -9,7 +13,7 @@ public class Table {
         this.tableNumber = tableNumber;
     }
     
-    // getters & setters
+    // getter for TableNumber
     public int getTableNumber() {
     	return tableNumber;
     }

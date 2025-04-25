@@ -23,5 +23,12 @@ class DiscountedMenuItemTest {
 		HappyHourManager.toggleHappyHour();
 		assertEquals((misoSoup.getPrice()), 6.99);
 	}
+	
+	@Test
+	void testCopyConstructor() {
+		DiscountedMenuItem misoSoup = new DiscountedMenuItem(new MenuItem(FoodCourse.ENTREES, "", "Miso Soup", 6.99, false,"Yummy"));
+		DiscountedMenuItem copyMiso = new DiscountedMenuItem(misoSoup);
+		assertEquals(misoSoup, copyMiso);
+	}
 
 }
