@@ -1,3 +1,10 @@
+/*
+ * This class models the Restaurant itself. Restaurant has a name, an HashMap of servers, a HashMap of Servers and their respective lists of 
+ * tables they are serving, a HashMap of Tables and the Table's respective list of customers at the table, a list of all tables in restaurant, a list
+ * of previous orders/closed orders that have been payed, four menus of different food courses, and finally a SalesTracker to keep track of restaurant's
+ * sales. This is the main class that most commands start from.
+ */
+
 package model;
 
 import java.io.BufferedReader;
@@ -26,12 +33,14 @@ public class Restaurant {
     private Menu entreeMenu;
     private Menu dessertMenu;
     private SalesTracker sales;
-
+    
+    // default constructor
     public Restaurant(String name) { 
         this.name = name;
         this.servers = new HashMap<>();
         this.serverTables = new HashMap<>();
-         
+        
+        // fill servers and serverTables with the servers listed in staff.txt
         try {
         	loadServers("/data/staff.txt");
         }
@@ -43,11 +52,14 @@ public class Restaurant {
         this.tables = createTables();
         this.tableMap = createTableMap();
         this.closedOrders = new ArrayList<Order>();
+        
+        // create four menus of different food courses
         this.drinkMenu = new Menu(FoodCourse.DRINKS);
         this.appMenu = new Menu(FoodCourse.APPS);
         this.entreeMenu = new Menu(FoodCourse.ENTREES);
         this.dessertMenu = new Menu(FoodCourse.DESSERTS);
         
+        // fill all menus with MenuItem objects created from information in menu.txt
         try {
             loadMenuItems("/data/menu.txt");
         } catch (Exception e) {
@@ -59,6 +71,10 @@ public class Restaurant {
     }
     
     private void initializeSalesTracker() {
+    	/*
+    	 * This method initializes the SalesTracker for the restaurant by adding all MenuItems to
+    	 * the SalesTracker's internal HashMaps and all Server objects to internal HashMap.
+    	 */
     	ArrayList<Menu> allMenus = new ArrayList<>();
     	allMenus.add(drinkMenu);
         allMenus.add(appMenu);
@@ -75,6 +91,10 @@ public class Restaurant {
     }
     
     private void loadServers(String filename) {
+    	/*
+    	 * This is a helper method for the constructor to read from staff.txt and "hire" all servers
+    	 * that were currently employed. This makes it so servers stay in the system even after program stops running.
+    	 */
     	filename = System.getProperty("user.dir") + filename;
     	
     	try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
@@ -101,8 +121,11 @@ public class Restaurant {
     	
     }
     
-    // read menu.txt, create MenuItems and add them to Menu and its respective child class
     public void loadMenuItems(String filename) {
+    	/*
+    	 * This method constructs the menus of the restaurant by parsing and creating MenuItems from
+    	 * menu.txt and adding those objects to its respective menu.
+    	 */
     	filename = System.getProperty("user.dir") + filename;
 
     	try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
@@ -159,6 +182,12 @@ public class Restaurant {
     // server and table
     
     public void hireServers(String serverName) {
+    	/*
+    	 * This method hires a new server by creating a Server object, adding Server
+    	 * object to internal lists/HashMaps, and writing to staff.txt file to save
+    	 * the server for next program run.
+    	 */
+    	
         // new server object
         Server newServer = new Server(serverName);
         
@@ -211,6 +240,11 @@ public class Restaurant {
 
     
     public void fireServers(String serverName) {
+    	/*
+    	 * This method fires a server by creating a Server object and using that object
+    	 * to remove server from internal lists/HashMaps. This method also rewrites staff.txt
+    	 * as to not re-hire the server upon rerunning program.
+    	 */
     	
         // create new server object
         Server newServer = new Server(serverName);
@@ -235,8 +269,10 @@ public class Restaurant {
             while ((line = reader.readLine()) != null) {
                 if (line.trim().equals("//MANAGER")) {
                     managerReached = true;
+                    // preserves header and two lines after //MANAGER
                     managerSection.add(line);
-                } else if (managerReached) {
+                } 
+                else if (managerReached) {
                     managerSection.add(line);
                 }
             }
@@ -245,6 +281,8 @@ public class Restaurant {
             // rewrite file
             BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
             writer.write("//SERVERS\n");
+            
+            // rewrites servers to file (new server already removed from this list)
             for (Server s : allServers) {
                 writer.write(s.getServerName() + "\n");
             }
@@ -261,8 +299,12 @@ public class Restaurant {
     
     
     
-    // map servers to tables
+
     public void assignServerToTable(String serverName, int tableNum) {
+    	/*
+    	 * This method gets a Server object by serverName, Table by tableNum, and
+    	 * adds that Table to the Server's tableMap (mapping servers to list of their tables).
+    	 */
     	
     	// only assigns server to table if table does not have a server
     	if (!tableHasServer(tableNum)) {
@@ -284,6 +326,10 @@ public class Restaurant {
     	}
     
     public void removeServerFromTable(String serverName, int tableNum) {
+    	/*
+    	 * This method gets a Server object by serverName, Table by tableNum, and
+    	 * removes that Table to the Server's tableMap (mapping servers to list of their tables).
+    	 */
     	if (tableHasServer(tableNum)) {
     		// find Server object with given name
         	Server found = servers.get(serverName);
@@ -300,8 +346,10 @@ public class Restaurant {
     }
    
     
-    // helper method - returns a list of copies of all current server objects
     private ArrayList<Server> getAlphabeticalServerList(){
+    	/*
+    	 * This is a helper method that returns a list of all servers sorted in alphabetical order.
+    	 */
     	ArrayList<Server> serverList = new ArrayList<Server>();
     	for (Server s : serverTables.keySet()) {
     		serverList.add(new Server(s));
@@ -312,8 +360,11 @@ public class Restaurant {
     	return serverList;
     }
     
-    // returns a string of all servers in the restaurant
     public String getAllServersInfo() {
+    	/*
+    	 * This method returns a string of all servers in the restaurant, sorted by name
+    	 */
+    	
     	ArrayList<Server> serverList = getAlphabeticalServerList();
     	
     	String allServers = ""; 
@@ -335,8 +386,12 @@ public class Restaurant {
     	return serverStrList.strip();
     }
     
-    // make a set amount of tables -- helper method (stay private)
     private ArrayList<Table> createTables() {
+    	/*
+    	 * This is a helper method to initialize the Table objects
+    	 * in the constructor.
+    	 */
+    	
     	ArrayList<Table> tables = new ArrayList<Table>();
     	for (int i = 0; i < 25; i++) {
     		tables.add(new Table(i + 1));
@@ -359,8 +414,10 @@ public class Restaurant {
     	return servers.keySet().contains(serverName);
     }
     
-    // helper method
     public String getServerByTable(int tableNum) {
+    	/*
+    	 * This method retrieves the name of a server at a certain table.
+    	 */
     	Table table = tables.get(tableNum - 1);
     	String serverName = "";
     	
@@ -376,22 +433,32 @@ public class Restaurant {
     	return serverName;
     }
     
-    // customer interaction
     public void seatCustomers(int customerAmt, int tableNum) {
+    	/*
+    	 * This method creates a certain amount of Customer objects, and seats them all
+    	 * at a specified table.
+    	 */
         Table table = tables.get(tableNum - 1);
+        
+        // check if Table is free or not
         if (!(tableSeated(table.getTableNumber()))) {
         ArrayList<Customer> customers = new ArrayList<Customer>();
         String serverName = getServerByTable(tableNum);
+        
         for (int i = 0; i < customerAmt; i++) {
             Customer newCustomer = new Customer(table, i + 1, serverName);
             customers.add(newCustomer);
         }
         tableMap.put(table, customers);
-        } else System.out.println("This table has already been seated.");
+        } 
+        else System.out.println("This table has already been seated.");
         }
     
-    // if modifications are allowed
     public void orderItem(int tableNum, int orderNum, String item, String modification) {
+    	/*
+    	 * This method calls upon separate method in Customer to add an OrderedItem to
+    	 * a Customer's internal Order.
+    	 */
         Table table = getTableByNumber(tableNum);
         Customer customer = tableMap.get(table).get(orderNum - 1);
         Menu menu = getMenuForItem(item);
@@ -401,8 +468,12 @@ public class Restaurant {
         customer.orderItem(originalItem, modification, menu);
     }
     
-    // helper method -- closes an individual order 
     public void closeOrder(int tableNum, int orderNum, double tipAmt) {
+    	/*
+    	 * This method closes a Customer's order by entering in the tip that the customer gave and 
+    	 * adding the order to the list of closed orders. This method should be called when the customer
+    	 * has paid and left the tip.
+    	 */
     	
     	Table table = tables.get(tableNum - 1);
     	// add tip to customers bill
@@ -422,8 +493,11 @@ public class Restaurant {
     	
     }
     
-    // helper method -- adds closed orders to a list
     private void addToClosedOrders(Order closedOrder) {
+    	/*
+    	 * This is a helper method that adds to the closed order list and re-adjusts
+    	 * the closedOrder's order number to ensure no duplicate order numbers.
+    	 */
     	Order newClosedOrder = new Order(closedOrder);
     	newClosedOrder.setOrderNum(closedOrders.size() + 1);
     	closedOrders.add(newClosedOrder);
@@ -439,6 +513,10 @@ public class Restaurant {
     // server functionality
     
     public void printServerTable(int tableNum) {
+    	/*
+    	 * This method will print a string representation of a Table's customers and
+    	 * the customers' orders comprised as a Table's Bill.
+    	 */
     	Table table = getTableByNumber(tableNum);
     	
     	String tableStr = table.toString() + "\n";
@@ -453,6 +531,10 @@ public class Restaurant {
     
     }
     public Bill getBillByTable(int tableNum) {
+    	/*
+    	 * This method creates a Bill object for a collective Table, representing
+    	 * the Bill of each customer at that Table combined.
+    	 */
     	
     	Table table = tables.get(tableNum - 1);
     	// create new table bill
@@ -463,6 +545,7 @@ public class Restaurant {
     	int size = customers.size();
     	for (int i = 0; i < size; i++) {
     		Bill customerBill = getBillFromCustomer(tableNum, i + 1);
+    		
     		// sum the bill of all customers at table
     		tableBill.updateBeforeTipPrice(customerBill.getPriceBeforeTip());
     		tableBill.updateTipPrice(customerBill.getPriceAfterTip() - customerBill.getPriceBeforeTip());
@@ -471,8 +554,11 @@ public class Restaurant {
     	return new Bill(tableBill);
     }
     
-    // changes the bill amount before tip for all customers
     public void splitBillEvenly(int tableNum){
+    	/*
+    	 * This method allows for Customer's to split their Table Bill evenly
+    	 * among each other. It changes the bill amount before tip for all customers.
+    	 */
     	
     	Table table = tables.get(tableNum - 1);
     	// creates a tableBill that is the sum of all current bills at the table
@@ -491,6 +577,7 @@ public class Restaurant {
     		} 
     }
       
+    // returns menu for which that item is held in
      public Menu getMenuForItem(String itemName) {
     	ArrayList<Menu> allMenus = new ArrayList<>();
      	allMenus.add(drinkMenu);
@@ -510,6 +597,10 @@ public class Restaurant {
 
     
     public Order getOrderFromCustomer(int tableNum, int orderNum) {
+    	/*
+    	 * This method gets a specific order from a Customer by which Table they are at and
+    	 * what order number they are at that table.
+    	 */
     	Table table = tables.get(tableNum - 1);
     	if (orderNum - 1 >= tableMap.get(table).size())
     		return null;
@@ -519,6 +610,7 @@ public class Restaurant {
     	return returnOrder;
     }
     
+    // returns a String list of Tables a server is serving
     public String getTablesFromServer(String serverName) {
     	Server myServer = servers.get(serverName);
     	String tableStr = "TABLES: ";
@@ -528,10 +620,16 @@ public class Restaurant {
 		
 		return tableStr.substring(0, tableStr.length() - 1);
     }
-     
+    
+    
     public String getAvailableTables() {
+    	/*
+    	 * This method returns a String of all Tables that have not been seated and have a server waiting for
+    	 * customers to be seated.
+    	 */
     	 String allAvailable = "OPEN TABLES: ";
     	 for (Table t : tables) {
+    		 // Table must not be occupied and must have a server in order to be sat at
     		 if ((!(tableSeated(t.getTableNumber()))) && tableHasServer(t.getTableNumber())) allAvailable += t.getTableNumber() + ",";
     	 }
     	 return allAvailable.substring(0, allAvailable.length() - 1);
@@ -539,6 +637,9 @@ public class Restaurant {
     
     
      public String getUnassignedTables() {
+    	 /*
+    	  * This method returns a String of all Tables with no server yet assigned to them
+    	  */
     	 String allUnassigned = "UNASSIGNED TABLES: ";
     	 for (Table t : tables) {
     		 boolean isAssigned = false;
@@ -559,13 +660,14 @@ public class Restaurant {
     	 Table t = getTableByNumber(tableNum);
     	 return tableMap.get(t).size();
      }
-     
+    
+    // tells if a Table has customers seated at it
     public boolean tableSeated(int tableNumber) {
     	Table table = tables.get(tableNumber - 1);
     	int customersAtTable = tableMap.get(table).size();
     	return (customersAtTable > 0);
     }
-    
+    // tells if a Tables has been assigned a server
     public boolean tableHasServer(int tableNumber) {
     	Table table = tables.get(tableNumber - 1);
     	for (ArrayList<Table> st : serverTables.values()) {
@@ -577,18 +679,28 @@ public class Restaurant {
     }
     
     public void clearCustomersFromTable(int tableNumber) {
+    	/*
+    	 * This method simulates customers leaving a Table, clearing the Table allows the new customers
+    	 * to be sat at this Table.
+    	 */
     	Table table = tables.get(tableNumber - 1);
     	tableMap.put(table, new ArrayList<Customer>());
     }
     
     public Order getTableOrder(int tableNumber) {
+    	/*
+    	 * This method returns a combined Order from all customers at a Table.
+    	 */
     	Table table = tables.get(tableNumber - 1);
     	int customers = getNumCustomers(tableNumber);
     	String serverName = getServerByTable(tableNumber);
+    	
+    	// negative order number tells Order toString that it is the Table's Order
     	Order combinedOrder = new Order(-1, serverName);
     	
     	for (Customer c : tableMap.get(table)) {
     		for (OrderedItem oi : c.getOrder().getItems()) {
+    			// adds to combined order
     			combinedOrder.orderItem(oi.getItemName(), oi.getModification(), getMenuForCourse(oi.getFoodCourse()), oi);
     		}
     		combinedOrder.makeTip(c.getOrder().getTip());
@@ -605,6 +717,7 @@ public class Restaurant {
     		return null;
     }
     
+    // returns if MenuItem can be modified or not
     public boolean hasModification(String itemName) {
     	Menu menu = getMenuForItem(itemName);
     	MenuItem item = menu.getMenuItem(itemName);
@@ -692,6 +805,8 @@ public class Restaurant {
                 if (i + j >= 24) break;
 
                 String tableLabel = String.format(" Table %d:", i + j + 1);
+                
+                // if Table is seated string will be green, else will be red
                 tableLabel = (tableSeated(i + j + 1) ? GREEN : RED) + tableLabel + RESET;
                 restaurant.append(String.format(" %-13s", tableLabel));
                 if ((i + j + 1) < 10) {
@@ -708,7 +823,8 @@ public class Restaurant {
             // Add up to 3 server labels
             for (int j = 0; j < 3; j++) {
                 if (i + j >= 24) break;
-
+                
+                // if tableHasServer string will be green, else will be red
                 String serverLabel = tableHasServer(i + j + 1) ? GREEN + " SERVER " + RESET : RED + " SERVER " + RESET;
                 restaurant.append(" ");
                 restaurant.append(String.format(" %-13s", serverLabel));
@@ -720,10 +836,14 @@ public class Restaurant {
         restaurant.append(" |                                        |\n");
         restaurant.append(" |              ");
         String tableLabel = "Table 25:";
+        
+        // if Table is seated string will be green, else will be red
         tableLabel = (tableSeated(25) ? GREEN : RED) + tableLabel + RESET;
         restaurant.append(String.format(" %-13s", tableLabel));
         restaurant.append("                |\n");
         restaurant.append(" |              ");
+        
+        // if tableHasServer string will be green, else will be red
         String serverLabel = tableHasServer(25) ? GREEN + " SERVER " + RESET : RED + " SERVER " + RESET;
         restaurant.append(String.format(" %-13s", serverLabel));
         restaurant.append("                 |\n");

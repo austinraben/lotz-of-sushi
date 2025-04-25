@@ -260,7 +260,7 @@ public class UserInterface {
     		System.out.print("\n=================================\n            Host Menu\n=================================\n");
     		System.out.print(COLOR_RESET);
 	    	System.out.println("1. Seat customers\n2. View servers\n3. View tables\n4. Assign server to table\n5. Remove server from table\n0. Exit Host\n");
-	    	System.out.print("Choose an option (1-6): ");
+	    	System.out.print("Choose an option (0-5): ");
 	    	
 	    	System.out.print(COLOR_INPUT);
 	    	Scanner userInput = new Scanner(System.in);
@@ -488,7 +488,7 @@ public class UserInterface {
     		    "=================================\n\n");
 			System.out.print(COLOR_RESET);
         	System.out.println("1. Take orders\n2. View tables\n3. Close Order\n0. Exit Server");
-        	System.out.print("\nChoose an option (1-4): ");
+        	System.out.print("\nChoose an option (0-3): ");
     		
         	System.out.print(COLOR_INPUT);
 	    	Scanner userInput = new Scanner(System.in);
