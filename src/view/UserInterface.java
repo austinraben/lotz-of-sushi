@@ -84,7 +84,7 @@ public class UserInterface {
     public void manage() {
     	managerPassword.getManagerPassword("/data/staff.txt");
     	System.out.print(COLOR_HEADER);
-    	System.out.print("\n=================================\n          Manger Login\n=================================");
+    	System.out.print("\n=================================\n         Manager Login\n=================================");
     	System.out.print(COLOR_RESET);
     	System.out.print("\nEnter password: ");
     	System.out.print(COLOR_INPUT);
@@ -100,7 +100,7 @@ public class UserInterface {
 					System.out.print(COLOR_RESET);
 					String happy = HappyHourManager.isHappyHour() ? "Happy Hour " + COLOR_SUCCESS + "On" + COLOR_RESET : "Happy Hour " + COLOR_ERROR + "Off" + COLOR_RESET;
 					System.out.println("1. " + happy + "\n2. View servers\n3. View tables\n4. View sales\n5. View tips\n6. View closed orders\n7. Hire servers\n8. Fire servers\n9. Change Password\n0. Exit Manage");
-					System.out.print("\nChoose an option (1-10): ");
+					System.out.print("\nChoose an option (0-9): ");
 					
 					System.out.print(COLOR_INPUT);
 					Scanner userInput = new Scanner(System.in);
