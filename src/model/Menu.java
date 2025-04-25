@@ -1,3 +1,6 @@
+/*
+ * This class defines the behavior for a Menu object. There are four Menu objects used throughout the code.
+ */
 package model;
 
 import java.util.ArrayList;
@@ -18,13 +21,17 @@ public class Menu implements Iterable<String> {
         this.items = new HashMap<>(); 
     }
     
+    // copy constructor
     public Menu (Menu menu) {
     	this.course = menu.course;
     	this.items = new HashMap<>(menu.items);
     }
 
+    // adds an item to the items HashMap 
     public void addItem(MenuItem item) {
         String itemName = item.getItemName();
+        
+        // maps the item with key of itemName string and value of MenuItem object
         items.put(itemName, item);
     }
   
@@ -59,6 +66,7 @@ public class Menu implements Iterable<String> {
             itemsByCategory.computeIfAbsent(category, k -> new ArrayList<>()).add(item);
         }
 
+        // sorts Menu by category
         List<String> sortedCategories = new ArrayList<>(itemsByCategory.keySet());
         Collections.sort(sortedCategories, categoryComparator());
 
@@ -69,9 +77,11 @@ public class Menu implements Iterable<String> {
                 System.out.println("     " + category + ":");
             }
 
+            // sorts items in category by name
             List<MenuItem> sortedCategoryItems = itemsByCategory.get(category);
             Collections.sort(sortedCategoryItems, itemNameComparator());
 
+            // formats Menu string to show price and info next to name
             for (MenuItem item : sortedCategoryItems) {
                 String menuItemInfo = String.format("        - %s ($%.2f)", item.getItemName(), item.getPrice());
                 if (!item.getDescription().isEmpty()) {
@@ -82,8 +92,6 @@ public class Menu implements Iterable<String> {
         }
     }
 
-
-    
     // Sort category names alphabetically
     public static Comparator<String> categoryComparator() {
         return new Comparator<String>() {

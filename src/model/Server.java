@@ -1,3 +1,6 @@
+/*
+ * This class defines methods for a Server object. A Server is assigned Table objects, has a name, and has tips.
+ */
 package model;
 
 import java.util.ArrayList;
@@ -23,7 +26,7 @@ public class Server{
     	this.assignedTables = s.getTables(); 
     }
     
-    // getters & setters
+    // compares Servers by their tips
     public static Comparator<Server> sortByTipsComparator(){
     	return new Comparator<Server>() {
 			public int compare(Server s1, Server s2) {
@@ -32,6 +35,7 @@ public class Server{
 		};
     }
     
+    // compares Servers by their names
     public static Comparator<Server> sortByNameComparator(){
 		return new Comparator<Server>() {
 			public int compare(Server s1, Server s2) {
@@ -40,7 +44,7 @@ public class Server{
 		};
 	}
     
-    
+    // getters & setters
     public void addTable(Table table) {
     	assignedTables.add(table);
     }

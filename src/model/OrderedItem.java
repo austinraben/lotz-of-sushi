@@ -1,3 +1,7 @@
+/*
+ * This class defines behavior for an OrderedItem, which is an extension of MenuItem. It represents
+ * MenuItems ordered by Customers, only adding a modification attribute to a MenuItem.
+ */
 package model;
 
 public class OrderedItem extends MenuItem {
@@ -10,6 +14,7 @@ public class OrderedItem extends MenuItem {
         this.decoratedItem = menuItem;
         this.decoratedPrice = decoratedItem.getPrice(); 
         
+        // adds customer-specified modifications to applicable items
         if (this.isModifiable()) {
         	this.modification = modification;
         }

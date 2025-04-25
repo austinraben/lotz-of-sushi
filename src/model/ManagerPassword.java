@@ -1,3 +1,7 @@
+/*
+ * This class defines the behavior for a manager password, including storage security measures that
+ * salt the password each time it is typed.
+ */
 package model;
 
 import java.io.BufferedReader;
@@ -21,7 +25,7 @@ public class ManagerPassword {
 		getManagerPassword("/data/staff.txt");
 	}
 	
-	
+	// retrieves and reads the salted password from the file 
 	public void getManagerPassword(String filename) {
 		filename = System.getProperty("user.dir") + filename;
     	
@@ -31,6 +35,7 @@ public class ManagerPassword {
     		int retrieve = 0;
             
             while ((line = reader.readLine()) != null) {
+            	
             	// skip empty lines and comments
                 if (line.trim().isEmpty() || line.trim().startsWith("//")) {
                 	if (line.trim().equals("//MANAGER")){
@@ -49,15 +54,14 @@ public class ManagerPassword {
                 	retrieve++;
                 }
                 else {
-                }
-                
-                
+                }               
             }
           }catch (IOException e) {
              e.printStackTrace();
          }
 	}
 	
+	// rewrites the salt for the password in the data file
 	public void rewriteToFile(String filename) {
 	    filename = System.getProperty("user.dir") + filename;
 	    List<String> lines = new ArrayList<>();
@@ -67,6 +71,7 @@ public class ManagerPassword {
 	        String line;
 
 	        while ((line = reader.readLine()) != null) {
+	        	
 	            // Look for the manager section
 	            if (line.trim().equals("//MANAGER")) {
 	                lines.add(line); // Keep the //MANAGER line
